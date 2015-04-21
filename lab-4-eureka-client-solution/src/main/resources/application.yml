@@ -1,0 +1,71 @@
+# This single codebase performs generating of subject, verb, article, adjective, and noun, plus sentence assembly.
+# True microservices would have separate codebases, but for our purposes a single codebase is fine.
+# Run by opening 6 separate command prompts:
+# java -jar -Dspring.profiles.active=subject lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=verb lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=article lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=adjective lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=noun lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=sentence lab-4-eureka-client-solution-0.0.1-SNAPSHOT.jar
+
+---
+# Items that apply to ALL profiles:
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
+
+---
+spring:
+  profiles: sentence
+server:
+  port: 8020  
+words:
+  to:
+    use: NotApplicable
+    
+---
+spring:
+  profiles: subject
+server:
+  port: 8021  
+words:
+  to:
+    use: I,You,He,She,It
+  
+---
+spring:
+  profiles: verb
+server:
+  port: 8022  
+words:
+  to:
+    use: ran,knew,had,saw,bought
+
+---
+spring:
+  profiles: article
+server:
+  port: 8023  
+words:
+  to:
+    use: a,the
+
+---
+spring:
+  profiles: adjective
+server:
+  port: 8024  
+words:
+  to:
+    use: reasonable,leaky,suspicious,ordinary,unlikely
+
+---
+spring:
+  profiles: noun
+server:
+  port: 8025  
+words:
+  to:
+    use: boat,book,vote,seat,backpack,partition,groundhog
+  
