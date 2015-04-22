@@ -13,59 +13,39 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
+      defaultZone: http://localhost:8010/eureka/,http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
+server:
+  port: ${PORT:${SERVER_PORT:0}}   # Select any available port if neither port nor server port are specified.
 
 ---
 spring:
   profiles: sentence
 server:
   port: 8020  
-words:
-  to:
-    use: NotApplicable
+words: NotApplicable
     
 ---
 spring:
   profiles: subject
-server:
-  port: 8021  
-words:
-  to:
-    use: I,You,He,She,It
+words: I,You,He,She,It
   
 ---
 spring:
   profiles: verb
-server:
-  port: 8022  
-words:
-  to:
-    use: ran,knew,had,saw,bought
+words: ran,knew,had,saw,bought
 
 ---
 spring:
   profiles: article
-server:
-  port: 8023  
-words:
-  to:
-    use: a,the
+words: a,the
 
 ---
 spring:
   profiles: adjective
-server:
-  port: 8024  
-words:
-  to:
-    use: reasonable,leaky,suspicious,ordinary,unlikely
+words: reasonable,leaky,suspicious,ordinary,unlikely
 
 ---
 spring:
   profiles: noun
-server:
-  port: 8025  
-words:
-  to:
-    use: boat,book,vote,seat,backpack,partition,groundhog
+words: boat,book,vote,seat,backpack,partition,groundhog
   
