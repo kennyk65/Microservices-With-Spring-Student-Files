@@ -14,9 +14,9 @@
 
 1. Add a new file to your GitHub repository called "lab-3-client.yml” (or lab-3-client.properties).  Add a key called "lucky-word" and a value of "Irish", "Rabbit's Foot", "Serendipity", or any other value of your choosing.
 
-1. Back in your project, create an application.yml (or application.properties) file in the root of your classpath (src/main/resources recommended).  Add the key "spring.cloud.config.server.git.uri" and the value "https://github.com/<YOUR-GITHUB-ID>/ConfigData", substituting the value for Github ID and repository name as needed.  Also set the “server.port” to 8001.
+1. Back in your project, create an application.yml (or application.properties) file in the root of your classpath (src/main/resources recommended).  Add the key "spring.cloud.config.server.git.uri" and the value "https://github.com/"YOUR-GITHUB-ID"/ConfigData", substituting the value for Github ID and repository name as needed.  Also set the “server.port” to 8001.
 
-8. Run the application.  Open the URL http://localhost:8001/lab-3-client/default/.  You should see the JSON result that will actually be used by Spring.  If the server is not working, review the prior steps to find the issue before moving on.
+8. Run the application.  Open the URL [http://localhost:8001/lab-3-client/default/][http://localhost:8001/lab-3-client/default/].  You should see the JSON result that will actually be used by Spring.  If the server is not working, review the prior steps to find the issue before moving on.
 
 *PART 2 - Config Client:*
 
@@ -45,7 +45,7 @@ spring.application.name=lab-3-client
 spring.cloud.config.uri=http://localhost:8001  
 server.port=8002
 
-(Note that this file must be "boostrap" -- not "application" -- so that it is read early in the application startup process.  The server.port could be specified in either file, but the URI to the config server affects the startup sequence.)
+_(Note that this file must be "boostrap" -- not "application" -- so that it is read early in the application startup process.  The server.port could be specified in either file, but the URI to the config server affects the startup sequence.)_
 
 11. Add a REST controller to obtain and display the lucky word:
 
