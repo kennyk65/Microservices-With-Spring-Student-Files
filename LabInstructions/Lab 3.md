@@ -24,6 +24,7 @@
 
 10.  Open the POM (or Gradle) file and add a “Dependency Management” section to identify the spring cloud parent pom. (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents):
 
+```
 <dependencyManagement>
     <dependencies>
         <dependency>
@@ -35,6 +36,7 @@
         </dependency>
     </dependencies>
 </dependencyManagement>
+```
 
 11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
 
@@ -47,6 +49,7 @@ server.port=8002
 
 11. Add a REST controller to obtain and display the lucky word:
 
+```
 @RestController
 public class LuckyWordController {
  
@@ -57,8 +60,9 @@ public class LuckyWordController {
     return "The lucky word is: " + luckyWord;
   }
 }
+```
 
-12.  Start your client.  Open http://localhost:8002/lucky-word.  You should see the lucky word message in your browser.
+12.  Start your client.  Open [http://localhost:8002/lucky-word][http://localhost:8002/lucky-word].  You should see the lucky word message in your browser.
 
 *BONUS - Profiles:*
 13. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
