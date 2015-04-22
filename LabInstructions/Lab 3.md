@@ -60,7 +60,7 @@ public class LuckyWordController {
 }
 ```
 
-12.  Start your client.  Open [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
+12.  Start your client.  Open http://localhost:8002/lucky-word .  You should see the lucky word message in your browser.
 
 *BONUS - Profiles:*
 13. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
