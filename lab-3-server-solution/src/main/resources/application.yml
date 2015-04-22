@@ -5,5 +5,6 @@ spring:
       server:
         git:
           uri: https://github.com/kennyk65/Microservices-With-Spring-Student-Files
+          searchPaths: ConfigData
 server:
   port: 8001
