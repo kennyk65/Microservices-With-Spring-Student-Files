@@ -18,12 +18,11 @@
 
 8. Run the application.  Open the URL [http://localhost:8001/lab-3-client/default/](http://localhost:8001/lab-3-client/default/).  You should see the JSON result that will actually be used by Spring.  If the server is not working, review the prior steps to find the issue before moving on.
 
-*PART 2 - Config Client:*
+PART 2 - Config Client:
 
 9. Create a new, separate Spring Boot application.  Name the project "lab-3-client", and use this value for the Artifact.  Add the web dependency.  You can make this a JAR or WAR project, but the instructions here will assume JAR.
 
 10.  Open the POM (or Gradle) file and add a “Dependency Management” section to identify the spring cloud parent pom. (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents):
-
 ```
 <dependencyManagement>
     <dependencies>
@@ -37,7 +36,6 @@
     </dependencies>
 </dependencyManagement>
 ```
-
 11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
 
 10. Add a bootstrap.yml (or bootstrap.properties) file in the root of your classpath (src/main/resources recommended).  Add the following key/values using the appropriate format:
@@ -62,7 +60,7 @@ public class LuckyWordController {
 }
 ```
 
-12.  Start your client.  Open [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
+12.  Start your client.  Open (http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
 
 *BONUS - Profiles:*
 13. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
