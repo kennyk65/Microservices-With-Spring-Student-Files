@@ -4,10 +4,14 @@ spring:
   profiles: default
 server:
   port: 8010  
-eureka:    
+eureka:
+  instance:
+    hostname: localhost  
   client:
     registerWithEureka: false
-    fetchRegistry: false  
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    
 
 # primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
 # side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
