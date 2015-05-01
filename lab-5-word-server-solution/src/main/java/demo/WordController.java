@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class WordController {
 
 	@Value("${words}") String words;
-//	String words = "shredder,biscuit,amplifier,refrigerator";
+//    String words = "icicle,refrigerator,blizzard,snowball";
 	
 	@RequestMapping("/")
 	public @ResponseBody String getWord() {
