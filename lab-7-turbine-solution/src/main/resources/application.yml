@@ -12,7 +12,7 @@ info:
 
 turbine:
   clusterNameExpression: new String("default")
-  appConfig: noun, sentence, subject, verb, article, adjective
+  appConfig: noun,subject,verb,article,adjective,sentence
 
 management:
   port: 8990  
