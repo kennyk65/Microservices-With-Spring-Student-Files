@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.test</groupId>
-	<artifactId>lab-5-eureka-server</artifactId>
+	<artifactId>lab-6-config-server</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>eureka-server</name>
-	<description>Demo project illustrating a Eureka server</description>
+	<name>lab-6-config-server</name>
+	<description>Example Spring Cloud Config Server</description>
 
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
@@ -20,15 +20,15 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>demo.EurekaServerSolutionApplication</start-class>
+		<start-class>demo.Application</start-class>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-eureka-server</artifactId>
-	    </dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-server</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,20 +42,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- Required to avoid problems with classpath scanning in Jersey 1.x.  See Spring Cloud reference. -->
-			    <configuration>
-			        <requiresUnpack>
-			            <dependency>
-			                <groupId>com.netflix.eureka</groupId>
-			                <artifactId>eureka-core</artifactId>
-			            </dependency>
-			            <dependency>
-			                <groupId>com.netflix.eureka</groupId>
-			                <artifactId>eureka-client</artifactId>
-			            </dependency>
-			        </requiresUnpack>
-			    </configuration>				
-				
 			</plugin>
 		</plugins>
 	</build>
