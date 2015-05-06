@@ -1,4 +1,4 @@
 ---
 lucky-word: Irish1
-LuckyWordClient:
-  lucky-word: Irish-like
+LuckyWordController:
+  lucky-word: Irish-like333
