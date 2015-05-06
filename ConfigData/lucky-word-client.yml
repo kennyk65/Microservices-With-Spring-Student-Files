@@ -1,2 +1,4 @@
 ---
-lucky-word: Irishy
+lucky-word: Irish
+LuckyWordClient:
+  lucky-word: Irish-like
