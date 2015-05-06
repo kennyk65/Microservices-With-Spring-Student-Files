@@ -1,4 +1,4 @@
 ---
 lucky-word: Irish111
-LuckyWordController:
+wordConfig:
   lucky-word: Irish-like222
