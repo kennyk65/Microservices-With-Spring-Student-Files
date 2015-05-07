@@ -2,53 +2,49 @@
 
 Lab 8 - Using Spring Cloud Bus
 
-PART 1
+PART 1 - The Broker
 
-1.  Stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-7”.
+1.  Download Rabbit MQ from https://www.rabbitmq.com/download.html.  Use appropriate distribution for your platform.  
 
-2.  Start the lab-7-config-server and the lab-7-eureka-server.  These are versions of what you created in the last few chapters.
+2.  Launch Rabbit MQ and leave it running.
 
-3.  Lab 7 has copies of the word server and sentence server that have been converted to use Feign, we will adjust them to use Hystrix too.  Start 6 separate copies of the lab-7-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
-		If you wish to build the project into a JAR using Maven, open separate command prompts in the target director and run these commands:
-		java -jar -Dspring.profiles.active=subject lab-7-word-server-1.jar
-		java -jar -Dspring.profiles.active=verb lab-7-word-server-1.jar
-		java -jar -Dspring.profiles.active=article lab-7-word-server-1.jar
-		java -jar -Dspring.profiles.active=adjective lab-7-word-server-1.jar
-		java -jar -Dspring.profiles.active=noun lab-7-word-server-1.jar
-		Or if you wish to run from directly within STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
-		
-4.  Check the Eureka server running at http://localhost:8010.   Ignore any warnings about "renewals" and "self preservation", we expect this as we are running only a single instance.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
+PART 2 - The Server
 
-5.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "/info" with "/" and refresh several times.  You can observe the randomly generated words.  
+3.  Stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-8”.
 
-6.  Run the lab-7-sentence-server project.  Refresh Eureka to see it appear in the list.  Test to make sure it works by opening http://localhost:8020/sentence.  You should see several random sentences appear.  
+4.  Open lab-8-config-server.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.
 
-PART 2 - Refactor
+5.  Open application.yml.  Change the spring.cloud.config.server.git.uri to your own personal git repository.  If you are not sure what this is, take a look back at lab 3 where we first introduced spring cloud config.
 
-7.  First, take a look at the lab-7-sentence-server project.  It has been refactored a bit from previous examples.  There is now a WordService and WordServiceImpl that wraps calls to the Feign clients.  This was mainly done to make the lab instructions easier, so that your code modifications are within one class.
+6.  Save your work and run the lab-8-config-server.
 
-8.  Open the Pom, add another dependency for spring-cloud-starter-hystrix.
+PART 3 - The Client
 
-9.  Edit the main Application configuration class and @EnableHystix.
+7.  Open lab-8-client.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.
 
-10.  Refactor the WordServiceImpl to use Hystrix.  We have decided that it is not strictly necessary to have an adjective in our sentence if the adjective service is failing, so modify the getAdjective service to run within a Hystrix Command.  Establish a fallback method that will return an empty Word (new Word(“”)).
+8.  Open the LuckyWordController.  Add a @ConfigurationProperties annotation using a prefix of “wordConfig”.  Notice the properties / getters and setters.
 
-11.  Stop any previously running sentence server and launch your new one.  Test it to make sure it works by opening http://localhost:8020/sentence.  The application should work the same as it did before, though the “Adjective” call is now going through a Hystrix circuit breaker.
+9.  Open bootstrap.yml.  Notice the application name.  What file will be needed in your Git repository to hold properties for this application?
 
-12.  Locate and STOP the Adjective service.  Refresh http://localhost:8020/sentence.  The sentence should appear without an adjective.  Restart the adjective service.  Once the Eureka registration is complete and the circuit breaker re-closes, the sentence server will once again display adjectives.
+PART 4 - The Repository
 
-BONUS - Additional Fallbacks
+10.  Within your Git repository, create a lucky-word-client.yml (or .properties) file.  Add a level for “wordConfig:” and entries within it for “luckyWord:” and “preamble:”.  Add a value for lucky word, something like “Irish” or “Serendipity” or “Rabbit’s Foot”.  For preamble add a value such as “The lucky word is”.  If you need a hint take a look at the “ConfigData” folder in the student files.  Save your work and commit to the repository.
 
-13.  Refactor the getSubject method so that the hard-coded value “Someone” is substituted whenever the subject service is unavailable.  Refactor the getNoun method so that the hard-coded value “something” is substituted whenever the noun is unavailable.  Experiment with starting and stopping the subject and noun services.
+PART 5 - Running
 
-BONUS - Add Hystrix Dashboard
+11.  Start your lab-8-client application.  It should start without errors.
 
-14.  Add the Hystrix Dashboard to your sentence server (and word server if you like).  Begin by adding the spring-cloud-starter-hystrix-dashboard dependency, then add @EnableHystrixDashboard annotation to your Application configuration class.
+12.  Open a browser to http://localhost:8002/lucky-word.  You should see output such as “The lucky word is: Irish”.  If you do not, review the previous steps.
 
-15.  Restart the sentence server.  Open http://localhost:8020/hystrix.  When prompted, enter http://localhost:8020/hystrix.stream as the host to monitor.  
+PART 6 - Configuration Changes
 
-16.  Refresh http://localhost:8020/sentence several times to generate activity.  If you like, stop and restart the subject, noun, and adjective services to observer circuit breakers in use.
+13.  Return to your Git repository and edit your lucky-word-client.yml file.  Change the lucky word to some other values.  Commit your work.  Will this change be visible if you refresh http://localhost:8002/lucky-word right now?
 
-BONUS - Add Asynchronous Behavior
+14.  Make a POST request to http://localhost:8001/bus/refresh.  You can do this using a “curl” command in Linux / Unix, or you can find a REST client plugin for one of your browsers that will do this (I use “Simple REST Client” on Chrome).
 
-17.  If you like, you can attempt to increase the performance of our sentence server by making the service calls “reactively”.
+15.  Refresh http://localhost:8002/lucky-word.  Your changes should be visible.  If so, congratulations, you have successfully used Spring Cloud Bus!
+
+BONUS - @RefreshScope
+
+16.  Return to your LuckyWordController and convert to @RefreshScope.  For test purposes, you can make the controller stateful by defining another String variable named fullStatement, and populate it in an init() method marked with a @PostConstruct annotation.  Change the showLuckyWord() method to simply return fullStatement.  Repeat the process to make a change to see if your @RefreshScope worked.
+

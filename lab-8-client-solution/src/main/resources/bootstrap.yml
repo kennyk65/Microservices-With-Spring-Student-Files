@@ -1,7 +1,5 @@
 ---
 spring:
-  profiles:
-    active: northamerica
   application:
     name: lucky-word-client
   cloud:
