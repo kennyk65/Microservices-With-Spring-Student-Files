@@ -37,12 +37,14 @@ server.port=${PORT:${SERVER_PORT:0}}
 - Name the class anything you like.  Annotate it with @RestController.
 - Add a String member variable named “words”.  Annotate it with @Value("${words}”).
 - Add the following method to serve the resource (optimize this code if you like):
-	@RequestMapping("/")
-	public @ResponseBody String getWord() {
-		String[] wordArray = words.split(",");
-		int i = (int)Math.round(Math.random() * (wordArray.length - 1));
-		return wordArray[i];
-	}
+    ```
+    @RequestMapping("/")
+    public @ResponseBody String getWord() {
+      String[] wordArray = words.split(",");
+      int i = (int)Math.round(Math.random() * (wordArray.length - 1));
+      return wordArray[i];
+    }
+```
 
 13. Repeat steps 7 thru 12 (copy the entire project if it is easier), except use the following values:
 Name of application: “lab-4-verb”
@@ -76,29 +78,29 @@ server.port: 8020
 - Name the class anything you like.  Annotate it with @RestController.
 - Use @Autowired to obtain a DiscoveryClient (import from Spring Cloud).
 - Add the following methods to serve the sentence based on the words obtained from the client services. (feel free to optimize / refactor this code as you like:
-
-	@RequestMapping("/sentence")
-	public @ResponseBody String getSentence() {
-	  return 
-		getWord("LAB4SUBJECT") + " "
-		+ getWord("LAB4VERB") + " "
-		+ getWord("LAB4ARTICLE") + " "
-		+ getWord("LAB4ADJECTIVE") + " "
-		+ getWord("LAB4NOUN") + "."
-		;
+    ```
+    @RequestMapping("/sentence")
+    public @ResponseBody String getSentence() {
+      return 
+        getWord("LAB4SUBJECT") + " "
+        + getWord("LAB4VERB") + " "
+        + getWord("LAB4ARTICLE") + " "
+        + getWord("LAB4ADJECTIVE") + " "
+        + getWord("LAB4NOUN") + "."
+        ;
+    }
+    
+    public String getWord(String service) {
+      List<ServiceInstance> list = client.getInstances(service);
+      if (list != null && list.size() > 0 ) {
+        URI uri = list.get(0).getUri();
+	if (uri !=null ) {
+	  return (new RestTemplate()).getForObject(uri,String.class);
 	}
-
-	public String getWord(String service) {
-          List<ServiceInstance> list = client.getInstances(service);
-          if (list != null && list.size() > 0 ) {
-      	  URI uri = list.get(0).getUri();
-	      	if (uri !=null ) {
-	      		return (new RestTemplate()).getForObject(uri,String.class);
-	      	}
-          }
-          return null;
-	}
-
+      }
+      return null;
+    }
+```
 21. Run all of the word services and sentence service.  (Run within your IDE, or build JARs for each one (mvn clean package) and run from the command line (java -jar name-of-jar.jar), whichever you find easiest).  (If running from STS, uncheck “Enable Live Bean support” in the run configurations).  Since each service uses a separate port, they should be able to run side-by-side on the same computer.  Open http://localhost:8020/sentence to see the completed sentence.  Refresh the URL and watch the sentence change.
  	
     *BONUS - Refactor to use Spring Cloud Config Server.*  We can use Eureka together with the config server to eliminate the need for each client to be configured with the location of the Eureka server
