@@ -48,4 +48,4 @@
 
 2. Our application will still fail if we can’t find at least one of each kind of word server.  We will improve this later when we discuss circuit breakers with Hystrix.
 
-3. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Hystrix.
+3. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Hystrix. 
