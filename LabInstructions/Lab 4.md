@@ -15,8 +15,7 @@ server.port: 8010
 
 6. Add @EnableEurekaServer to the Application class.  Save.  Start the server.  Temporarily ignore the warnings about running a single instance (i.e. connection refused, unable to refresh cache, backup registry not implemented, etc.).  Open a browser to http://localhost:8010 to see the server running.
 
-*Part 2, create clients*
-In this next section we will create several client applications that will work together to compose a sentence.  The sentence will contain a subject, verb, article, adjective and noun such as “I saw a leaky boat” or “You have the reasonable book”.  5 services will randomly generate the word components, and a 6th service will assemble them into a sentence.
+    *Part 2, create clients*  In this next section we will create several client applications that will work together to compose a sentence.  The sentence will contain a subject, verb, article, adjective and noun such as “I saw a leaky boat” or “You have the reasonable book”.  5 services will randomly generate the word components, and a 6th service will assemble them into a sentence.
 
 7. Create a new Spring Boot web application.  Name the application “lab-4-subject”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java and Boot.  Add actuator and web as a dependencies.
 
@@ -102,8 +101,7 @@ server.port: 8020
 
 21. Run all of the word services and sentence service.  (Run within your IDE, or build JARs for each one (mvn clean package) and run from the command line (java -jar name-of-jar.jar), whichever you find easiest).  (If running from STS, uncheck “Enable Live Bean support” in the run configurations).  Since each service uses a separate port, they should be able to run side-by-side on the same computer.  Open http://localhost:8020/sentence to see the completed sentence.  Refresh the URL and watch the sentence change.
  	
-*BONUS - Refactor to use Spring Cloud Config Server.*
-We can use Eureka together with the config server to eliminate the need for each client to be configured with the location of the Eureka server
+    *BONUS - Refactor to use Spring Cloud Config Server.*  We can use Eureka together with the config server to eliminate the need for each client to be configured with the location of the Eureka server
 
 22. Add a new file to your GitHub repository called “application.properties”.  Add the eureka.client.serviceUrl.defaultZone=http://localhost:8010/eureka/ key value here.
 
@@ -117,8 +115,7 @@ We can use Eureka together with the config server to eliminate the need for each
 
 27. If you like, you can experiment with moving the “words” properties to the config server.  You’ll need to use separate profile sections within the file (yml) or files with names that match the application names (yml or properties).
 
-*BONUS - Refactor to use multiple Eureka Servers*
-To make the application more fault tolerant, we can run multiple Eureka servers.  Ordinarily we would run copies on different racks / data centers, but to simulate this locally do the following:
+    *BONUS - Refactor to use multiple Eureka Servers*  To make the application more fault tolerant, we can run multiple Eureka servers.  Ordinarily we would run copies on different racks / data centers, but to simulate this locally do the following:
 
 28.  Stop all of the running applications.
 
