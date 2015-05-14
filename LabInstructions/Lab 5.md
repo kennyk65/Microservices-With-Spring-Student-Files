@@ -2,9 +2,9 @@
 
 **Part 1, Run Config Server, Eureka, and the word servers**
 
-1.  Let's make a fresh start: stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-5".
+1.  Let's make a fresh start: stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-5" or "common".
 
-2.  Start the lab-5-config-server and the lab-5-eureka-server.  These are versions of what you created in the last few chapters.
+2.  Start the common-config-server and the common-eureka-server.  These are versions of what you created and used in the last few chapters.
 
 3.  Start 5 separate copies of the lab-5-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
   - If you wish to build the project into a JAR using Maven, open separate command prompts in the target director and run these commands:
