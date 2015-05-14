@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.test</groupId>
-	<artifactId>lab-5-word-server-solution</artifactId>
+	<artifactId>lab-9-eureka-server</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>lab-5-word-server-solution</name>
-	<description>Example microservice which serves up individual, random words for a give part of speech.</description>
+	<name>eureka-server</name>
+	<description>Demo project illustrating a Eureka server</description>
 
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
@@ -25,42 +25,15 @@
 	</properties>
 
 	<dependencies>
-	
 	    <dependency>
 	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-eureka</artifactId>
+	        <artifactId>spring-cloud-starter-eureka-server</artifactId>
 	    </dependency>
-	
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-ribbon</artifactId>
-	    </dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		
-				
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>
-				spring-cloud-starter-hystrix-dashboard
-			</artifactId>
 		</dependency>
 	</dependencies>
 	
@@ -69,6 +42,20 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- Required to avoid problems with classpath scanning in Jersey 1.x.  See Spring Cloud reference. -->
+			    <configuration>
+			        <requiresUnpack>
+			            <dependency>
+			                <groupId>com.netflix.eureka</groupId>
+			                <artifactId>eureka-core</artifactId>
+			            </dependency>
+			            <dependency>
+			                <groupId>com.netflix.eureka</groupId>
+			                <artifactId>eureka-client</artifactId>
+			            </dependency>
+			        </requiresUnpack>
+			    </configuration>				
+				
 			</plugin>
 		</plugins>
 	</build>

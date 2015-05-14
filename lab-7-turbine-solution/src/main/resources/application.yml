@@ -12,7 +12,22 @@ info:
 
 turbine:
   clusterNameExpression: new String("default")
-  appConfig: noun,subject,verb,article,adjective,sentence
+  appConfig: sentence,subject,verb,article,adjective,noun
+
+#turbine:
+#  aggregator:
+#    clusterConfig: SENTENCE,SUBJECT,VERB,ARTICLE,ADJECTIVE,NOUN
+#  appConfig: sentence,subject,verb,article,adjective,noun
+
+#turbine:
+#  aggregator:
+#    clusterConfig: AllServers
+#  appConfig: sentence,subject,verb,article,adjective,noun
+#  ConfigPropertyBasedDiscovery:
+#    default:
+#      instances: sentence,subject,verb,article,adjective,noun
+#    AllServers:  
+#      instances: sentence,subject,verb,article,adjective,noun
 
 management:
   port: 8990  
