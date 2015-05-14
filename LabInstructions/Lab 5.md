@@ -67,4 +67,4 @@
 
 4. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Ribbon and Hystrix.
 
-5. We will see an alternative to the RestTemplate when we discuss Feign
+5. We will see an alternative to the RestTemplate when we discuss Feign.
