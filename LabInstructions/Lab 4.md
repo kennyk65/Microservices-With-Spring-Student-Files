@@ -140,8 +140,12 @@ primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8
 
 
 **Reflection:**  There are a number of remaining issues with the current application which can be addressed.
+
 1. These services contain duplicated code.  This was done only to make the instructions straightforward.  You can easily implement this system using a single ‘word’ server which selects different words based on a @Profile.  (This is done in the solution)
+
 2. What happens if one of the “word” servers is down?  Right now our entire application will fail.  We will improve this later when we discuss circuit breakers with Hystrix.
+
 3. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Ribbon and Hystrix.
+
 4. We will see an alternative to the RestTemplate when we discuss Feign
 
