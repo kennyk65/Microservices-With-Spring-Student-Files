@@ -147,5 +147,5 @@ primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8
 
 3. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Ribbon and Hystrix.
 
-4. We will see an alternative to the RestTemplate when we discuss Feign
+4. We will see an alternative to the RestTemplate when we discuss Feign.
 
