@@ -1,6 +1,6 @@
 ##Lab 5 - Using Ribbon Clients
 
-**Part 1, Run Config Server, Eureka, and the word servers, **
+**Part 1, Run Config Server, Eureka, and the word servers**
 
 1.  Let's make a fresh start: stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-5".
 
