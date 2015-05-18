@@ -1,6 +1,8 @@
 package demo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -8,46 +10,39 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
-import demo.dao.TeamDao;
 import demo.domain.Player;
 import demo.domain.Team;
+import demo.repository.TeamRepository;
 
 @SpringBootApplication
-//@Import(RepositoryRestMvcConfiguration.class)
-public class Application extends SpringBootServletInitializer {
+public class Application {
 
-    /**
-     * Required for JAR deployment
-     */
+	@Autowired TeamRepository teamRepository;
+	
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    /**
-     * Required for WAR deployment
-     */
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(Application.class);
-	}
     
-	@Autowired TeamDao teamDao;
-	
-	@PostConstruct
+    @PostConstruct
 	public void init() {
+		List<Team> list = new ArrayList<>();
+
+		Set<Player> set = new HashSet<>();
+		set.add(new Player("Big Easy", "Showman"));
+		set.add(new Player("Buckets", "Guard"));
+		set.add(new Player("Dizzy", "Guard"));
 		
-		Set<Player> s = new HashSet<>();
-		s.add(new Player("Charlie Brown",  "pitcher"));
-		s.add(new Player("Snoopy", "shortstop"));
 		
-		Team team = new Team("California", "Peanuts", s);
+		Team team = new Team("Harlem", "Globetrotters", set);
+		list.add(team);
 		
-		teamDao.save(team);
-	}
-	
+		team = new Team();
+		team.setLocation("Washington");
+		team.setName("Generals");
+		list.add(team);
+
+		teamRepository.save(list);
+	}    
+    
 }
