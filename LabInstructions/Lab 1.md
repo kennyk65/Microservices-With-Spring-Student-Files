@@ -140,7 +140,7 @@
 
 28.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.  Note that (depending on the browser you are using) you can navigate the links for players and teams.
 
-If you have reached this point, Congratulations, you have finished the exercise!
+  If you have reached this point, Congratulations, you have finished the exercise!
 
   **Part 7 (Optional) - Explore the Actuator Endpoints**
 
