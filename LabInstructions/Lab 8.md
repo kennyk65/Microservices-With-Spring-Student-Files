@@ -1,6 +1,6 @@
 ##Lab 8 - Using Spring Cloud Bus
 
-**Part 1 - The Broker**
+  **Part 1 - The Broker**
 
 1.  Download Rabbit MQ from [https://www.rabbitmq.com/download.html](https://www.rabbitmq.com/download.html).  Use appropriate distribution for your platform.  
 
