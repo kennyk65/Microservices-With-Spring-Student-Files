@@ -1,0 +1,4 @@
+---
+encrypt.key: key
+security.user.password: '{cipher}56e611ce4a99ffd99908d2c9aa1461d831722812e4370a5b6900b7ea680ae914'
+
