@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.test</groupId>
-	<artifactId>boot-solution</artifactId>
+	<artifactId>lab-1-boot-solution</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>boot-solution</name>
+	<name>lab-1-boot-solution</name>
 	<description>Solution to Lab 1, demonstrating Spring Boot, Data, REST.</description>
 
 	<parent>
