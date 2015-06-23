@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java and Boot. No need to select any dependencies.
 
-1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Use version 1.0.0.RELEASE (future versions may work fine, however 1.0.1.RELEASE does NOT work at the time of this writing).
+1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.1.RELEASE is the most recent stable version at the time of this writing..
 
 1. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-config-server".  You do not need to specify a version -- this is already defined in the parent project.
 
@@ -29,23 +29,23 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>1.0.0.RELEASE</version>
+                <version>1.0.1.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 ```
-11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
+11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-config”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
 
-10. Add a bootstrap.yml (or bootstrap.properties) file in the root of your classpath (src/main/resources recommended).  Add the following key/values using the appropriate format:
+12. Add a bootstrap.yml (or bootstrap.properties) file in the root of your classpath (src/main/resources recommended).  Add the following key/values using the appropriate format:
 spring.application.name=lab-3-client
 spring.cloud.config.uri=http://localhost:8001  
 server.port=8002
 
     _(Note that this file must be "boostrap" -- not "application" -- so that it is read early in the application startup process.  The server.port could be specified in either file, but the URI to the config server affects the startup sequence.)_
 
-11. Add a REST controller to obtain and display the lucky word:
+13. Add a REST controller to obtain and display the lucky word:
 
     ```
     @RestController
@@ -60,13 +60,13 @@ server.port=8002
     }
     ```
 
-12.  Start your client.  Open [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
+14.  Start your client.  Open [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
 
   **BONUS - Profiles:**
 
-13. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
+15. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
 
-14. Stop the client application.  Modify the boostrap file to contain a key of spring.profiles.active: northamerica.  Save, and restart your client.  Access the URL.  Which lucky word is displayed?  (You could also run the application with -Dspring.profiles.active=northamerica rather than changing the bootstrap file)
+16. Stop the client application.  Modify the boostrap file to contain a key of spring.profiles.active: northamerica.  Save, and restart your client.  Access the URL.  Which lucky word is displayed?  (You could also run the application with -Dspring.profiles.active=northamerica rather than changing the bootstrap file)
 
 ### Reflection:  
 1. Notice that the client needed some dependencies for Spring Cloud, and the URI of the Spring Cloud server, but no code.
