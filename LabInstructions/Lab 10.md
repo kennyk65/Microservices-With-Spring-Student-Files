@@ -21,13 +21,15 @@
 
 
 
-  **Part 2 - Start and Examine Existing System **
+  **Part 2 - Start and Examine Existing System**
 
 6.  Open lab-10-gateway.  This is a simple Spring Boot web application.  We will modify it to be a simple API gateway with Zuul.
 
 7.  Examine the templates/sentence.html page.  Notice that it contains JavaScript for making AJAX calls to obtain the different parts of the sentence.  There are 5 separate calls to make, each on a different server.  How can the JavaScript make these calls without encountering cross site scripting restrictions?
 
 8.  Run lab-10-gateway.  Access [http://localhost:8080](http://localhost:8080).  You should encounter errors as the various AJAX calls cannot be completed successfully.  We will fix this next.
+
+
 
   **Part 3 - Implement a Zuul Reverse Proxy**
 
@@ -48,6 +50,8 @@
 16.  Open the main application class and add the annotation to enable Zuul proxy.
 
 17.  Save your work.  Run the application.  Access [http://localhost:8080](http://localhost:8080).  The sentence should build correctly with no errors.  
+
+
 
   **Part 4 - Add a service prefix**  Our web page expects JavaScript and CSS resources to be located under "/js" and "/css" respectively.  Let's adjust our system so that all calls to the back-end microservices are under "/services".
   
@@ -70,6 +74,7 @@
         return new ShallowEtagHeaderFilter();
     }   
 ```    
+
 
 23.  Save your work and restart.  Refresh the browser several times.  Notice that we randomly receive 304s for the AJAX requests instead of 200s.  Do you understand why this is random?   
 
