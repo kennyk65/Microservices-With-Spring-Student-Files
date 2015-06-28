@@ -68,12 +68,12 @@
 
 22.  Open your main Application class and add this Bean:
 
-```
+    ```
     @Bean
     public Filter shallowEtagHeaderFilter() {
         return new ShallowEtagHeaderFilter();
     }   
-```    
+    ```    
 
 
 23.  Save your work and restart.  Refresh the browser several times.  Notice that we randomly receive 304s for the AJAX requests instead of 200s.  Do you understand why this is random?   
