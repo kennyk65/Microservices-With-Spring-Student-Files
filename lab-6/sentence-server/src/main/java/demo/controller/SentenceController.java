@@ -19,7 +19,7 @@ public class SentenceController {
 	 * Display a small list of Sentences to the caller:
 	 */
 	@RequestMapping("/sentence")
-	public @ResponseBody String getSentence() {
+	public @ResponseBody String getSentences() {
 	  return 
 		"<h3>Some Sentences</h3><br/>" +	  
 		sentenceService.buildSentence() + "<br/><br/>" +
