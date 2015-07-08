@@ -1,4 +1,4 @@
 ---
 spring:
   application:
-    name: lab4eurekaserver
+    name: eurekaserver
