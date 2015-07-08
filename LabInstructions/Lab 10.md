@@ -1,21 +1,21 @@
-##Lab 11 - Applying Security to Cloud Applications
+##Lab 10 - Applying Security to Cloud Applications
 
   **Part 1 - Startup**
 
-1.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-11”.
+1.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-10”.
 
-2.  Run the lab-11-config-server.  Run the lab-11-client.  Access the client at [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word) to see the lucky word.  This is essentially the result of what we achieved in Lab 3.
+2.  Run the lab-10-config-server.  Run the lab-10-client.  Access the client at [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word) to see the lucky word.  This is essentially the result of what we achieved in Lab 3.
 
 
   **Part 2 - Securing the Config Server**
 
 3.  Stop both services.
 
-4.  Open lab-11-config-server.  Open the POM, add another dependency for spring-cloud-starter-security.
+4.  Open lab-10-config-server.  Open the POM, add another dependency for spring-cloud-starter-security.
 
 5.  Create a bootstrap.yml in the classpath root (src/main/resources).  Add a key for “encrypt.key”.  Use any value you like (such as an obscure value like “key”).
 
-6.  Save your work and run the lab-11-config-server.  Observe the console output and obtain the generated password.  Copy it.
+6.  Save your work and run the lab-10-config-server.  Observe the console output and obtain the generated password.  Copy it.
 
 7.  Access the config server at [http://localhost:8001/anyapp-anyprofile.yml](http://localhost:8001/anyapp-anyprofile.yml).  You should be prompted for a user and password.  Enter “user” then the generated value for password. You should receive some YAML output. If so, you have successfully enabled HTTP Basic security and encryption in the config server.
 
@@ -29,7 +29,7 @@
 
   **Part 4 - Adjust Client**
 
-11.  The client won’t work until we adjust it to use the userid and password required by the config server.  Open the lab-11-client.  
+11.  The client won’t work until we adjust it to use the userid and password required by the config server.  Open the lab-10-client.  
 
 12.  Open bootstrap.yml.  Alter the spring.cloud.config.uri to include the userid and password.  The syntax is http://(USER):(PASSWORD)@localhost:8001
 
