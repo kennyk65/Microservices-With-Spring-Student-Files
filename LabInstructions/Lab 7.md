@@ -1,5 +1,3 @@
-
-
 ##Lab 7 - Using Hystrix Circuit Breakers
 
 **Part 1, Start existing services**

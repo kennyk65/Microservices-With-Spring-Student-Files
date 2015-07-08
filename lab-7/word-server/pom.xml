@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.test</groupId>
-	<artifactId>lab-5-word-server-solution</artifactId>
+	<artifactId>lab-7-word-server</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>lab-5-word-server-solution</name>
+	<name>lab-7-word-server</name>
 	<description>Example microservice which serves up individual, random words for a give part of speech.</description>
 
 	<parent>
@@ -51,16 +51,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>
-				spring-cloud-starter-hystrix-dashboard
-			</artifactId>
 		</dependency>
 	</dependencies>
 	
