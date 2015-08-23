@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-4-eureka-server”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java and Boot. No need to select any dependencies.
 
-2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.1.RELEASE is the most recent stable version at the time of this writing. 
+2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.2.RELEASE is the most recent stable version at the time of this writing. 
 
 3. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka-server".  You do not need to specify a version -- this is already defined in the parent project.  
 
@@ -12,7 +12,7 @@
   - server.port: 8010
 
 5. (optional) Save a bootstrap.yml (or properties) file in the root of your classpath.  Add the following key / values (use correct YAML formatting):
-  - spring.application.name=lab4eurekaserver
+  - spring.application.name=lab-4-eureka-server
 
 6. Add @EnableEurekaServer to the Application class.  Save.  Start the server.  Temporarily ignore the warnings about running a single instance (i.e. connection refused, unable to refresh cache, backup registry not implemented, etc.).  Open a browser to [http://localhost:8010](http://localhost:8010) to see the server running.
 
@@ -35,7 +35,7 @@
 (this will cause a random, unused port to be assigned if none is specified)
 
 11. Save a bootstrap.yml (or properties) file in the root of your classpath.  Add the following key / values (use correct YAML formatting):
-  - spring.application.name=lab4subject
+  - spring.application.name=lab-4-subject
 
 12. Add a Controller class
   - Place it in the 'demo' package or a subpackage of your choice.
@@ -53,22 +53,22 @@
 
 13. Repeat steps 7 thru 12 (copy the entire project if it is easier), except use the following values:
   - Name of application: “lab-4-verb”
-  - spring.application.name: “lab4verb”
+  - spring.application.name: “lab-4-verb”
   - words: “ran,knew,had,saw,bought”
 
 14. Repeat steps 7 thru 12, except use the following values:
   - Name of application: “lab-4-article”
-  - spring.application.name: “lab4article”
+  - spring.application.name: “lab-4-article”
   - words: “a,the”
 
 15. Repeat steps 7 thru 12, except use the following values:
   - Name of application: “lab-4-adjective”
-  - spring.application.name: “lab4adjective”
+  - spring.application.name: “lab-4-adjective”
   - words: “reasonable,leaky,suspicious,ordinary,unlikely”
 
 16. Repeat steps 7 thru 12, except use the following values:
   - Name of application: “lab-4-noun”
-  - spring.application.name: “lab4noun”
+  - spring.application.name: “lab-4-noun”
   - words: “boat,book,vote,seat,backpack,partition,groundhog”
 
 17. Create a new Spring Boot web application.  Name the application “lab-4-sentence”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java and Boot.  Add actuator and web as a dependencies.  Alter the POM (or Gradle) dependencies just as you did in step 8. 
@@ -87,11 +87,11 @@
     @RequestMapping("/sentence")
     public @ResponseBody String getSentence() {
       return 
-        getWord("LAB4SUBJECT") + " "
-        + getWord("LAB4VERB") + " "
-        + getWord("LAB4ARTICLE") + " "
-        + getWord("LAB4ADJECTIVE") + " "
-        + getWord("LAB4NOUN") + "."
+        getWord("LAB-4-SUBJECT") + " "
+        + getWord("LAB-4-VERB") + " "
+        + getWord("LAB-4-ARTICLE") + " "
+        + getWord("LAB-4-ADJECTIVE") + " "
+        + getWord("LAB-4-NOUN") + "."
         ;
     }
     
@@ -116,7 +116,7 @@
 22. Add a new file to your GitHub repository called “application.yml” (or properties).  Add the following key / values (use correct YAML formatting):
   - eureka.client.serviceUrl.defaultZone=http://localhost:8010/eureka/ 
 
-23. Start the config server from the previous “lab 3” exercise.
+23. Open the common-config-server project.  This is essentially the same config server that you produced in lab 3.  Alter the application.yml to point to your own github repository.  Save all and run this server.  (You can use it as the config server for almost all of the remaining labs in this course.)  
 
 24. Edit each client application’s application.properties file.  Remove the eureka client serviceUrl defaultZone key/value.  We will get this from the config server.
 

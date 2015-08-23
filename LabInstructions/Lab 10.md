@@ -11,7 +11,7 @@
 
 3.  Stop both services.
 
-4.  Open lab-10-config-server.  Open the POM, add another dependency for spring-cloud-starter-security.
+4.  Open lab-10-config-server.  Open the POM, add another dependency for spring-cloud-security.
 
 5.  Create a bootstrap.yml in the classpath root (src/main/resources).  Add a key for “encrypt.key”.  Use any value you like (such as an obscure value like “key”).
 
