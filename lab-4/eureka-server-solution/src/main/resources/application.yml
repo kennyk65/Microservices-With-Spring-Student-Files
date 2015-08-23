@@ -6,7 +6,7 @@ server:
   port: 8010  
 eureka:
   instance:
-    hostname: localhost  
+    hostname: eurekahost 
   client:
     registerWithEureka: false
     fetchRegistry: false
@@ -16,9 +16,9 @@ eureka:
 # primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
 # side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
 # Run by opening 3 separate command prompts:
-# java -jar -Dspring.profiles.active=primary lab-4-eureka-server-solution-0.0.1-SNAPSHOT.jar
-# java -jar -Dspring.profiles.active=secondary lab-4-eureka-server-solution-0.0.1-SNAPSHOT.jar
-# java -jar -Dspring.profiles.active=tertiary lab-4-eureka-server-solution-0.0.1-SNAPSHOT.jar
+# java -jar -Dspring.profiles.active=primary lab-4-eureka-server-solution-1.jar
+# java -jar -Dspring.profiles.active=secondary lab-4-eureka-server-solution-1.jar
+# java -jar -Dspring.profiles.active=tertiary lab-4-eureka-server-solution-1.jar
 
 ---
 spring:
@@ -27,26 +27,29 @@ server:
   port: 8011  
 eureka:
   client:
+    registerWithEureka: false
     serviceUrl:
-      defaultZone: http://localhost:8012/eureka/,http://localhost:8013/eureka/
+      defaultZone: http://eurekahost2:8012,http://eurekahost3:8013
 
 ---
 spring:
   profiles: secondary
 server:
-  port: 8012  
+  port: 8012
 eureka:
   client:
+    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8013/eureka/,http://localhost:8011/eureka/
+      defaultZone: http://eurekahost3:8013,http://eurekahost1/:8011
 
 ---
 spring:
   profiles: tertiary
 server:
-  port: 8013  
+  port: 8013
 eureka:
   client:
+    registerWithEureka: false
     serviceUrl:
-      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/
+      defaultZone: http://eurekahost1:8011,http://eurekahost2:8012,http://localhost:8010
       
