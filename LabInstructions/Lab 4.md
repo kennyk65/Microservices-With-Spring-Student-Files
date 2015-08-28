@@ -23,7 +23,7 @@
 7. Create a new Spring Boot web application.  Name the application “lab-4-subject”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java and Boot.  Add actuator and web as a dependencies.
 
 8. Modify the POM (or Gradle) file:  
-  - Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.1.RELEASE is the most recent stable version at the time of this writing. 
+  - Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.2.RELEASE is the most recent stable version at the time of this writing. 
   - Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka".
 
 9. Modify the Application class.  Add @EnableDiscoveryClient.
