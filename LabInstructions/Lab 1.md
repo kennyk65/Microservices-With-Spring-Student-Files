@@ -9,7 +9,7 @@
   - Use the latest stable releases of Boot and Java.  These instructions were originally tested with Java 1.8, Boot 1.2.3.
   - Use JAR packaging for now, unless you prefer WAR and already have a local server (like Tomcat) installed and ready to run it.
   - Use any values you like for group, artifact, package, description, etc.
-  - Select the following dependencies: Web, Thymeleaf, JDBC, HSQLDB, Actuator.
+  - Select the following dependencies: Web, Thymeleaf, JDBC, JPA, HSQLDB, Actuator.
 
 2.  Create a new Controller in the base package:
   - Name the controller anything you like.  
