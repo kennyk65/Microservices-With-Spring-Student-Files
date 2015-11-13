@@ -43,7 +43,7 @@ public class SentenceServiceImpl implements SentenceService {
 			//	to the sentence, and decrement the CountDownLatch:
 			(word) -> {
 				sentence.add(word);
-	            latch.countDown();
+				latch.countDown();
 	        }
 		);
 		
