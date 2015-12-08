@@ -166,14 +166,14 @@
 
   ```
   # START section for Microservices with Spring Course
-  127.0.0.1       eurekahost1
-  127.0.0.1       eurekahost2
-  127.0.0.1       eurekahost3
+  127.0.0.1       eureka-primary
+  127.0.0.1       eureka-secondary
+  127.0.0.1       eureka-tertiary
   # END section for Microservices with Spring Course
   ```
 
 31.  Within the lab-4-server project, add application.yml with multiple profiles:
-primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8013 respectively.  The eureka.client.serviceUrl.defaultZone for each profile should point to the "eurekahost*" URLs of the other two; for example the primary value should be: http://eurekahost2:8012/eureka/,http://eurekahost3:8013/eureka/
+primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8013 respectively.  The eureka.client.serviceUrl.defaultZone for each profile should point to the "eureka-*" URLs of the other two; for example the primary value should be: http://eureka-secondary:8012/eureka/,http://eureka-tertiary:8013/eureka/
 
 32.  Run the application 3 times, using -Dspring.profiles.active=primary (and secondary, and tertiary) to activate the relevant profile.  The result should be 3 Eureka servers which communicate with each other.
 
