@@ -40,7 +40,7 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://eurekahost3:8013,http://eurekahost1/:8011
+      defaultZone: http://eurekahost3:8013,http://eurekahost1:8011
 
 ---
 spring:
@@ -51,5 +51,5 @@ eureka:
   client:
     registerWithEureka: false
     serviceUrl:
-      defaultZone: http://eurekahost1:8011,http://eurekahost2:8012,http://localhost:8010
+      defaultZone: http://eurekahost1:8011,http://eurekahost2:8012
       
