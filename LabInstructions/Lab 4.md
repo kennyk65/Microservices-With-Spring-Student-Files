@@ -162,16 +162,26 @@
 
 29.  Stop all of the running applications.
 
-30.  Within the lab-4-server project, add application.yml with multiple profiles:
-primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8013 respectively.  The eureka.client.serviceUrl.defaultZone for each profile should point to the URLs of the other two; for example the primary value should be: http://localhost:8012/eureka/,http://localhost:8013/eureka/
+30.  Edit your computer's /etc/hosts file (c:\WINDOWS\system32\drivers\etc\hosts on Windows).  Add the following lines and save your work:
 
-31.  Run the application 3 times, using -Dspring.profiles.active=primary (and secondary, and tertiary) to activate the relevant profile.  The result should be 3 Eureka servers which communicate with each other.
+  ```
+  # START section for Microservices with Spring Course
+  127.0.0.1       eurekahost1
+  127.0.0.1       eurekahost2
+  127.0.0.1       eurekahost3
+  # END section for Microservices with Spring Course
+  ```
 
-32.  In your GitHub project, modify the application.properties eureka.client.serviceUrl.defaultZone to include the URIs of all three Eureka servers (comma-separated, no spaces).
+31.  Within the lab-4-server project, add application.yml with multiple profiles:
+primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8013 respectively.  The eureka.client.serviceUrl.defaultZone for each profile should point to the "eurekahost*" URLs of the other two; for example the primary value should be: http://eurekahost2:8012/eureka/,http://eurekahost3:8013/eureka/
 
-33.  Start all clients.  Open [http://localhost:8020/sentence](http://localhost:8020/sentence) to see the completed sentence.
+32.  Run the application 3 times, using -Dspring.profiles.active=primary (and secondary, and tertiary) to activate the relevant profile.  The result should be 3 Eureka servers which communicate with each other.
 
-34.  To test Eureka’s fault tolerance, stop 1 or 2 of the Eureka instances.  Restart 1 or 2 of the clients to ensure they have no difficulty finding Eureka.  Note that it may take several seconds for the clients and servers to become fully aware of which services are up / down.  Make sure the sentence still displays.
+33.  In your GitHub project, modify the application.properties eureka.client.serviceUrl.defaultZone to include the URIs of all three Eureka servers (comma-separated, no spaces).
+
+34.  Start all clients.  Open [http://localhost:8020/sentence](http://localhost:8020/sentence) to see the completed sentence.
+
+35.  To test Eureka’s fault tolerance, stop 1 or 2 of the Eureka instances.  Restart 1 or 2 of the clients to ensure they have no difficulty finding Eureka.  Note that it may take several seconds for the clients and servers to become fully aware of which services are up / down.  Make sure the sentence still displays.
 
 
 **Reflection:**  There are a number of remaining issues with the current application which can be addressed.
