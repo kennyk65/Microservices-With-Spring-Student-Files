@@ -35,9 +35,9 @@
 
 9.  Stop the lab-9-gateway application.
 
-10.  Convert this application to use Spring Cloud:  Open the pom.xml and change the parent to org.springframework.cloud / spring-cloud-starter-parent / latest stable version (1.0.1 at the time of this writing).  If you prefer to use a dependency management section instead of altering the parent, you may do so.
+10.  Convert this application to use Spring Cloud:  Open the pom.xml and change the parent to org.springframework.cloud / spring-cloud-starter-parent / latest stable version (Angel.SR4 at the time of this writing).  If you prefer to use a dependency management section instead of altering the parent, you may do so.
 
-11.  Add the dependency for the config server.  org.springframework.cloud / spring-cloud-starter-config.  
+11.  Add the dependency for the config client.  org.springframework.cloud / spring-cloud-config-client.  
 
 12.  Add the dependency for Eureka-based service discovery.  org.springframework.cloud / spring-cloud-starter-eureka.
 

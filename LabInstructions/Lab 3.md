@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java and Boot. No need to select any dependencies.
 
-1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version 1.0.2.RELEASE is the most recent stable version at the time of this writing..
+1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version "Angel.SR4" is the most recent stable version at the time of this writing..
 
 1. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-config-server".  You do not need to specify a version -- this is already defined in the parent project.
 
@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>1.0.2.RELEASE</version>
+                <version>"Angel.SR4"</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

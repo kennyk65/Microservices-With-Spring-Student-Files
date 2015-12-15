@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-starter-parent</artifactId>
-		<version>1.0.2.RELEASE</version>
+		<version>Angel.SR4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -42,20 +42,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- Required to avoid problems with classpath scanning in Jersey 1.x.  See Spring Cloud reference. -->
-			    <configuration>
-			        <requiresUnpack>
-			            <dependency>
-			                <groupId>com.netflix.eureka</groupId>
-			                <artifactId>eureka-core</artifactId>
-			            </dependency>
-			            <dependency>
-			                <groupId>com.netflix.eureka</groupId>
-			                <artifactId>eureka-client</artifactId>
-			            </dependency>
-			        </requiresUnpack>
-			    </configuration>				
-				
 			</plugin>
 		</plugins>
 	</build>
