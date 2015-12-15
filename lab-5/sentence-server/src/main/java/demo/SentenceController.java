@@ -41,13 +41,13 @@ public class SentenceController {
 	public String buildSentence() {
 		String sentence = "There was a problem assembling the sentence!";
 		try{
-			sentence = 
-			getWord("SUBJECT") + " "
-			+ getWord("VERB") + " "
-			+ getWord("ARTICLE") + " "
-			+ getWord("ADJECTIVE") + " "
-			+ getWord("NOUN") + "."
-			;
+			sentence =  
+				String.format("%s %s %s %s %s.",
+					getWord("SUBJECT"),
+					getWord("VERB"),
+					getWord("ARTICLE"),
+					getWord("ADJECTIVE"),
+					getWord("NOUN") );			
 		} catch ( Exception e ) {
 			System.out.println(e);
 		}

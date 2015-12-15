@@ -18,14 +18,13 @@ public class SentenceServiceImpl implements SentenceService {
 	 * Assemble a sentence by gathering random words of each part of speech:
 	 */
 	public String buildSentence() {
-		String sentence = "There was a problem assembling the sentence!";
-			sentence = 
-				wordService.getSubject().getString() + " "
-				+ wordService.getVerb().getString() + " "
-				+ wordService.getArticle().getString() + " "
-				+ wordService.getAdjective().getString() + " "
-				+ wordService.getNoun().getString() + " "
+		return  
+			String.format("%s %s %s %s %s.",
+				wordService.getSubject().getString(),
+				wordService.getVerb().getString(),
+				wordService.getArticle().getString(),
+				wordService.getAdjective().getString(),
+				wordService.getNoun().getString() )
 			;
-		return sentence;
 	}	
 }

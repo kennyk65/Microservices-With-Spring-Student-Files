@@ -20,13 +20,12 @@ public class SentenceController {
 	
 	@RequestMapping("/sentence")
 	public @ResponseBody String getSentence() {
-	  return 
-		getWord("LAB-4-SUBJECT") + " "
-		+ getWord("LAB-4-VERB") + " "
-		+ getWord("LAB-4-ARTICLE") + " "
-		+ getWord("LAB-4-ADJECTIVE") + " "
-		+ getWord("LAB-4-NOUN") + "."
-		;
+	  return String.format("%s %s %s %s %s.",
+		  getWord("LAB-4-SUBJECT"),
+		  getWord("LAB-4-VERB"),
+		  getWord("LAB-4-ARTICLE"),
+		  getWord("LAB-4-ADJECTIVE"),
+		  getWord("LAB-4-NOUN") );
 	}
 
 	public String getWord(String service) {
