@@ -33,14 +33,8 @@ public class Application {
 		set.add(new Player("Buckets", "Guard"));
 		set.add(new Player("Dizzy", "Guard"));
 		
-		
-		Team team = new Team("Harlem", "Globetrotters", set);
-		list.add(team);
-		
-		team = new Team();
-		team.setLocation("Washington");
-		team.setName("Generals");
-		list.add(team);
+		list.add(new Team("Harlem", "Globetrotters", set));
+		list.add(new Team("Washington","Generals",null));
 
 		teamRepository.save(list);
 	}    

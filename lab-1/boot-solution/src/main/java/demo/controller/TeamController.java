@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import demo.domain.Team;
 import demo.repository.TeamRepository;
 
-//@RestController
+@RestController
 public class TeamController {
 
 	@Autowired TeamRepository teamRepository;

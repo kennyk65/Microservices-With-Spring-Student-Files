@@ -27,7 +27,7 @@ public class Team {
 	public Team() {
 		super();
 	}
-	public Team(String name, String location, Set<Player> players) {
+	public Team(String location, String name, Set<Player> players) {
 		this();
 		this.name = name;
 		this.location = location;
