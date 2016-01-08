@@ -18,7 +18,7 @@
 
   **Part 3 - The Client**
 
-7.  Open lab-8-client.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.
+7.  Open lab-8-client.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  Also add a dependency for Spring Boot Actuator (org.springframework.boot / spring-boot-starter-actuator) 
 
 8.  Open the LuckyWordController.  Add a @ConfigurationProperties annotation using a prefix of “wordConfig”.  Notice the properties / getters and setters.
 
