@@ -2,7 +2,7 @@
 
 **Part 1 - Config Server:**
 
-1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java and Boot. No need to select any dependencies.
+1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java.  Use a version of Boot < 1.3.x.   No need to select any dependencies.
 
 1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version "Angel.SR4" is the most recent stable version at the time of this writing..
 
@@ -20,7 +20,7 @@
 
   **Part 2 - Config Client:**
 
-9. Create a new, separate Spring Boot application.  Name the project "lab-3-client", and use this value for the Artifact.  Add the web dependency.  You can make this a JAR or WAR project, but the instructions here will assume JAR.
+9. Create a new, separate Spring Boot application.  Use a version of Boot < 1.3.x.  Name the project "lab-3-client", and use this value for the Artifact.  Add the web dependency.  You can make this a JAR or WAR project, but the instructions here will assume JAR.
 
 10.  Open the POM (or Gradle) file and add a “Dependency Management” section to identify the spring cloud parent pom. (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents):
     ```
