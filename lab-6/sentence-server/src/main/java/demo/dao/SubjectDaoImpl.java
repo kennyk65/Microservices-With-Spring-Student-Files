@@ -2,7 +2,7 @@ package demo.dao;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("subjectService")
 public class SubjectDaoImpl extends WordDaoImpl {
 
 	@Override

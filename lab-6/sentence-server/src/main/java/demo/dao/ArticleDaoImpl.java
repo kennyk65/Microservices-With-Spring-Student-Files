@@ -2,7 +2,7 @@ package demo.dao;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("articleService")
 public class ArticleDaoImpl extends WordDaoImpl {
 
 	@Override
