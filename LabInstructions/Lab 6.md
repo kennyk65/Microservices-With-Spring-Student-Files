@@ -33,13 +33,15 @@
 
 11.  Next, provide the method signature to be implemented by Feign.  To think this through, take a fresh look at the lab-6-word-server WordController.  Note the annotation used and return type.  You can actually copy/paste this signature as-is, except 1) remove the method implementation, and 2) there is no need for @ResponseBody as this is implied, and 3) it will be necessary to add method=RequestMethod.GET to clarify that this is a GET request.
 
-12.  Edit the SentenceService.  Replace the @Autowired NounDaoImpl with the NounClient you just made. Depending on how you built your NounClient, you may need to refactor the buildSentence method slightly.
+12.  Edit the SentenceService.  Replace the private WordDao nounService and its associated setter with the NounClient you just made. Depending on how you built your NounClient, you may need to refactor the buildSentence method slightly.
 
-13.  Stop any previously running sentence server and launch your new one.  Test it to make sure it works by opening [http://localhost:8020/sentence](http://localhost:8020/sentence).  The application should work the same as it did before, though now it is using a declarative Feign client to make the noun call.
+13.  Notice that you have probably introduced an error on the SentenceServiceImplTest test class.  Make adjustments to accomodate the NounClient.
+
+14.  Stop any previously running sentence server and launch your new one.  Test it to make sure it works by opening [http://localhost:8020/sentence](http://localhost:8020/sentence).  The application should work the same as it did before, though now it is using a declarative Feign client to make the noun call.
 
   **BONUS - Additional Refactoring**
 
-14. If you like, you can also refactor the subject, verb, article, and adjective clients.  This can be done reasonably easy by copy paste.  Remove the old DAO implementations and note that you will no longer have any executable code to maintain or unit test.
+15. If you like, you can also refactor the subject, verb, article, and adjective clients.  This can be done reasonably easy by copy paste.  Remove the old DAO implementations and note that you will no longer have any executable code to maintain or unit test.
 
 
 **Reflection:**
