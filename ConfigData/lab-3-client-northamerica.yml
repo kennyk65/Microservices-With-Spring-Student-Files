@@ -1,2 +1,4 @@
 ---
-lucky-word: Serendipity
+lucky-word[2]: Serendipity
+lucky-word[0]: Irish
+lucky-word[1]: Another
