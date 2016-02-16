@@ -1,2 +1,3 @@
 ---
-lucky-word: Irish
+lucky-word[0]: Irish
+lucky-word[1]: Another
