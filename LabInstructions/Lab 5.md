@@ -7,7 +7,7 @@
 2.  Start the common-config-server and the common-eureka-server.  These are versions of what you created and used in the last few chapters.
 
 3.  Start 5 separate copies of the lab-5-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
-  - If you wish to use Maven, open separate command prompts in the target director and run these commands:
+  - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
     - mvn spring-boot:run -Dspring.profiles.active=subject
     - mvn spring-boot:run -Dspring.profiles.active=verb
     - mvn spring-boot:run -Dspring.profiles.active=article
@@ -59,7 +59,7 @@
 
 **Reflection:**
 
-1. You may be wondering about the Eureka registration delay that occurs.  After all, you can see from your application logs that each application registers itself with Eureka immediately.  The cause results from the need to synchronize between Eureka clients and servers; they all need to have the same metadata.  A 30 second heartbeat interval means that you could need up to three heartbeats for synchronization to occur.  You can decrease this interval, but probably 30 seconds is fine for most production cases.
+1. You may be wondering about the Eureka registration delay that occurs.  After all, you can see from your application logs that each application registers itself with Eureka immediately.  The cause results from the need to synchronize between Eureka clients and servers; they all need to have the same metadata.  A 30 second heartbeat interval means that you could need up to three heartbeats for synchronization to occur.  You can decrease this interval, but 30 seconds is probably fine for most production cases.
 
 2. The registration delay also affects when you stopped the NOUN server, and you may be surprised that the Ribbon load balancer did not direct us away from the server that was clearly not available.  We can address this by using different Ping, Rule, or LoadBalancer strategies.  By default Ribbon relies on Eureka to provide a list of healthy servers, and we’ve seen that with Default settings Eureka can take a while to notice a server’s absence.  We could use a different strategy, and also employ a rule that avoids non-functioning servers.  We will discuss this more when we explore Hystrix. 
 

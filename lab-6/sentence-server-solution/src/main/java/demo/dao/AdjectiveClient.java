@@ -12,4 +12,15 @@ public interface AdjectiveClient {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public Word getWord();
 
+	
+	static class HystrixClientFallback implements AdjectiveClient {
+
+		@Override
+
+		public Word getWord() {
+
+		return new Word();
+
+		}	
+	}	
 }

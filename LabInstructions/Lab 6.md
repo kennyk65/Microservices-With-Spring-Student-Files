@@ -7,7 +7,7 @@
 2.  Start the common-config-server and the common-eureka-server. These are versions of what you created and used in the last few chapters.
 
 3.  Lab 6 has copies of the word server and sentence server that have been slightly refactored from what we worked on previously.  Start 5 separate copies of the lab-6-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
-  - If you wish to use Maven, open separate command prompts in the target director and run these commands:
+  - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
     - mvn spring-boot:run -Dspring.profiles.active=subject
     - mvn spring-boot:run -Dspring.profiles.active=verb
     - mvn spring-boot:run -Dspring.profiles.active=article
@@ -46,7 +46,7 @@
 
 **Reflection:**
 
-1. While we have no dao code that requires UNIT testing, we still need to perform INTEGRATION testing.  Still, it is nice to be freed of some of the burden.
+1. While we have no dao code that requires UNIT testing, we still need to perform INTEGRATION testing.  Still, it is nice to be freed of the need to do as much coding.
 
 2. Our application will still fail if we can’t find at least one of each kind of word server.  We will improve this later when we discuss circuit breakers with Hystrix.
 
