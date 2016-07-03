@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-4-eureka-server”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java.  Use a version of Boot < 1.3.x.  No need to select any dependencies.
 
-2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Angel.SR6 is the most recent stable version at the time of this writing. 
+2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Brixton.SR1 is the most recent stable version at the time of this writing. 
 
 3. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka-server".  You do not need to specify a version -- this is already defined in the parent project.  
 
@@ -23,7 +23,7 @@
 7. Create a new Spring Boot web application.  Use a version of Boot < 1.3.x.  Name the application “lab-4-subject”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java and Boot.  Add actuator and web as a dependencies.
 
 8. Modify the POM (or Gradle) file:  
-  - Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Angel.SR6 is the most recent stable version at the time of this writing. 
+  - Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Brixton.SR1 is the most recent stable version at the time of this writing. 
   - Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka".
 
 9. Modify the Application class.  Add @EnableDiscoveryClient.

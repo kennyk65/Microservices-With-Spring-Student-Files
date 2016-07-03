@@ -19,8 +19,8 @@ public class Player {
 	}	
 	public Player(String name, String position) {
 		this();
-		this.name = name;
 		this.position = position;
+		this.name = name;
 	}
 	
 	public Long getId() {

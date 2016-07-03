@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-starter-parent</artifactId>
-		<version>Angel.SR6</version>
+		<version>Brixton.SR1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -78,6 +78,13 @@
 			<artifactId>ant</artifactId>
 			<version>1.9.3</version>
 		</dependency>
+
+		<!-- Allow for automatic restarts when classpath contents change. -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+	    </dependency>
 	</dependencies>
 	
 	<build>
