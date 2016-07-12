@@ -40,8 +40,7 @@
     # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
     eureka:
       instance:
-        metadataMap:
-          instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} 
+        instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
   ```
 13. Start a copy of the lab-5-word-server using the “noun” profile, just as you did earlier.
 
