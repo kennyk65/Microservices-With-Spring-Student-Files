@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-4-eureka-server”, and use this value for the Artifact.  Use JAR packaging and the latest versions of Java.  Use a version of Boot < 1.3.x.  No need to select any dependencies.
 
-2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Brixton.SR1 is the most recent stable version at the time of this writing. 
+2. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version Brixton.SR5 is the most recent stable version at the time of this writing. 
 
 3. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka-server".  You do not need to specify a version -- this is already defined in the parent project.  
 
