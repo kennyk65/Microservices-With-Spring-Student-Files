@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>"Brixton.SR1"</version>
+                <version>"Brixton.SR5"</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
