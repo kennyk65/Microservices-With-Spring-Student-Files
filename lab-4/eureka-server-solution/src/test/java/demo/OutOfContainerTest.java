@@ -39,24 +39,15 @@ public class OutOfContainerTest {
 	}
 	
 	@Test
-	public void propertyLoadTest() throws Exception {
+	public void eurekaStartupTest() throws Exception {
 
-		//	To test if this config server is working, we will simulate a "testConfig" client
-		//	calling to get properties for its default profile.  These configuration files 
-		//	(application.yml and testConfig.yml) are on the classpath as the server is 
-		//	running the 'native' profile:
+		//	Testing Eureka can be quite involved.  For a simple test, we will just ensure
+		//	that the application starts, and that the main web page can display.
 		MvcResult result =
-			mockMvc.perform(get("/testConfig-default.properties"))
+			mockMvc.perform(get("/"))
 			.andExpect(status().isOk())
 			.andReturn() 
 			;
 		
-		String returned = result.getResponse().getContentAsString();
-
-		//	Check that the test values from the yml are present in the properties:
-		assertTrue(returned.contains("fromApplication:"));
-		assertTrue(returned.contains("applicationValue"));
-		assertTrue(returned.contains("fromTestConfig:"));
-		assertTrue(returned.contains("testConfigValue"));
 	}
 }

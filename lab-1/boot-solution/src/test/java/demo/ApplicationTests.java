@@ -72,7 +72,7 @@ public class ApplicationTests {
 		//	Ensure that everything works when we do a GET for a specific team.
 		mockMvc.perform(get("/teams/1/players/2"))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.name").value("Big Easy"))	
+		.andExpect(jsonPath("$.name").value("Buckets"))	
 		;
 	}
 
