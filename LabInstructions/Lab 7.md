@@ -9,7 +9,7 @@
 3.  Lab 7 has copies of the word server and sentence server that have been converted to use Feign, we will adjust them to use Hystrix too.  Start 5 separate copies of the lab-7-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
   - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
     - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=subject"
-    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active==verb"
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=verb"
     - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=article"
     - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=adjective"
     - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=noun"
