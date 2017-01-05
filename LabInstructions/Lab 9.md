@@ -8,11 +8,11 @@
 
 3.  Lab 9 has copies of the word server.  Start 5 separate copies of the lab-9-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
   - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
-    - mvn spring-boot:run -Dspring.profiles.active=subject
-    - mvn spring-boot:run -Dspring.profiles.active=verb
-    - mvn spring-boot:run -Dspring.profiles.active=article
-    - mvn spring-boot:run -Dspring.profiles.active=adjective
-    - mvn spring-boot:run -Dspring.profiles.active=noun
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=subject"
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=verb"
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=article"
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=adjective"
+    - mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=noun"
   - Or if you wish to run from directly within STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 
 4.  Check Eureka at [http://localhost:8010](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
