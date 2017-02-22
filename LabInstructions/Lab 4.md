@@ -113,7 +113,7 @@
 
   We can use Eureka together with the config server to eliminate the need for each client to be configured with the location of the Eureka server
 
-22. Add a new file to your GitHub repository called “application.yml” (or properties).  Add the following key / values (use correct YAML formatting):
+22. Add a new file to your GitHub repository (the same repository used in the last lab) called “application.yml” (or properties).  Add the following key / values (use correct YAML formatting):
   - eureka.client.serviceUrl.defaultZone=http://localhost:8010/eureka/ 
 
 23. Open the common-config-server project.  This is essentially the same config server that you produced in lab 3.  Alter the application.yml to point to your own github repository.  Save all and run this server.  (You can use it as the config server for almost all of the remaining labs in this course.)  
