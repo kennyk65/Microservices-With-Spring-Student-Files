@@ -6,7 +6,7 @@
 
 1.  Using either Spring Tool Suite, or [https://start.spring.io](https://start.spring.io), create a new Spring Boot Project.
   - Use either Maven or Gradle (if you have it installed).  All lab instructions are based on Maven.
-  - Use the latest stable releases of Boot and Java.  These instructions were originally tested with Java 1.8, Boot 1.2.3.
+  - Use the latest stable releases of Boot and Java.  These instructions were originally tested with Java 1.8, Boot 1.5.1.RELEASE.
   - Use JAR packaging for now, unless you prefer WAR and already have a local server (like Tomcat) installed and ready to run it.
   - Use any values you like for group, artifact, package, description, etc.
   - Select the following dependencies: Web, Thymeleaf, JDBC, JPA, HSQLDB, Actuator.
@@ -26,7 +26,7 @@
 
 6.  Save all your work.  Run your application.
   - If you are working in Spring Tool Suite, simply right-click on the application / Run As / Spring Boot App.
-  - If you are working in another IDE, Run the main method found within the main Appliction class.  
+  - If you are working in another IDE, Run the main method found within the main Application class.  
   - If you wish to run from a command prompt, from the application's root folder run mvn spring-boot:run. 
   
 7.  Open a browser to [http://localhost:8080/](http://localhost:8080/).  You should see your web page.
@@ -124,7 +124,24 @@
 
 21.  Open the Team class.  Add a Set of Player objects named players.  Generate getters and setters.  Annotate the set with 	@OneToMany(cascade=CascadeType.ALL) and @JoinColumn(name="teamId"). You may wish to add a custom constructor to make it easy to create a Team object by supplying name, location, and Set of Players.  (If you do this, be sure to retain a default constructor).  Save your work.
 
-22.  Return to application's main configuration / launch class and alter the team population logic to add some players to each team.
+22.  Return to application's main configuration / launch class and alter the team population logic to add some players to each team.  Here is an example implementation:
+
+  ```
+    @PostConstruct
+	public void init() {
+		List<Team> list = new ArrayList<>();
+
+		Set<Player> set = new HashSet<>();
+		set.add(new Player("Big Easy", "Showman"));
+		set.add(new Player("Buckets", "Guard"));
+		set.add(new Player("Dizzy", "Guard"));
+		
+		list.add(new Team("Harlem", "Globetrotters", set));
+		list.add(new Team("Washington","Generals",null));
+
+		teamRepository.save(list);
+	}   
+  ```
 
 23.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.
 
@@ -146,13 +163,31 @@
 
 29.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
   - [/info](http://localhost:8080/info)
+  - [/health](http://localhost:8080/health)
+
+30.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
   - [/beans](http://localhost:8080/beans)
   - [/configprops](http://localhost:8080/configprops)
   - [/autoconfig](http://localhost:8080/autoconfig)
-  - [/health](http://localhost:8080/health)
 
-30.  Explore [/mappings](http://localhost:8080/mappings).  Does it show you any other useful endpoints you would like to try?
+31.  Enable these actuator endpoints by modifying your POM: Add a dependency for group org.springframework.boot and artifact spring-boot-starter-security.  Save your work and restart.   Look at the console output for "default security password".  Copy this randomly-generated password, then browse to endpoints listed above, using "user" for username and paste the value for password.  (Note that this password will regenerate on each restart, set security.user.name and security.user.password to establish static values).
+ 
+32.  Explore [/mappings](http://localhost:8080/mappings).  Does it show you any other useful endpoints you would like to try?
 
+  **Part 8 (Optional) - DevTools**
+  
+33.  Often while developing we need to run an application, then make some changes, then restart.  The Spring Boot "DevTools" dependency can make things easier by automatically restarting when changes are detected  (though it is not as full-featured as other tools like JRebel).  Add the following dependency: 
+
+  ```
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+    </dependency>  
+  ```
+  
+34.  While your application is running, make a small, innocent change to some code (like a comment or spacing).  Observe that depending on the change, DevTools will restart your application.  
 
 Tips:
-When running in Eclipse or STS, you can get automatic hot-swapping of many code changes if you "debug" the application rather than "run" it.
+- When running in Eclipse or STS, you can get automatic hot-swapping of many code changes without DevTools if you "debug" the application rather than "run" it.
+- If you encounter unusual issues in the upcoming labs, it may be useful to remove the DevTools dependency to see if the problem persists.

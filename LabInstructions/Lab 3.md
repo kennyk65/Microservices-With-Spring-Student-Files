@@ -2,9 +2,9 @@
 
 **Part 1 - Config Server:**
 
-1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java.  Use a version of Boot < 1.3.x.   No need to select any dependencies.
+1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java.  Use a version of Boot > 1.5.x.   No need to select any dependencies.
 
-1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version "Camden.SR2" is the most recent stable version at the time of this writing..
+1. Edit the POM (or gradle) file.  Alter the parent group Id to be "org.springframework.cloud" and artifact to be "spring-cloud-starter-parent".  Version "Camden.SR5" is the most recent stable version at the time of this writing..
 
 1. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-config-server".  You do not need to specify a version -- this is already defined in the parent project.
 
@@ -20,16 +20,16 @@
 
   **Part 2 - Config Client:**
 
-9. Create a new, separate Spring Boot application.  Use a version of Boot < 1.3.x.  Name the project "lab-3-client", and use this value for the Artifact.  Add the web dependency.  You can make this a JAR or WAR project, but the instructions here will assume JAR.
+9. Create a new, separate Spring Boot application.  Use a version of Boot > 1.5.x.  Name the project "lab-3-client", and use this value for the Artifact.  Add the web dependency.  You can make this a JAR or WAR project, but the instructions here will assume JAR.
 
-10.  Open the POM (or Gradle) file and add a “Dependency Management” section to identify the spring cloud parent pom. (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents):
+10.  Open the POM (or Gradle) file and add a “Dependency Management” section (after <properties>, before <dependencies>) to identify the spring cloud parent pom. (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents):
     ```
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>"Camden.SR2"</version>
+                <version>"Camden.SR5"</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

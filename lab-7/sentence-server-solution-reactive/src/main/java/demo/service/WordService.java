@@ -1,7 +1,7 @@
 package demo.service;
 
-import rx.Observable;
 import demo.domain.Word;
+import rx.Observable;
 
 public interface WordService {
 

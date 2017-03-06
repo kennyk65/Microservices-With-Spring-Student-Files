@@ -8,3 +8,7 @@ spring:
           searchPaths: ConfigData
 server:
   port: 8001
+# For simplicity, disable security when posting to bus/refresh:  
+management:
+  security:
+    enabled: false

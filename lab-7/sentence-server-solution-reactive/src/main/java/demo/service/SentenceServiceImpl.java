@@ -8,9 +8,9 @@ import java.util.concurrent.CountDownLatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rx.Observable;
 import demo.domain.Sentence;
 import demo.domain.Word;
+import rx.Observable;
 
 /**
  * Build a sentence by assembling randomly generated subjects, verbs, articles,
@@ -38,13 +38,14 @@ public class SentenceServiceImpl implements SentenceService {
 		CountDownLatch latch = new CountDownLatch(observables.size());
 		
 		//	Merge the 5 observables into one, so we can add a common subscriber:
-		Observable.merge(observables).subscribe(
-			//	(Lambda) When each service call is complete, contribute its word
-			//	to the sentence, and decrement the CountDownLatch:
-			(word) -> {
-				sentence.add(word);
-				latch.countDown();
-	        }
+		Observable.merge(observables)
+			.subscribe(
+				//	(Lambda) When each service call is complete, contribute its word
+				//	to the sentence, and decrement the CountDownLatch:
+				(word) -> {
+					sentence.add(word);
+					latch.countDown();
+		        }
 		);
 		
 		//	This code will wait until the LAST service call is complete:
