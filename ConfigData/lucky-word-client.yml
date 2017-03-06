@@ -1,8 +1,4 @@
 ---
 wordConfig:
   preamble: The lucky word is
-  luckyWord: Iris
-# For simplicity, disable security when posting to bus/refresh:  
-management:
-  security:
-    enabled: false
+  luckyWord: Irish
