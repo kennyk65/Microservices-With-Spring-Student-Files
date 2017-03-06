@@ -1,7 +1,7 @@
 ---
 wordConfig:
   preamble: The lucky word is
-  luckyWord: Serendipity
+  luckyWord: Irish
 # For simplicity, disable security when posting to bus/refresh:  
 management:
   security:
