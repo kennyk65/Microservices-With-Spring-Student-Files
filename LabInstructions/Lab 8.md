@@ -10,7 +10,7 @@
 
 3.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-8” or "common".
 
-4.  Open lab-8-config-server.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.
+4.  Open lab-8-config-server.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  (Notice the Spring Cloud version of Camden.SR4 - this is to avoid an issue with Camden.SR5)
 
 5.  Open application.yml.  Change the spring.cloud.config.server.git.uri to your own personal git repository.  If you are not sure what this is, take a look back at lab 3 where we first introduced spring cloud config.
 
