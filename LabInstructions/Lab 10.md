@@ -1,5 +1,7 @@
 ##Lab 10 - Applying Security to Cloud Applications
 
+Prerequisite - To use the encryption and decryption features you need the full-strength JCE installed in your JVM (it’s not there by default). You can download the "Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files" from Oracle, and follow instructions for installation (essentially replace the 2 policy files in the JRE lib/security directory with the ones that you downloaded).
+
   **Part 1 - Startup**
 
 1.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-10”.
@@ -23,7 +25,7 @@
 
 8.  Encrypt a password to be used by the config server:  Using a REST client, or the “curl” command on linux/unix, POST the string “password” (or some other some password value) to http://localhost:8001/encrypt.  You’ll have to provide the same “user” and generated value as in the last step.  Copy the encrypted returned value.
 
-9.  Open bootstrap.yml.  Add a key for security.user.password.  For the value, paste the encrypted password value from the last step, but prefix it with “{prefix}” (no quotes).  Then place the entire value within single quotes.  Save your work.
+9.  Open bootstrap.yml.  Add a key for security.user.password.  For the value, paste the encrypted password value from the last step, but prefix it with “{cipher}” (no quotes).  Then place the entire value within single quotes.  Save your work.
 
 10.  Restart the config server.  Access [http://localhost:8001/anyapp-anyprofile.yml](http://localhost:8001/anyapp-anyprofile.yml).  You should be prompted for a user and password.  Enter “user” and “password” (or the value you encrypted for password).  You should once again see the YAML output.  If so, you have successfully configured the server with an encrypted password.
 

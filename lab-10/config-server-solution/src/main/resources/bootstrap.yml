@@ -1,4 +1,5 @@
 ---
 encrypt.key: key
-security.user.password: '{cipher}56e611ce4a99ffd99908d2c9aa1461d831722812e4370a5b6900b7ea680ae914'
-
+# This is "password" encrypted using the "key" for encrypt.key.  
+# Your value may be different.  User is the default "user".
+security.user.password: '{cipher}57db65aa5c8c48da9e8109f3e09a01c4bdfda8591ce688f9e9dd93b4366d7f9f'
