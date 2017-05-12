@@ -41,7 +41,7 @@
 
   **BONUS - Additional Refactoring**
 
-15. If you like, you can also refactor the subject, verb, article, and adjective clients.  This can be done reasonably easy by copy paste.  Remove the old DAO implementations and note that you will no longer have any executable code to maintain or unit test.
+15. If you like, you can also refactor the subject, verb, article, and adjective clients.  This can be done reasonably easy by copy paste.  Remove the old DAO implementations and note that you will no longer have any executable code to maintain or unit test (you still must integration test, of course).
 
 
 **Reflection:**

@@ -8,15 +8,15 @@
   - Boot version 1.5.x is the most recent at the time of this writing, but you can use the latest stable version available.  
   - No need to select any dependencies.
 
-2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after <properties>, before <dependencies>) to identify the spring cloud parent POM.  "Camden.SR5" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
+2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after <properties>, before <dependencies>) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
 
 ```
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>Camden.SR5</version>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

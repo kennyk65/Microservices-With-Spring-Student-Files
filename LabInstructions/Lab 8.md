@@ -10,7 +10,7 @@
 
 3.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-8” or "common".
 
-4.  Open lab-8-config-server.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  (Notice the Spring Cloud version of Camden.SR4 - this is to avoid an issue with Camden.SR5)
+4.  Open lab-8-config-server.  This project is essentially identical to what you produced in Lab 3.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  
 
 5.  Open application.yml.  Change the spring.cloud.config.server.git.uri to your own personal git repository.  If you are not sure what this is, take a look back at lab 3 where we first introduced spring cloud config.
 
@@ -18,7 +18,7 @@
 
   **Part 3 - The Client**
 
-7.  Open lab-8-client.  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  Also add a dependency for Spring Boot Actuator (org.springframework.boot / spring-boot-starter-actuator) 
+7.  Open lab-8-client (essentially identical to your client from lab 3).  Open the POM, add another dependency for spring-cloud-starter-bus-amqp.  Also add a dependency for Spring Boot Actuator (org.springframework.boot / spring-boot-starter-actuator) 
 
 8.  Open the LuckyWordController.  Add a @ConfigurationProperties annotation using a prefix of “wordConfig”.  Notice the properties / getters and setters.
 
