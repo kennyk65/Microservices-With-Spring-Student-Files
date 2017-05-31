@@ -144,7 +144,7 @@
 
 23. Open the common-config-server project.  This is essentially the same config server that you produced in lab 3.  Alter the application.yml to point to your own github repository.  Save all and run this server.  (You can use it as the config server for almost all of the remaining labs in this course.)  
 
-24. Edit each client application’s application.properties file.  Remove the eureka client serviceUrl defaultZone key/value.  We will get this from the config server.
+24. Edit each client application’s application.properties file.  Replace Eureks'a URI "http://localhost:8010/eureka/" with "${eurekaServerUri}".  We will autowire this from the config server.
 
 25. In each client project, add the following key/value to bootstrap.yml (or bootstrap.properties), using correct YAML formatting: 
   - spring.cloud.config.uri: http://localhost:8001.
