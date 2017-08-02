@@ -1,4 +1,4 @@
-##Lab 1 - Spring Boot
+## Lab 1 - Spring Boot
 
 - In this exercise you will create a simple Spring Boot application.  If you feel you already have a good understanding of Spring Boot you can skip this exercise.  All other exercises in this course will assume you know Spring Boot.
 

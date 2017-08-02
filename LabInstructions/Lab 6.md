@@ -1,4 +1,4 @@
-##Lab 6 - Using Feign Declarative REST clients
+## Lab 6 - Using Feign Declarative REST clients
 
 **Part 1, Start existing services.**
 

@@ -1,4 +1,4 @@
-##Lab 5 - Using Ribbon Clients
+## Lab 5 - Using Ribbon Clients
 
 **Part 1, Run Config Server, Eureka, and the word servers**
 

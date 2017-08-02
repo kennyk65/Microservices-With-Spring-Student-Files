@@ -1,4 +1,4 @@
-##Lab 4 - Create a Spring Cloud Eureka Server and Client
+## Lab 4 - Create a Spring Cloud Eureka Server and Client
 
 **Part 1, create server**
 
