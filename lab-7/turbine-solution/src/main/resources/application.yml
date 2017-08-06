@@ -4,6 +4,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka/,http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
+  instance:
+    metadata-map:
+      management.port: ${management.port:8081}
 server:
   port: 8030
   
@@ -16,3 +19,4 @@ turbine:
 
 management:
   port: 8990  
+
