@@ -22,9 +22,9 @@ eureka:
 
 ---
 spring:
+  profiles: primary
   application:
     name: eureka-server-clustered   
-  profiles: primary
 server:
   port: 8011  
 eureka:
@@ -38,9 +38,9 @@ eureka:
 
 ---
 spring:
+  profiles: secondary
   application:
     name: eureka-server-clustered      
-  profiles: secondary
 server:
   port: 8012
 eureka:
@@ -54,9 +54,9 @@ eureka:
 
 ---
 spring:
+  profiles: tertiary
   application:
     name: eureka-server-clustered      
-  profiles: tertiary
 server:
   port: 8013
 eureka:

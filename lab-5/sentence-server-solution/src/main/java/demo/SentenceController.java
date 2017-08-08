@@ -1,8 +1,6 @@
 package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class SentenceController {
 
-	@Autowired LoadBalancerClient loadBalancer;
+	//	This is referencing the RestTemplate we defined earlier:
+	@Autowired  RestTemplate template;
 	
 	/**
 	 * Display a small list of Sentences to the caller:
@@ -54,8 +53,8 @@ public class SentenceController {
 	 * of speech is indicated by the given service / client ID:
 	 */
 	public String getWord(String service) {
-		ServiceInstance instance = loadBalancer.choose(service);
-   		return (new RestTemplate()).getForObject(instance.getUri(),String.class);
+		return template.getForObject("http://" + service, String.class);
+	
 	}
 
 }
