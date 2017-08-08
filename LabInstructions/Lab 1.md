@@ -34,7 +34,7 @@
 
   **Part 2 - Return a RESTful Response**
   
-9.  Create a new Java class called "Team" in the base package.  Give it a Long field for id, and String fields for name, location, and mascotte (or whatever other properties you like).  Generate "getters and setters" for all fields. Save your work.
+9.  Create a new Java class called "Team" in the base package.  Give it a Long field for id, and String fields for name, location, and mascot (or whatever other properties you like).  Generate "getters and setters" for all fields. Save your work.
 
 10.  Create a new Controller called "TeamController".  Annotate it with @RestController.
 

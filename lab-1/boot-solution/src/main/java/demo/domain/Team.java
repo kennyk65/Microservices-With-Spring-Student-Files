@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Team {
 
 	@Id
@@ -17,7 +19,7 @@ public class Team {
 	Long id;
 	String name;
 	String location;
-	String mascotte;
+	String mascot;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="teamId")
@@ -52,11 +54,11 @@ public class Team {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getMascotte() {
-		return mascotte;
+	public String getMascot() {
+		return mascot;
 	}
-	public void setMascotte(String mascotte) {
-		this.mascotte = mascotte;
+	public void setMascot(String mascot) {
+		this.mascot = mascot;
 	}
 	public Set<Player> getPlayers() {
 		return players;
