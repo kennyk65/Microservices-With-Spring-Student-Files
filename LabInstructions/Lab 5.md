@@ -4,7 +4,7 @@
 
 1.  Let's make a fresh start: stop all of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-5" or "common".
 
-2.  Start the common-config-server and the common-eureka-server.  These are versions of what you created and used in the last few chapters.
+2.  Open the common-config-server and the common-eureka-server.  These are versions of what you created and used in the last few chapters.  If you haven't done so already, alter the common-config-server's application.yml to point to your own github repository.  
 
 3.  Start 5 separate copies of the lab-5-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
   - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
