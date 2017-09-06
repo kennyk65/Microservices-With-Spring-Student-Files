@@ -17,7 +17,7 @@
 
 3.  Create a new method in the controller:
   - Name the method anything you like.  Have it return a String.  No parameters needed.
-  - Annotate the method with @RequestMapping("/")
+  - Annotate the method with @GetMapping("/")
   - Have the method return the String value "hello".
 
 4.  If not already present, create a new folder under src/main/resources called "templates"
@@ -40,10 +40,10 @@
 
 11.  Create a new method in the TeamController.
   - Name the method "getTeams".  Have it return a List of Team objects.  
-  - Annotate the method with @RequestMapping("/teams")
+  - Annotate the method with @GetMapping("/teams")
   - Have the method create a List of Team objects.  Create one or more Team objects and add it to the list.  Set the teams' properties to whatever values you like, and return the List.  Sample:
   ```
-	@RequestMapping("/teams")
+	@GetMapping("/teams")
 	public List<Team> getTeams() {
 		List<Team> list = new ArrayList<>();
 
@@ -98,7 +98,7 @@
 
 18.  Alter the logic in your controller method to simply return the result of the repository's findAll() method:
   ```
-	@RequestMapping("/teams")
+	@GetMapping("/teams")
 	public Iterable<Team> getTeams() {
 		return teamRepository.findAll();
 	}
@@ -111,7 +111,7 @@
 20.  Return to the TeamController and add a method that returns a single Team given an ID.
   - Name the method anything you like.  Suggestion: getTeam.
   - Return type should be a Team.
-  - Use a @RequestMapping annotation to map this method to the "/teams/{id}" pattern.
+  - Use a @GetMapping annotation to map this method to the "/teams/{id}" pattern.
   - Define a parameter named "id" of type Long annotated with @PathVariable.
   - Logic: return the result of the teamRepository's findOne() method.
 

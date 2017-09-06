@@ -2,7 +2,7 @@ package demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import demo.service.SentenceService;
@@ -18,7 +18,7 @@ public class SentenceController {
 	/**
 	 * Display a small list of Sentences to the caller:
 	 */
-	@RequestMapping("/sentence")
+	@GetMapping("/sentence")
 	public @ResponseBody String getSentences() {
 	  return 
 		"<h3>Some Sentences</h3><br/>" +	  

@@ -65,7 +65,7 @@
   - Add a String member variable named “words”.  Annotate it with @Value("${words}”).
   - Add the following method to serve the resource (optimize this code if you like):
   ```
-    @RequestMapping("/")
+    @GetMapping("/")
     public @ResponseBody String getWord() {
       String[] wordArray = words.split(",");
       int i = (int)Math.round(Math.random() * (wordArray.length - 1));
@@ -110,7 +110,7 @@
   - Use @Autowired to obtain a DiscoveryClient (import from Spring Cloud).
   - Add the following methods to serve the sentence based on the words obtained from the client services. (feel free to optimize / refactor this code as you like:
   ```
-    @RequestMapping("/sentence")
+    @GetMapping("/sentence")
     public @ResponseBody String getSentence() {
       return 
         getWord("LAB-4-SUBJECT") + " "

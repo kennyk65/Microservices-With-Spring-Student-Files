@@ -68,7 +68,7 @@ server.port=8002
  
       @Value("${lucky-word}") String luckyWord;
   
-      @RequestMapping("/lucky-word")
+      @GetMapping("/lucky-word")
       public String showLuckyWord() {
         return "The lucky word is: " + luckyWord;
       }
