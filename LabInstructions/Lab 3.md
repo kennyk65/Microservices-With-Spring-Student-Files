@@ -21,7 +21,7 @@
 ```
 
 
-1. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-config-server".  You do not need to specify a version -- this is already defined in the spring-cloud-dependencies BOM.
+1. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-config-server".  You do not need to specify a version -- this is already defined in the spring-cloud-dependencies POM.
 
 1. Edit the main Application class (probably named Lab3ServerApplication).  Add the @EnableConfigServer to this class.
 
