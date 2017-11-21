@@ -1,3 +1,8 @@
 # Note: all properties defined in this file are subject to replacement by the configuration server.
 ---
 words: fallback
+
+---
+spring:
+  profiles: cold-noun
+words: icicle,refrigerator,blizzard,snowball
