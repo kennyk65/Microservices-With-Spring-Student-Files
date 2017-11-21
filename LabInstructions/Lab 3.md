@@ -4,7 +4,7 @@
 
 1. Create a new Spring Boot application.  Name the project "lab-3-server”, and use this value for the Artifact.  Use Jar packaging and the latest versions of Java.  Use a version of Boot > 1.5.x.   No need to select any dependencies.
 
-1. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after <properties>, before <dependencies>) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
+1. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after `<properties>`, before `<dependencies>`) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
 
 ```
     <dependencyManagement>
@@ -29,7 +29,9 @@
 
 1. Add a new file to your GitHub repository called "lab-3-client.yml” (or lab-3-client.properties).  Add a key called "lucky-word" and a value of "Irish", "Rabbit's Foot", "Serendipity", or any other value of your choosing.
 
-1. Back in your project, create an application.yml (or application.properties) file in the root of your classpath (src/main/resources recommended).  Add the key "spring.cloud.config.server.git.uri" and the value "https://github.com/"YOUR-GITHUB-ID"/ConfigData", substituting the value for Github ID and repository name as needed.  Also set the “server.port” to 8001.
+1. Back in your project, create an application.yml (or application.properties) file in the root of your classpath (src/main/resources recommended).  Add the key "spring.cloud.config.server.git.uri" and the value "https://github.com/"YOUR-GITHUB-ID"/ConfigData", substituting the value for Github ID and repository name as needed.  
+
+1. Also within application.yml (or application.properties), set the “server.port” to 8001.
 
 8. Run the application.  Open the URL [http://localhost:8001/lab-3-client/default/](http://localhost:8001/lab-3-client/default/).  You should see the JSON result that will actually be used by Spring.  If the server is not working, review the prior steps to find the issue before moving on.
 
@@ -54,6 +56,7 @@
 11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-config”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
 
 12. Add a bootstrap.yml (or bootstrap.properties) file in the root of your classpath (src/main/resources recommended).  Add the following key/values using the appropriate format:
+
 spring.application.name=lab-3-client
 spring.cloud.config.uri=http://localhost:8001  
 server.port=8002
