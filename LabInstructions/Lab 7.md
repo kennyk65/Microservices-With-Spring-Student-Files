@@ -27,7 +27,7 @@
 
 8.  Open the POM.  Add another dependency for spring-cloud-starter-hystrix.
 
-9.  Edit the main Application configuration class and @EnableHystix.
+9.  Edit the main Application configuration class and @EnableHystrix.
 
 10.  Refactor the WordServiceImpl to use Hystrix.  We have decided that it is not strictly necessary to have an adjective in our sentence if the adjective service is failing, so modify the getAdjective service to run within a Hystrix Command.  Establish a fallback method that will return an empty Word (new Word(“”)).
 
