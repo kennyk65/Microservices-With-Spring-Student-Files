@@ -56,12 +56,12 @@
 11.  Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-config”.  You do not need to specify a version -- this is already defined in the parent pom in the dependency management section.
 
 12. Add a bootstrap.yml (or bootstrap.properties) file in the root of your classpath (src/main/resources recommended).  Add the following key/values using the appropriate format:
-
+```
 spring.application.name=lab-3-client
 spring.cloud.config.uri=http://localhost:8001  
 server.port=8002
-
-    _(Note that this file must be "boostrap" -- not "application" -- so that it is read early in the application startup process.  The server.port could be specified in either file, but the URI to the config server affects the startup sequence.)_
+```
+> (Note that this file must be "boostrap" -- not "application" -- so that it is read early in the application startup process.  The server.port could be specified in either file, but the URI to the config server affects the startup sequence.)_
 
 13. Add a REST controller to obtain and display the lucky word:
 
