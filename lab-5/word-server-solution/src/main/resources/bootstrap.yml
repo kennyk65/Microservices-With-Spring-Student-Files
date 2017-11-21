@@ -43,4 +43,9 @@ spring:
   profiles: noun
   application:
     name: noun
-    
+
+---
+spring:
+  profiles: cold-noun
+  application:
+    name: noun    
