@@ -8,7 +8,7 @@
   - Boot version 1.5.x is the most recent at the time of this writing, but you can use the latest stable version available.  
   - No need to select any dependencies.
 
-2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after <properties>, before <dependencies>) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
+2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after `<properties>`, before `<dependencies>`) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
 
 ```
     <dependencyManagement>
