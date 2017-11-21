@@ -48,30 +48,30 @@
 
   **BONUS - Multiple Clients**  At this point we have refactored the code to use Ribbon, but we haven’t really seen Ribbon’s full power as a client side load-balancer.  To illustrate this we will run two copies of one of the “noun” word server with different words hard-coded.  You’ll see the sentence adapt to make use of values from both servers.
 
-12. Locate and stop the copy of the “word” server that is serving up nouns.  If you’ve lost track, you can generally examine the console output of each app and find the one that reported itself to Eureka as “NOUN”.
-
-13. Open lab-5-word-server.  Edit the bootstrap.yml and add the following Eureka setting (the comment explains the purpose of this entry):
+12. Look at the bootstrap.yml file inside lab-5-word-server; there is an entry (shown here) that we have not seen or discussed.  For the next part, we will need to run multiple copies of the noun server on the same host, and this entry will allow us to do this.  There is nothing you need to change here, just understand that Eureka will be able to distinguish multiple servers of a given type running on the same host:
   ```
     # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
     eureka:
       instance:
         instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
   ```
-14. Go to the POM.  Remove the dependency for DevTools.  DevTools is great for automatically detecting changes and restarting, but it will interfere with the next few steps.
+13. While in bootstrap.yml, note that there is another profile defined called "cold-nouns".  It establishes the same application name as the 'noun' server.  
 
-15. Start a copy of the lab-5-word-server using the “noun” profile, just as you did earlier.
-
-16. While this new server is running, edit the WordController.java class.  Comment out the “String words” variable and replace it with this hard-coded version:
+14. Now look at application.yml, note that there is another set of nouns - but these nouns are all 'cold' words (there is nothing you need to change here):
   ```
-    String words = “icicle,refrigerator,blizzard,snowball”;
+  ---
+  spring:
+    profiles: cold-noun
+  words: icicle,refrigerator,blizzard,snowball
   ```
-17. Start another copy of the lab-5-word-server using the “noun” profile.  Because each runs on its own port, there will be no conflict.  You will now have two noun servers presenting different lists of words.  Both will register with Eureka, and the Ribbon load balancer in the sentence server will soon learn that both exist.
 
-18. Return to the Eureka page running at [http://localhost:8010](http://localhost:8010).  Refresh it several times.  Once registration is complete, you should see two “NOUN” services running, each with its own instance ID (this is the purpose for the setting you added a few steps back).
+15. Start a copy of the lab-5-word-server using the "cold-noun" profile, similar to how you launched the application earlier.  Eureka will see this as another instance of the 'noun' server.  Because each runs on its own port, there will be no conflict.  Each noun server will present a different lists of words.  Both will register with Eureka, and the Ribbon load balancer in the sentence server will soon learn that both exist.
 
-19. Refresh the sentence browser page at [http://localhost:8020/sentence](http://localhost:8020/sentence).  Once it becomes aware of the new “NOUN” service, the loadbalancer will distribute the load between the two services, and half of the time your sentence will end with one of the “cold” nouns that you hard-coded above.
+16. Return to the Eureka page running at [http://localhost:8010](http://localhost:8010).  Refresh it several times.  Once registration is complete, you should see two “NOUN” services running, each with its own instance ID (this is the purpose for the setting you added a few steps back).
 
-20. Stop one of the NOUN services and refresh your sentence browser page several times.  You will see that it fails half the time as one of the instances is no longer available.  In fact, since the default load balancer is based on a round-robin algorithm, the failure occurs every second time the noun service is used.  If you continue refreshing long enough, you will see that the failures eventually stop as the ribbon client becomes updated with the revised server list from Eureka. 
+17. Refresh the sentence browser page at [http://localhost:8020/sentence](http://localhost:8020/sentence).  Once it becomes aware of the new “NOUN” service, the loadbalancer will distribute the load between the two services, and half of the time your sentence will end with one of the “cold” nouns that you hard-coded above.
+
+18. Stop one of the NOUN services (either one) and refresh your sentence browser page several times.  You will see that it fails half the time as one of the instances is no longer available.  In fact, since the default load balancer is based on a round-robin algorithm, the failure occurs every second time the noun service is used.  If you continue refreshing long enough, you will see that the failures eventually stop as the ribbon client becomes updated with the revised server list from Eureka. 
 
 **Reflection:**
 
