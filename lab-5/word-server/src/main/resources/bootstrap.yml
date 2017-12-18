@@ -49,4 +49,4 @@ spring:
 spring:
   profiles: cold-noun
   application:
-    name: noun        
+    name: noun
