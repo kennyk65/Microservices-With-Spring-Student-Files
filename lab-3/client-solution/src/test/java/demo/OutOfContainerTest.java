@@ -52,7 +52,7 @@ public class OutOfContainerTest {
 	//	Load test properties to satisfy the lucky-word placeholder:
 	@Configuration
 	@Import(Application.class)
-	@PropertySource("classpath:demo/test.properties")
+	@PropertySource("classpath:/demo/test.properties")
 	public static class Config {
 	}
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.test</groupId>
+	<artifactId>all-modules</artifactId>
+	<version>1</version>
+	<packaging>pom</packaging>
+
+	<name>multi-module</name>
+	<description>Quick way to build / test all of the other projects.</description>
+
+    <modules>
+        <module>common/config-server</module>
+        <module>common/eureka-server</module>
+
+        <module>lab-1/boot-solution</module>
+        
+        <module>lab-3/client-solution</module>
+        <module>lab-3/server-solution</module>
+        
+        <module>lab-4/eureka-client-solution</module>
+        <module>lab-4/eureka-server-solution</module>
+        
+        <module>lab-5/sentence-server</module>
+        <module>lab-5/sentence-server-solution</module>
+        <module>lab-5/word-server</module>
+
+        <module>lab-6/sentence-server</module>
+        <module>lab-6/sentence-server-solution</module>
+        <module>lab-6/word-server</module>
+
+        <module>lab-7/sentence-server</module>
+        <module>lab-7/sentence-server-solution</module>
+        <module>lab-7/sentence-server-solution-reactive</module>
+        <module>lab-7/word-server</module>
+        <module>lab-7/turbine-solution</module>
+
+        <module>lab-8/client</module>
+        <module>lab-8/client-solution</module>
+        <module>lab-8/config-server</module>
+        <module>lab-8/config-server-solution</module>
+        
+        <module>lab-9/gateway</module>
+        <module>lab-9/gateway-solution</module>
+        <module>lab-9/word-server</module>
+
+    </modules>
+
+</project>
