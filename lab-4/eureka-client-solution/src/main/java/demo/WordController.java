@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WordController {
 
-	@Value("${words}") String[] words;
     private final Random random = new Random();
+	
+	@Value("${words}") String[] words;
 	
 	@GetMapping("/")
 	public String getWord() {
