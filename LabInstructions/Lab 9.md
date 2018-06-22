@@ -37,9 +37,9 @@
 
 10.  Add the dependency for the config client.  org.springframework.cloud / spring-cloud-config-client.  
 
-11.  Add the dependency for Eureka-based service discovery.  org.springframework.cloud / spring-cloud-starter-eureka.
+11.  Add the dependency for Eureka-based service discovery.  org.springframework.cloud / spring-cloud-starter-netflix-eureka-client.
 
-12.  Add the dependency for Zuul.  org.springframework.cloud / spring-cloud-starter-zuul.
+12.  Add the dependency for Zuul.  org.springframework.cloud / spring-cloud-starter-netflix-zuul.
 
 13.  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
 
@@ -68,7 +68,7 @@
 
     ```
     @Bean
-    public Filter shallowEtagHeaderFilter() {
+    public ShallowEtagHeaderFilter shallowEtagHeaderFilter() {
         return new ShallowEtagHeaderFilter();
     }   
     ```    

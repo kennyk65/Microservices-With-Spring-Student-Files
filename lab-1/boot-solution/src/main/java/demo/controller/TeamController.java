@@ -20,7 +20,7 @@ public class TeamController {
 	
 	@GetMapping("/teams/{id}")
 	public Team getTeam(@PathVariable Long id){
-		return teamRepository.findOne(id);
+		return teamRepository.findById(id).get();
 	}
 	
 }

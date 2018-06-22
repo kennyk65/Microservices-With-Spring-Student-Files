@@ -1,7 +1,5 @@
 package demo;
 
-import javax.servlet.Filter;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -17,7 +15,7 @@ public class Application {
     }
     
     @Bean
-    public Filter shallowEtagHeaderFilter() {
+    public ShallowEtagHeaderFilter shallowEtagHeaderFilter() {
         return new ShallowEtagHeaderFilter();
     }    
 }

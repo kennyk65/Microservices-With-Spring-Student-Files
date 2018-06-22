@@ -6,10 +6,10 @@
 
 1.  Using either Spring Tool Suite, or [https://start.spring.io](https://start.spring.io), create a new Spring Boot Project.
   - Use either Maven or Gradle (if you have it installed).  All lab instructions are based on Maven.
-  - Use the latest stable releases of Boot and Java.  These instructions were originally tested with Java 1.8, Boot 1.5.1.RELEASE.
+  - Use the latest stable releases of Boot and Java.  These instructions were originally tested with Java 1.8, Boot 2.0.3.RELEASE.
   - Use JAR packaging for now, unless you prefer WAR and already have a local server (like Tomcat) installed and ready to run it.
   - Use any values you like for group, artifact, package, description, etc.
-  - Select the following dependencies: Web, Thymeleaf, JDBC, JPA, HSQLDB, Actuator.
+  - Select the following dependencies: Web, Thymeleaf, JPA, HSQLDB, and Actuator.
 
 2.  Create a new Controller in the base package:
   - Name the controller anything you like.  
@@ -75,7 +75,7 @@
   
 15.  Open the application's main configuration / launch class (the one annotated with @SpringBootApplication).  Use @Autowired to dependency inject a member variable of type TeamRepository.  Name the variable anything you like (may I suggest: "teamRepository").
 
-16.  Add some logic to initially populate the database:  Add a public void init() method.  Annotate it with @PostConstruct.  Cut and paste the team-creation code from you controller to this method, except rather than returning a List of Teams, call the save() method on the repository.  Also, remove any values set for the team IDs.  Example code:
+16.  Add some logic to initially populate the database:  Add a public void init() method.  Annotate it with @PostConstruct.  Cut and paste the team-creation code from you controller to this method, except rather than returning a List of Teams, call the saveAll() method on the repository.  Also, remove any values set for the team IDs.  Example code:
   ```
     public void init() {
 		List<Team> list = new ArrayList<>();
@@ -90,7 +90,7 @@
 		team.setName("Generals");
 		list.add(team);
 
-		teamRepository.save(list);
+		teamRepository.saveAll(list);
 	}    
   ```
 
@@ -113,7 +113,7 @@
   - Return type should be a Team.
   - Use a @GetMapping annotation to map this method to the "/teams/{id}" pattern.
   - Define a parameter named "id" of type Long annotated with @PathVariable.
-  - Logic: return the result of the teamRepository's findOne() method.
+  - Logic: return the result of the teamRepository's findById(id).get() method.  (The findById() returns a Java 8 "Optional", and the get() simply returns the actual Team.
 
 19.  Save all work.  Stop the application if it is already running, and start it again.  Use [http://localhost:8080/teams](http://localhost:8080/teams) to note the generated ID values for each Team.  Then use URLs such as  [http://localhost:8080/teams/1](http://localhost:8080/teams/1) or [http://localhost:8080/teams/2](http://localhost:8080/teams/2) to get results for the individual teams.
 
@@ -139,7 +139,7 @@
 		list.add(new Team("Harlem", "Globetrotters", set));
 		list.add(new Team("Washington","Generals",null));
 
-		teamRepository.save(list);
+		teamRepository.saveAll(list);
 	}   
   ```
 
@@ -159,20 +159,22 @@
 
   If you have reached this point, Congratulations, you have finished the exercise!
 
+
   **Part 7 (Optional) - Explore the Actuator Endpoints**
 
 29.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
-  - [/info](http://localhost:8080/info)
-  - [/health](http://localhost:8080/health)
+  - [/actuator/info](http://localhost:8080/actuator/info)
+  - [/actuator/health](http://localhost:8080/actuator/health)
 
 30.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
-  - [/beans](http://localhost:8080/beans)
-  - [/configprops](http://localhost:8080/configprops)
-  - [/autoconfig](http://localhost:8080/autoconfig)
+  - [/actuator/beans](http://localhost:8080/actuator/beans)
+  - [/actuator/configprops](http://localhost:8080/actuator/configprops)
+  - [/actuator/autoconfig](http://localhost:8080/actuator/env)
 
-31.  Enable these actuator endpoints by modifying your POM: Add a dependency for group org.springframework.boot and artifact spring-boot-starter-security.  Save your work and restart.   Look at the console output for "default security password".  Copy this randomly-generated password, then browse to endpoints listed above, using "user" for username and paste the value for password.  (Note that this password will regenerate on each restart, set security.user.name and security.user.password to establish static values).
+31.  Enable these actuator endpoints by adding the following setting to your application.properties (save your work and restart):
+  - management.endpoints.web.exposure.include=beans,configprops,mappings,env
  
-32.  Explore [/mappings](http://localhost:8080/mappings).  Does it show you any other useful endpoints you would like to try?
+32.  Explore [/actuator/mappings](http://localhost:8080/actuator/mappings).  This is a useful one for debugging web applications.  Search through and see where the @GetMappings you set earlier are setup.
 
   **Part 8 (Optional) - DevTools**
   

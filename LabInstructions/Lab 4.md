@@ -5,10 +5,10 @@
 1. Create a new Spring Boot application.
   - Name the project "lab-4-eureka-server”, and use this value for the Artifact.  
   - Use JAR packaging and the latest versions of Java.  
-  - Boot version 1.5.x is the most recent at the time of this writing, but you can use the latest stable version available.  
+  - Boot version 2.0.1 is the most recent at the time of this writing, but you can generally use the latest stable version available.  
   - No need to select any dependencies.
 
-2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after `<properties>`, before `<dependencies>`) to identify the spring cloud parent POM.  "Dalston.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
+2. Edit the POM (or Gradle) file.  Add a “Dependency Management” section (after `<properties>`, before `<dependencies>`) to identify the spring cloud parent POM.  "Finchley.RELEASE" is the most recent stable version at the time of this writing, but you can use the latest stable version available.  Example:
 
 ```
     <dependencyManagement>
@@ -16,7 +16,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.RELEASE</version>
+                <version>Finchley.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -24,7 +24,7 @@
     </dependencyManagement>
 ```
 
-3. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka-server".  You do not need to specify a version -- this is already defined in the parent project.  
+3. Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-netflix-eureka-server".  You do not need to specify a version -- this is already defined in the parent project.  
 
 4. Save an application.yml (or properties) file in the root of your classpath (src/main/resources recommended).  Add the following key / values (use correct YAML formatting):
   - server.port: 8010
@@ -46,7 +46,7 @@
 
 8. Modify the POM (or Gradle) file.  
   - Add the same dependency management section you inserted into the server POM.  (You could simply change the parent entries, but most clients will probably be ordinary applications with their own parents.)
-  - Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-eureka".
+  - Add a dependency for group "org.springframework.cloud" and artifact "spring-cloud-starter-netflix-eureka-client".
 
 9. Modify the Application class.  Add @EnableDiscoveryClient.
 
@@ -133,13 +133,13 @@
     }
   ```
 
-21. Run all of the word services and sentence service.  (Run within your IDE, or build JARs for each one (mvn clean package) and run from the command line (java -jar name-of-jar.jar), whichever you find easiest).  (If running from STS, uncheck “Enable Live Bean support” in the run configurations).  Since each service uses a separate port, they should be able to run side-by-side on the same computer.  Open [http://localhost:8020/sentence](http://localhost:8020/sentence) to see the completed sentence.  Refresh the URL and watch the sentence change.
+21. Run all of the word services and sentence service.  (Run within your IDE, or build JARs for each one (mvn clean package) and run from the command line (java -jar name-of-jar.jar), whichever you find easiest).  (If running from STS, uncheck “Enable Live Bean support” in the run configurations).  Since each service uses a separate, random port, they should be able to run side-by-side on the same computer.  Open [http://localhost:8020/sentence](http://localhost:8020/sentence) to see the completed sentence.  Refresh the URL and watch the sentence change.
  	
   **BONUS - Refactor to use Spring Cloud Config Server.**  
 
   We can use Eureka together with the config server to eliminate the need for each client to be configured with the location of the Eureka server
 
-22. Add a new file to your GitHub repository (the same repository used in the last lab) called “application.yml” (or properties).  Add the following key / values (use correct YAML formatting):
+22. Add a new file to your GitHub repository (the same repository used in the last lab) called “application.yml” (or properties).  Because this file is named "application.*", the properties set within apply to all clients of the Config server.  This is great for us as we want all clients to find the Eureka server.  Add the following key / values (use correct YAML formatting):
   - eureka.client.serviceUrl.defaultZone=http://localhost:8010/eureka/ 
 
 23. Open the common-config-server project.  This is essentially the same config server that you produced in lab 3.  Alter the application.yml to point to your own github repository.  Save all and run this server.  (You can use it as the config server for almost all of the remaining labs in this course.)  
@@ -153,7 +153,7 @@
   </dependency>
 ```
 
-25. Edit each client application’s application.properties file.  Remove the eureka client serviceUrl defaultZone key/value.  We will get this from the config server.
+25. Edit each client application’s application.properties file.  Remove the eureka client serviceUrl defaultZone key/value.  Now we will get this from the config server.
 
 26. In each client project, add the following key/value to bootstrap.yml (or bootstrap.properties), using correct YAML formatting: 
   - spring.cloud.config.uri: http://localhost:8001.
@@ -223,7 +223,9 @@ primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8
 
 2. What happens if one of the “word” servers is down?  Right now our entire application will fail.  We will improve this later when we discuss circuit breakers with Hystrix.
 
-3. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Ribbon and Hystrix.
+3. You may be puzzling about which properties should be set in bootstrap.yml (or properties) vs application.yml (or properties).  Very simply, bootstrap.* is loaded early and is used when contacting the Config server, so it should contain spring.cloud.config.uri, spring.application.name, and generally nothing else.  All other properties can be set later when application.* is loaded.  
 
-4. We will see an alternative to the RestTemplate when we discuss Feign.
+4. To improve performance, can we run each of the calls in parallel?  We will improve this later when discussing Ribbon and Hystrix.
+
+5. We will see an alternative to the RestTemplate when we discuss Feign.
 
