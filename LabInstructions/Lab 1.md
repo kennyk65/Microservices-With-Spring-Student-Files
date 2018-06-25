@@ -103,28 +103,34 @@
 		return teamRepository.findAll();
 	}
   ```
-19.  Save all work.  Stop the application if it is already running, and start it again.  Open [http://localhost:8080/teams](http://localhost:8080/teams).  You should see a JSON response with your teams' data.
+19.  Add this property to application.properties to control how the JPA implementation (Hibernate) should handle the DB schema:
+  ```
+        spring.jpa.hibernate.ddl-auto = update
+  ```
+
+
+20.  Save all work.  Stop the application if it is already running, and start it again.  Open [http://localhost:8080/teams](http://localhost:8080/teams).  You should see a JSON response with your teams' data.
 
 
   **Part 4 (Optional)- Create a Single Team endpoint**
   
-20.  Return to the TeamController and add a method that returns a single Team given an ID.
+21.  Return to the TeamController and add a method that returns a single Team given an ID.
   - Name the method anything you like.  Suggestion: getTeam.
   - Return type should be a Team.
   - Use a @GetMapping annotation to map this method to the "/teams/{id}" pattern.
   - Define a parameter named "id" of type Long annotated with @PathVariable.
   - Logic: return the result of the teamRepository's findById(id).get() method.  (The findById() returns a Java 8 "Optional", and the get() simply returns the actual Team.
 
-19.  Save all work.  Stop the application if it is already running, and start it again.  Use [http://localhost:8080/teams](http://localhost:8080/teams) to note the generated ID values for each Team.  Then use URLs such as  [http://localhost:8080/teams/1](http://localhost:8080/teams/1) or [http://localhost:8080/teams/2](http://localhost:8080/teams/2) to get results for the individual teams.
+22.  Save all work.  Stop the application if it is already running, and start it again.  Use [http://localhost:8080/teams](http://localhost:8080/teams) to note the generated ID values for each Team.  Then use URLs such as  [http://localhost:8080/teams/1](http://localhost:8080/teams/1) or [http://localhost:8080/teams/2](http://localhost:8080/teams/2) to get results for the individual teams.
 
   
   **Part 5 - Add Players**
 
-20.  Add a new class named Player.  Add fields for id, name, and position.  The id should be Long, and other fields can be Strings.  Generate getters / setters for each field.  Add an @Entity annotation on the class, and @Id and @GeneratedValue annotations on the id.   You may wish to add a custom constructor to make it easy to create a Player object by supplying name and position Strings.  (If you do this, be sure to retain a default constructor).  Save your work.
+23.  Add a new class named Player.  Add fields for id, name, and position.  The id should be Long, and other fields can be Strings.  Generate getters / setters for each field.  Add an @Entity annotation on the class, and @Id and @GeneratedValue annotations on the id.   You may wish to add a custom constructor to make it easy to create a Player object by supplying name and position Strings.  (If you do this, be sure to retain a default constructor).  Save your work.
 
-21.  Open the Team class.  Add a Set of Player objects named players.  Generate getters and setters.  Annotate the set with 	@OneToMany(cascade=CascadeType.ALL) and @JoinColumn(name="teamId"). You may wish to add a custom constructor to make it easy to create a Team object by supplying name, location, and Set of Players.  (If you do this, be sure to retain a default constructor).  Save your work.
+24.  Open the Team class.  Add a Set of Player objects named players.  Generate getters and setters.  Annotate the set with 	@OneToMany(cascade=CascadeType.ALL) and @JoinColumn(name="teamId"). You may wish to add a custom constructor to make it easy to create a Team object by supplying name, location, and Set of Players.  (If you do this, be sure to retain a default constructor).  Save your work.
 
-22.  Return to application's main configuration / launch class and alter the team population logic to add some players to each team.  Here is an example implementation:
+25.  Return to application's main configuration / launch class and alter the team population logic to add some players to each team.  Here is an example implementation:
 
   ```
     @PostConstruct
@@ -143,42 +149,42 @@
 	}   
   ```
 
-23.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.
+26.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.
 
 
   **Part 6 - Add Spring Data REST**
-24.  Open the project's POM.  Add a dependency for group org.springframework.boot and artifact spring-boot-starter-data-rest.  Save your work.
+27.  Open the project's POM.  Add a dependency for group org.springframework.boot and artifact spring-boot-starter-data-rest.  Save your work.
 
-25.  Open TeamRepository.  Add a @RestResource(path="teams", rel="team") annotation to the interface.
+28.  Open TeamRepository.  Add a @RestResource(path="teams", rel="team") annotation to the interface.
 
-26.  Create a new Interface called "PlayerRepository".  Have it extend CrudRepository<Player,Long>.  (Be sure to create this as an Interface, not a Class)!  Add a @RestResource(path="players", rel="player") annotation to the interface.
+29.  Create a new Interface called "PlayerRepository".  Have it extend CrudRepository<Player,Long>.  (Be sure to create this as an Interface, not a Class)!  Add a @RestResource(path="players", rel="player") annotation to the interface.
 
-27.  Open TeamController.  Comment out the @RestController annotation on the class.  (We will be using Spring Data REST to implement the controller, so we don't want this existing controller to interfere).
+30.  Open TeamController.  Comment out the @RestController annotation on the class.  (We will be using Spring Data REST to implement the controller, so we don't want this existing controller to interfere).
 
-28.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.  Note that (depending on the browser you are using) you can navigate the links for players and teams.
+31.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.  Note that (depending on the browser you are using) you can navigate the links for players and teams.
 
   If you have reached this point, Congratulations, you have finished the exercise!
 
 
   **Part 7 (Optional) - Explore the Actuator Endpoints**
 
-29.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
+32.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
   - [/actuator/info](http://localhost:8080/actuator/info)
   - [/actuator/health](http://localhost:8080/actuator/health)
 
-30.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
+33.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
   - [/actuator/beans](http://localhost:8080/actuator/beans)
   - [/actuator/configprops](http://localhost:8080/actuator/configprops)
   - [/actuator/autoconfig](http://localhost:8080/actuator/env)
 
-31.  Enable these actuator endpoints by adding the following setting to your application.properties (save your work and restart):
+34.  Enable these actuator endpoints by adding the following setting to your application.properties (save your work and restart):
   - management.endpoints.web.exposure.include=beans,configprops,mappings,env
  
-32.  Explore [/actuator/mappings](http://localhost:8080/actuator/mappings).  This is a useful one for debugging web applications.  Search through and see where the @GetMappings you set earlier are setup.
+35.  Explore [/actuator/mappings](http://localhost:8080/actuator/mappings).  This is a useful one for debugging web applications.  Search through and see where the @GetMappings you set earlier are setup.
 
   **Part 8 (Optional) - DevTools**
   
-33.  Often while developing we need to run an application, then make some changes, then restart.  The Spring Boot "DevTools" dependency can make things easier by automatically restarting when changes are detected  (though it is not as full-featured as other tools like JRebel).  Add the following dependency: 
+36.  Often while developing we need to run an application, then make some changes, then restart.  The Spring Boot "DevTools" dependency can make things easier by automatically restarting when changes are detected  (though it is not as full-featured as other tools like JRebel).  Add the following dependency: 
 
   ```
     <dependency>
@@ -188,7 +194,7 @@
     </dependency>  
   ```
   
-34.  While your application is running, make a small, innocent change to some code (like a comment or spacing).  Observe that depending on the change, DevTools will restart your application.  
+37.  While your application is running, make a small, innocent change to some code (like a comment or spacing).  Observe that depending on the change, DevTools will restart your application.  
 
 Tips:
 - When running in Eclipse or STS, you can get automatic hot-swapping of many code changes without DevTools if you "debug" the application rather than "run" it.
