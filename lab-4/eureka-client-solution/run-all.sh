@@ -1,6 +1,6 @@
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=subject" &
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=verb" &
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=article" &
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=adjective" &
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=noun" &
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=sentence"
+mvn spring-boot:run -Dspring-boot.run.profiles=subject &
+mvn spring-boot:run -Dspring-boot.run.profiles=verb &
+mvn spring-boot:run -Dspring-boot.run.profiles=article &
+mvn spring-boot:run -Dspring-boot.run.profiles=adjective &
+mvn spring-boot:run -Dspring-boot.run.profiles=noun &
+mvn spring-boot:run -Dspring-boot.run.profiles=sentence
