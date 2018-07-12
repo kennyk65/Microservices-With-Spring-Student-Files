@@ -43,6 +43,14 @@
 
 14.  Add the Hystrix Dashboard to your sentence server.  Begin by adding the spring-cloud-starter-netflix-hystrix-dashboard dependency.  Next add @EnableHystrixDashboard annotation to your Application configuration class.  Finally add this property to application.* to allow Actuator to expose the Hystrix stream: 
 
+```
+    management: 
+      endpoints: 
+        web: 
+          exposure: 
+            include: 'hystrix.stream'
+```
+
 15.  Restart the sentence server.  Open [http://localhost:8020/hystrix](http://localhost:8020/hystrix).  When prompted, enter http://localhost:8020/actuator/hystrix.stream as the host to monitor.  
 
 16.  Refresh [http://localhost:8020/sentence](http://localhost:8020/sentence) several times to generate activity.  If you like, stop and restart the subject, noun, and adjective services to observer circuit breakers in use.
