@@ -8,7 +8,9 @@ spring:
           searchPaths: ConfigData
 server:
   port: 8001
-# For simplicity, disable security when posting to bus/refresh:  
-management:
-  security:
-    enabled: false
+
+# This controls which Actuator web endpoints are exposed.  
+# Ordinarily, only /actuator/health and /actuator/info are exposed, 
+# But we need to allow external parties to POST to /bus-refresh:    
+management.endpoints.web.exposure.include: health,info,bus-refresh   
+  
