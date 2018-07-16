@@ -50,6 +50,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Team seems to have forgotten about this dependency, needed to run test: -->
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+		</dependency>
+
 		<!-- Allow for automatic restarts when classpath contents change. -->
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>
