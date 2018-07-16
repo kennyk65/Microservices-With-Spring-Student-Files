@@ -45,3 +45,9 @@ spring:
   application:
     name: noun
     
+# This profile is used when running JUnit tests locally.  A spring.application.name must be provided.    
+---      
+spring:
+  profiles: local-test
+  application:
+    name: local
