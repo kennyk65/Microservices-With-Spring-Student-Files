@@ -50,6 +50,4 @@
 
 **Reflection:**  
 
-1. Did you notice the mis-match in the property name?  Your repository used the name "wordConfig" but the @ConfigurationProperties used "word-config" as the prefix.  We could have used "word-config" for both, this was only done to highlight Boot's "relaxed property binding".
-
-2. Our solution blasts the configuration changes to all clients.  We could have targeted clients more selectively by altering the POST to the config server.  See the docs for details. 
+1. Our solution blasts the configuration changes to all clients.  We could have targeted clients more selectively by altering the POST to the config server.  See the docs for details. 
