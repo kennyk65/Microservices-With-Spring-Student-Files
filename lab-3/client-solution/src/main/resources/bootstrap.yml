@@ -1,11 +1,17 @@
+# Properties active for ALL profiles:
+---
+spring:
+  application:
+    name: lab-3-client
+server:
+  port: 8002
+
+
+# Properties activated if "northamerica" is the active profile:
 ---
 spring:
   profiles:
     active: northamerica
-  application:
-    name: lab-3-client
   cloud:
     config:
       uri: http://localhost:8001
-server:
-  port: 8002

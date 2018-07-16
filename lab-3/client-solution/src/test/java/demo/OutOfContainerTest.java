@@ -28,7 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles("test")	//	"Keep the 'NorthAmerica" profile from loading, keep the external config server from being called.
+@ActiveProfiles("local-test")	//	"Keep the 'NorthAmerica" profile from loading, keep the external config server from being called.
 public class OutOfContainerTest {
 
 	@Autowired WebApplicationContext spring;
