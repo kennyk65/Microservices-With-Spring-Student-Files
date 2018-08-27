@@ -80,6 +80,17 @@ server.port=8002
 
 14.  Start your client.  Open [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word).  You should see the lucky word message in your browser.
 
+> (Note: if you receive an error, and your server (above) is working properly, first confirm that your client is actually contacting your server.  The Client's console output should contain lines similar to this:
+
+
+```
+    ... c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8001
+    ... c.c.c.ConfigServicePropertySourceLocator : Located environment: name=lab-3-client, profiles=[default], label=null, version=d200aa331ac9945354579204ea816157251059f6, state=null
+    ... b.c.PropertySourceBootstrapConfiguration : Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='configClient'}, ...]}
+```
+    
+> If you do not see these lines, your client is NOT contacting your server.  Check the items above (application name, config server URI, name / location of your config files, etc.) before proceeding.  
+
   **BONUS - Profiles:**
 
 15. Create a separate file in your GitHub repository called "lab-3-client-northamerica.yml” (or .properties).  Populate it with the "lucky-word" key and a different value than used in the original file.
