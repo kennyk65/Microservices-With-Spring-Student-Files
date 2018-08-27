@@ -1,17 +1,22 @@
 # Properties active for ALL profiles:
 ---
+# This 'name' of our application is important 
+# as the config server typically has to serve up properties for many applictions:
 spring:
   application:
-    name: lab-3-client
-server:
-  port: 8002
-
-
-# Properties activated if "northamerica" is the active profile:
----
-spring:
-  profiles:
-    active: northamerica
+    name: lab-3-client					# What set of properties will we ask the config server for?
+  
   cloud:
     config:
-      uri: http://localhost:8001
+      uri: http://localhost:8001		# Where should we call the config server at?
+    
+server:
+  port: 8002							# What port should we expose for our web interface
+
+
+# Uncomment these lines to activate "northamerica" as the active profile.
+# Ordinarily we would not activate a profile from within a property file, but this is just a demo:
+#---
+#spring:
+#  profiles:
+#    active: northamerica
