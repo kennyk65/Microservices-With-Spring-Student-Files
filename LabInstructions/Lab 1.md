@@ -197,7 +197,7 @@ spring.mvc.pathmatch.use-suffix-pattern=true
 
 30.  Save all work.  Restart the application.  Open [http://localhost:8080/teams/1?format=xml](http://localhost:8080/teams/1?format=xml) or [http://localhost:8080/teams/1.xml](http://localhost:8080/teams/1.xml) to see the results in XML.  Use [http://localhost:8080/teams/1?format=json](http://localhost:8080/teams/1?format=json) or [http://localhost:8080/teams/1.json](http://localhost:8080/teams/1.json) to see the results in JSON.
   - Note that not all browsers display JSON & XML nicely, consider shopping for some plugins.
-  - Note that JAXB 2 will have issues with the /teams endpoint, since the type returned is not annotated with @@XmlRootElement, one of the reasons many prefer Jackson.
+  - Note that JAXB 2 will have issues with the /teams endpoint, since the type returned is not annotated with @XmlRootElement, one of the reasons many prefer Jackson.
   - Note that the Accept header (Accept=text/xml or Accept=application/json) can also be used to specify the desired content type - it's just a bit more work to set from the browser.  Use of an extension basis for content negotiation (i.e. .xml, .json) has fallen out of favor recently, see [suffix-based parameter matching](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-requestmapping-suffix-pattern-match).
   
   **Part 7 - Add Spring Data REST**
