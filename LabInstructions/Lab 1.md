@@ -103,11 +103,11 @@
 		return teamRepository.findAll();
 	}
   ```
+
 19.  Add this property to application.properties to control how the JPA implementation (Hibernate) should handle the DB schema:
   ```
         spring.jpa.hibernate.ddl-auto = update
   ```
-
 
 20.  Save all work.  Stop the application if it is already running, and start it again.  Open [http://localhost:8080/teams](http://localhost:8080/teams).  You should see a JSON response with your teams' data.
 
@@ -151,40 +151,90 @@
 
 26.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.
 
+  **Part 6 (Optional) - Add XML Support**
 
-  **Part 6 - Add Spring Data REST**
-27.  Open the project's POM.  Add a dependency for group org.springframework.boot and artifact spring-boot-starter-data-rest.  Save your work.
+27. REST applications should return the content type requested by the clients when possible.  Spring Boot can easily support formats like XML based on dependencies (JAXB 2, Jackson) on the classpath.  Unfortunately, versions of Java after 8.x no longer include JAXB 2, so XML support requires a bit of effort on our part by adding either JAXB 2 OR Jackson dependencies.  Open your POM and add dependencies for EITHER Jackson (recommended):
 
-28.  Open TeamRepository.  Add a @RestResource(path="teams", rel="team") annotation to the interface.
+  ```
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+  ```
 
-29.  Create a new Interface called "PlayerRepository".  Have it extend CrudRepository<Player,Long>.  (Be sure to create this as an Interface, not a Class)!  Add a @RestResource(path="players", rel="player") annotation to the interface.
+JAXB 2:
 
-30.  Open TeamController.  Comment out the @RestController annotation on the class.  (We will be using Spring Data REST to implement the controller, so we don't want this existing controller to interfere).
+  ```
+<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+    <version>2.3.0</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>javax.activation</groupId>
+    <artifactId>javax.activation-api</artifactId>
+    <version>1.2.0</version>
+</dependency>
+  ```
 
-31.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.  Note that (depending on the browser you are using) you can navigate the links for players and teams.
+28.  If using JAXB2, you must also add an @XmlRootElement annotation to your Teams class.
+
+29.  Add these properties to your application.properties file to allow control of the desired format through either an extension/suffix or query parameter:
+
+  ```
+# URL ending with ?format=xml can specify requested media type:
+spring.mvc.contentnegotiation.favor-parameter=true
+       
+# URL ending with .xml or .json can specify the requested media type:       
+spring.mvc.contentnegotiation.favor-path-extension=true  
+spring.mvc.pathmatch.use-suffix-pattern=true
+  ```
+
+30.  Save all work.  Restart the application.  Open [http://localhost:8080/teams/1?format=xml](http://localhost:8080/teams/1?format=xml) or [http://localhost:8080/teams/1.xml](http://localhost:8080/teams/1.xml) to see the results in XML.  Use [http://localhost:8080/teams/1?format=json](http://localhost:8080/teams/1?format=json) or [http://localhost:8080/teams/1.json](http://localhost:8080/teams/1.json) to see the results in JSON.
+  - Note that not all browsers display JSON & XML nicely, consider shopping for some plugins.
+  - Note that JAXB 2 will have issues with the /teams endpoint, since the type returned is not annotated with @@XmlRootElement, one of the reasons many prefer Jackson.
+  - Note that the extension basis of content negotiation (i.e. .xml, .json) has fallen out of favor recently, see [suffix-based parameter matching](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-requestmapping-suffix-pattern-match).
+  
+  **Part 7 - Add Spring Data REST**
+
+31.  Open the project's POM.  Add a dependency for group org.springframework.boot and artifact spring-boot-starter-data-rest.  Save your work.
+
+32.  Open TeamRepository.  Add a @RestResource(path="teams", rel="team") annotation to the interface.
+
+33.  Create a new Interface called "PlayerRepository".  Have it extend CrudRepository<Player,Long>.  (Be sure to create this as an Interface, not a Class)!  Add a @RestResource(path="players", rel="player") annotation to the interface.
+
+34.  Open TeamController.  Comment out the @RestController annotation on the class.  (We will be using Spring Data REST to implement the controller, so we don't want this existing controller to interfere).
+
+35.  Save all work.  Restart the application.  Open [http://localhost:8080/teams](http://localhost:8080/teams) to see the players.  Note that (depending on the browser you are using) you can navigate the links for players and teams.
+  - Note that Spring Data REST does not presently support XML, so the format=xml or .xml will have no effect (unfortunately).
 
   If you have reached this point, Congratulations, you have finished the exercise!
 
 
-  **Part 7 (Optional) - Explore the Actuator Endpoints**
+  **Part 8 (Optional) - Explore the Actuator Endpoints**
 
-32.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
+36.  One of the dependencies we specified was Actuator.  It automatically adds some useful endpoints to our web application.  Open the following with a browser:
   - [/actuator/info](http://localhost:8080/actuator/info)
   - [/actuator/health](http://localhost:8080/actuator/health)
 
-33.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
+37.  Notice that some other actuator endpoints are not enabled by default.  Try the following - they won't work, but take a close look at the reason why - exposing these could be a security risk:
   - [/actuator/beans](http://localhost:8080/actuator/beans)
   - [/actuator/configprops](http://localhost:8080/actuator/configprops)
   - [/actuator/autoconfig](http://localhost:8080/actuator/env)
 
-34.  Enable these actuator endpoints by adding the following setting to your application.properties (save your work and restart):
+38.  Enable these actuator endpoints by adding the following setting to your application.properties (save your work and restart):
   - management.endpoints.web.exposure.include=beans,configprops,mappings,env
  
-35.  Explore [/actuator/mappings](http://localhost:8080/actuator/mappings).  This is a useful one for debugging web applications.  Search through and see where the @GetMappings you set earlier are setup.
+39.  Explore [/actuator/mappings](http://localhost:8080/actuator/mappings).  This is a useful one for debugging web applications.  Search through and see where the @GetMappings you set earlier are setup.
 
-  **Part 8 (Optional) - DevTools**
+  **Part 9 (Optional) - DevTools**
   
-36.  Often while developing we need to run an application, then make some changes, then restart.  The Spring Boot "DevTools" dependency can make things easier by automatically restarting when changes are detected  (though it is not as full-featured as other tools like JRebel).  Add the following dependency: 
+40.  Often while developing we need to run an application, then make some changes, then restart.  The Spring Boot "DevTools" dependency can make things easier by automatically restarting when changes are detected  (though it is not as full-featured as other tools like JRebel).  Add the following dependency: 
 
   ```
     <dependency>
@@ -194,7 +244,7 @@
     </dependency>  
   ```
   
-37.  While your application is running, make a small, innocent change to some code (like a comment or spacing).  Observe that depending on the change, DevTools will restart your application.  
+41.  While your application is running, make a small, innocent change to some code (like a comment or spacing).  Observe that depending on the change, DevTools will restart your application.  
 
 Tips:
 - When running in Eclipse or STS, you can get automatic hot-swapping of many code changes without DevTools if you "debug" the application rather than "run" it.
