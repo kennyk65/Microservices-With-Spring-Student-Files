@@ -22,15 +22,5 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    
-//	@Bean
-//	public TurbineProperties turbineProperties() {
-//		return new TurbineProperties();
-//	}
-//
-//	@Bean
-//	public InstanceDiscovery instanceDiscovery() {
-//		return new ConfigPropertyBasedDiscovery();
-//	}
-    
+        
 }

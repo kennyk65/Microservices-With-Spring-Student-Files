@@ -1,22 +1,23 @@
 ---
 # Items that apply to ALL profiles:
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8010/eureka/,http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
-  instance:
-    metadata-map:
-      management.port: ${management.port:8081}
-server:
-  port: 8030
   
-info:
-  component: Turbine
-
+# The name of our 'cluster' of servers (group of things we want to watch) will be 'default'.
+# This eliminates the need to specify a cluster name when opening a stream.
+# "appConfig" allows us to describe the service IDs we want to listen to.  
 turbine:
-  clusterNameExpression: new String("default")
   appConfig: sentence,subject,verb,article,adjective,noun
-
+  clusterNameExpression: "'default'"
+  
 management:
-  port: 8990  
 
+  # Tell Spring Boot Actuator to expose the hystrix.stream endpoint.
+  # This is listened to by the Hystrix dashboard for monitoring purposes:
+  endpoints: 
+    web: 
+      exposure: 
+        include: 'hystrix.stream'
+        
+# To use:
+# Run as Spring Boot app.
+# Open http://localhost:8030/hystrix
+# Type in the stream name of "http://localhost:8030/turbine.stream".  Monitor stream.      

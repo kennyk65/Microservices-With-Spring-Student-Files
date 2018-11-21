@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.test</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>lab-7-turbine-solution</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -39,6 +39,13 @@
     </dependencyManagement>
     
    	<dependencies>
+   	
+		<!-- Needed since 1.0.2 -->
+		<dependency>
+        	<groupId>org.springframework.cloud</groupId>
+        	<artifactId>spring-cloud-starter-config</artifactId>
+    	</dependency>
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-turbine</artifactId>

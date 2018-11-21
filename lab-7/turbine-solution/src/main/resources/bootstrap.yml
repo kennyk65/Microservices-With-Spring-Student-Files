@@ -1,4 +1,10 @@
+# Properties active for ALL profiles:
 ---
 spring:
   application:
     name: turbine
+  cloud:
+    config:
+      uri: http://localhost:8001  # Expect the Spring Cloud Config server to be running on localhost, port 8001.  
+server:
+  port: 8030      # Fix the turbine server to 8030.  This makes it easy to find.    
