@@ -28,6 +28,8 @@
 
 4. Save an application.yml (or properties) file in the root of your classpath (src/main/resources recommended).  Add the following key / values (use correct YAML formatting):
   - server.port: 8010
+  - eureka.client.register-with-eureka: false
+  - eureka.client.fetch-registry: false
 
 5. (optional) Save a bootstrap.yml (or properties) file in the root of your classpath.  Add the following key / values (use correct YAML formatting):
   - spring.application.name=lab-4-eureka-server
