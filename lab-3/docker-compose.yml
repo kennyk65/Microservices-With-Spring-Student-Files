@@ -1,0 +1,29 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl lab-3/client-solution,lab-3/server-solution spring-boot:build-image
+services:
+  lab3-client:
+    image: 'lab-3-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://lab3-server:8001
+    ports:
+      - '8002:8002'
+  lab3-server:
+    image: 'lab-3-server-solution:1'
+    environment:
+      # You could override repo URL with personal fork of the repo
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/textangustus/Microservices-With-Spring-Student-Files
+  healthchecker:
+    image: curlimages/curl:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - lab3-server
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://lab3-server:8001/actuator/info"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+

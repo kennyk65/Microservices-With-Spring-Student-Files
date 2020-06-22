@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@ConfigurationProperties(prefix="wordConfig")
+@ConfigurationProperties(prefix="word-config")
 public class LuckyWordController {
 	 
 	String luckyWord;

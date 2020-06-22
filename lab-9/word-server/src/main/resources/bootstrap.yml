@@ -10,8 +10,7 @@ server:
 # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
 eureka:
   instance:
-    metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 # Depending on which profile is active, the application gives 
 # itself a different name when registering with Eureka
@@ -42,6 +41,12 @@ spring:
 ---
 spring:
   profiles: noun
+  application:
+    name: noun
+
+---
+spring:
+  profiles: cold-noun
   application:
     name: noun
 

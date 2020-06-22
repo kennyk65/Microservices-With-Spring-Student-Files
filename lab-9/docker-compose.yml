@@ -1,0 +1,88 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl lab-9/word-server,lab-9/gateway-solution spring-boot:build-image
+services:
+  # EUREKA CLUSTER - 3 instances
+  eureka-primary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-primary
+  eureka-secondary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-secondary
+  eureka-tertiary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-tertiary
+  # CONFIG SERVER
+  config-server:
+    extends:
+      file: ../common/docker-compose.yml
+      service: config-server
+  healthchecker:
+    extends:
+      file: ../common/docker-compose.yml
+      service: healthchecker
+    depends_on:
+      - config-server
+  # GATEWAY
+  gateway-api:
+    image: 'lab-9-gateway-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=eurekacluster
+    ports:
+      - '8080:8080'
+  # WORD INSTANCES
+  word-server-subject:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=subject,eurekacluster
+  word-server-verb:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=verb,eurekacluster
+  word-server-article:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=article,eurekacluster
+  word-server-adjective:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=adjective,eurekacluster
+  word-server-noun:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=noun,eurekacluster
+  word-server-cold-noun:
+    image: 'lab-9-word-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=cold-noun,eurekacluster

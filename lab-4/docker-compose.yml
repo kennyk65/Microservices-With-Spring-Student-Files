@@ -1,0 +1,74 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl lab-4/eureka-client-solution/,lab-4/eureka-server-solution spring-boot:build-image
+services:
+  lab4-client-sentence:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=sentence,eurekacluster
+    ports:
+      - '8020:8020'
+  lab4-client-subject:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=subject,eurekacluster
+  lab4-client-verb:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=verb,eurekacluster
+  lab4-client-article:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=article,eurekacluster
+  lab4-client-adjective:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=adjective,eurekacluster
+  lab4-client-noun:
+    image: 'lab-4-eureka-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=noun,eurekacluster
+  # Eureka Cluster - 3 instances
+  eureka-primary:
+    image: 'lab-4-eureka-server-solution:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=primary
+    ports:
+      - '8011:8011'
+  eureka-secondary:
+    image: 'lab-4-eureka-server-solution:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=secondary
+  eureka-tertiary:
+    image: 'lab-4-eureka-server-solution:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=tertiary
+  healthchecker:
+    image: curlimages/curl:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - eureka-primary
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka-primary:8011/actuator/info"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+

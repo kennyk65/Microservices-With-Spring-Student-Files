@@ -26,6 +26,7 @@
         <module>lab-5/sentence-server</module>
         <module>lab-5/sentence-server-solution</module>
         <module>lab-5/word-server</module>
+        <module>lab-5/word-server-solution</module>
 
         <module>lab-6/sentence-server</module>
         <module>lab-6/sentence-server-solution</module>
@@ -45,6 +46,11 @@
         <module>lab-9/gateway</module>
         <module>lab-9/gateway-solution</module>
         <module>lab-9/word-server</module>
+
+        <module>lab-10/client</module>
+        <module>lab-10/client-solution</module>
+        <module>lab-10/config-server</module>
+        <module>lab-10/config-server-solution</module>
 
     </modules>
 
