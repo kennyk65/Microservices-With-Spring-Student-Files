@@ -35,7 +35,7 @@
 
 9.  Stop the lab-9-gateway application.
 
-10.  Add the dependency for the config client.  org.springframework.cloud / spring-cloud-config-client.  
+10.  Add the dependency for the config client.  org.springframework.cloud / spring-cloud-starter-config.  
 
 11.  Add the dependency for Eureka-based service discovery.  org.springframework.cloud / spring-cloud-starter-netflix-eureka-client.
 
