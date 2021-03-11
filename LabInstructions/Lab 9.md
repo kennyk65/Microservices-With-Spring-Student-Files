@@ -1,4 +1,4 @@
-##Lab 9 - Simple API Gateway with Zuul
+## Lab 9 - Simple API Gateway with Zuul
 
   **Part 1 - Startup**
 
