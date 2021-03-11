@@ -1,0 +1,31 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl lab-10/config-server-solution,lab-10/client-solution spring-boot:build-image
+services:
+  # CONFIG SERVER
+  config-server:
+    image: 'lab-10-config-server-solution:1'
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/textangustus/Microservices-With-Spring-Student-Files
+      - SPRING_SECURITY_USER_NAME=myuser
+      - SPRING_SECURITY_USER_PASSWORD={cipher}7658ece969ac71bd6295b7cd74ca3d4839e87d5499811969e76ff21a3f8cc7e4
+    ports:
+      - '8001:8001'
+  healthchecker:
+    image: curlimages/curl:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-u", "myuser:mysecret", "http://config-server:8001/actuator/info"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+  # CLIENT SERVER
+  lab-10-client-server:
+    image: 'lab-10-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://myuser:mysecret@config-server:8001
+    ports:
+      - '8002:8002'

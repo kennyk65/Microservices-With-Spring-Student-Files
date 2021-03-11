@@ -1,0 +1,34 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl common/config-server,common/eureka-server spring-boot:build-image
+services:
+  # EUREKA CLUSTER - 3 instances
+  eureka-primary:
+    image: 'common-eureka-server:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=primary
+    ports:
+      - '8011:8011'
+  eureka-secondary:
+    image: 'common-eureka-server:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=secondary
+  eureka-tertiary:
+    image: 'common-eureka-server:1'
+    environment:
+      - SPRING_PROFILES_ACTIVE=tertiary
+  # CONFIG SERVER
+  config-server:
+    image: 'common-config-server:1'
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/textangustus/Microservices-With-Spring-Student-Files
+    ports:
+      - '8001:8001'
+  healthchecker:
+    image: curlimages/curl:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://config-server:8001/actuator/info"]
+      interval: 5s
+      timeout: 10s
+      retries: 3

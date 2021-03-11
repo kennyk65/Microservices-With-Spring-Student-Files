@@ -1,0 +1,39 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl lab-8/client-solution,lab-8/config-server-solution spring-boot:build-image
+services:
+  # CONFIG SERVER
+  config-server:
+    image: 'lab-8-config-server-solution:1'
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/textangustus/Microservices-With-Spring-Student-Files
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=user
+      - SPRING_RABBITMQ_PASSWORD=bitnami
+    depends_on:
+      - rabbitmq
+    ports:
+      - '8001:8001'
+  healthchecker:
+    extends:
+      file: ../common/docker-compose.yml
+      service: healthchecker
+    depends_on:
+      - config-server
+  # CLIENT SERVER
+  lab-8-client-server:
+    image: 'lab-8-client-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=user
+      - SPRING_RABBITMQ_PASSWORD=bitnami
+    ports:
+      - '8002:8002'
+  rabbitmq:
+    image: 'docker.io/bitnami/rabbitmq:3.8-debian-10'

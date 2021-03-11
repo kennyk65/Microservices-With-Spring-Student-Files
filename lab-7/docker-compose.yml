@@ -1,0 +1,109 @@
+version: '2.4'
+# Remember to build images before up:
+# ./mvnw -pl common/config-server,common/eureka-server,lab-7/sentence-server-solution,lab-7/sentence-server-solution-reactive,lab-7/turbine-solution,lab-7/word-server spring-boot:build-image
+services:
+  # EUREKA CLUSTER - 3 instances
+  eureka-primary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-primary
+  eureka-secondary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-secondary
+  eureka-tertiary:
+    extends:
+      file: ../common/docker-compose.yml
+      service: eureka-tertiary
+  # CONFIG SERVER
+  config-server:
+    extends:
+      file: ../common/docker-compose.yml
+      service: config-server
+  healthchecker:
+    extends:
+      file: ../common/docker-compose.yml
+      service: healthchecker
+    depends_on:
+      - config-server
+  # WORD INSTANCES
+  word-server-subject:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=subject,eurekacluster
+  word-server-verb:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=verb,eurekacluster
+  word-server-article:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=article,eurekacluster
+  word-server-adjective:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=adjective,eurekacluster
+  word-server-noun:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=noun,eurekacluster
+  word-server-cold-noun:
+    image: 'lab-7-word-server:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=cold-noun,eurekacluster
+  # SENTENCE INSTANCES
+  lab-7-sentence-server:
+    image: 'lab-7-sentence-server-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=eurekacluster
+    ports:
+      - '8020:8020'
+  lab-7-sentence-server-reactive:
+    image: 'lab-7-sentence-server-solution-reactive:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=eurekacluster
+    ports:
+      - '8021:8021'
+  # TURBINE HYSTRIX MONITOR
+  lab-7-turbine-solution:
+    image: 'lab-7-turbine-solution:1'
+    depends_on:
+      healthchecker:
+        condition: service_healthy
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8001
+      - SPRING_PROFILES_ACTIVE=eurekacluster
+    ports:
+      - '8030:8030'

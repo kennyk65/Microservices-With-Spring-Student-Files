@@ -23,30 +23,51 @@ eureka:
 ---
 spring:
   profiles: primary
+  application:
+    name: eureka-server-clustered
 server:
   port: 8011  
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    hostname: eureka-primary
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8012/eureka/,http://localhost:8013/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://eureka-secondary:8012/eureka/,http://eureka-tertiary:8013/eureka/}
 
 ---
 spring:
   profiles: secondary
+  application:
+    name: eureka-server-clustered
 server:
   port: 8012  
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    hostname: eureka-secondary
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8013/eureka/,http://localhost:8011/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://eureka-tertiary:8013/eureka/,http://eureka-primary:8011/eureka/}
 
 ---
 spring:
   profiles: tertiary
+  application:
+    name: eureka-server-clustered
 server:
   port: 8013  
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    hostname: eureka-tertiary
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://eureka-primary:8011/eureka/,http://eureka-secondary:8012/eureka/}
       
