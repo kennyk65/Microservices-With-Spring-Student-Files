@@ -1,12 +1,14 @@
 ---
 # This default profile is used when running a single instance completely standalone:
+
 spring:
-  profiles: default
+  application:
+    name: common-eureka-server
 server:
   port: 8010  
 eureka:
   instance:
-    hostname: localhost  
+    hostname: eurekahost  
   client:
     registerWithEureka: false
     fetchRegistry: false
@@ -22,7 +24,7 @@ eureka:
 
 ---
 spring:
-  profiles: primary
+  config.activate.on-profile: primary
 server:
   port: 8011  
 eureka:
@@ -32,7 +34,7 @@ eureka:
 
 ---
 spring:
-  profiles: secondary
+  config.activate.on-profile: secondary
 server:
   port: 8012  
 eureka:
@@ -42,7 +44,7 @@ eureka:
 
 ---
 spring:
-  profiles: tertiary
+  config.activate.on-profile: tertiary
 server:
   port: 8013  
 eureka:

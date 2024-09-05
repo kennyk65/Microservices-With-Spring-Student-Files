@@ -10,14 +10,18 @@
 
 ---
 # Items that apply to ALL profiles:
-# eureka:
-#   client:
-#     serviceUrl:
-#      defaultZone: http://localhost:8010/eureka/
+eureka:
+  client:
+    serviceUrl:
+     defaultZone: http://localhost:8010/eureka/
+
+# Bonus option:
 #      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
-spring:
-  config:
-    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
+
+# Bonus option:
+# spring:
+#   config:
+#     import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
 
 
 
