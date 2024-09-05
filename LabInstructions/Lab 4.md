@@ -81,8 +81,8 @@
     - server.port: 8020
 
 1. Add a Controller class to assemble and return the sentence:
-    - Name the class anything you like.  Annotate it with @RestController.
-    - Use @Autowired to obtain a DiscoveryClient (import from Spring Cloud).
+    - Name the class anything you like.  Annotate it with `@RestController`.
+    - Use `@Autowired` to obtain a `DiscoveryClient` (import from Spring Cloud).
     - Add the following methods to serve the sentence based on the words obtained from the client services. (feel free to optimize / refactor this code as you like:
 
     ```
@@ -131,7 +131,7 @@
       </dependency>
     ```
 
-1. Edit each client application’s `application.yml` / properties file.  Remove the eureka client serviceUrl defaultZone key/value.  Now we will get this from the config server.
+1. Edit each client application’s `application.yml` / properties file.  Comment-out the eureka client serviceUrl defaultZone key/value.  Now we will get this from the config server.
 
 1. In each client project, add the following key/value to `application.yml` (or .properties), using correct formatting: 
     - spring.config.import: "optional:configserver:http://localhost:8001"
@@ -182,10 +182,10 @@
 1.  Within the lab-4-eureka-server project, add application.yml with multiple profiles:
 primary, secondary, tertiary.  The server.port value should be 8011, 8012, and 8013 respectively.  The eureka.client.serviceUrl.defaultZone for each profile should point to the "eureka-*" URLs of the other two; for example the primary value should be: http://eureka-secondary:8012/eureka/,http://eureka-tertiary:8013/eureka/
 
-1.  Run the application 3 times, using -Dspring.profiles.active=primary (and secondary, and tertiary) to activate the relevant profile.  The result should be 3 Eureka servers which communicate with each other.
+1.  Run the application 3 times, using `-Dspring.profiles.active=primary` (and secondary, and tertiary) to activate the relevant profile.  The result should be 3 Eureka servers which communicate with each other.
     * Expect to observe errors when the first two start; these errors are simply reporting that the other servers are not available - yet.  This is inevitable.
 
-1.  In your GitHub project, modify the application.properties eureka.client.serviceUrl.defaultZone to include the URIs of all three Eureka servers (comma-separated, no spaces).
+1.  In your GitHub project, modify the application.yml `eureka.client.serviceUrl.defaultZone` to include the URIs of all three Eureka servers (comma-separated, no spaces).
 
     ```
     eureka:
