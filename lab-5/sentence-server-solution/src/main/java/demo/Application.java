@@ -16,9 +16,11 @@ public class Application {
     }
 
     //	This "LoadBalanced" RestTemplate 
-    //	is automatically hooked into Ribbon:
-    @Bean @LoadBalanced
+    //	is automatically hooked into Spring Cloud's load balancer:
+    @Bean 
+    @LoadBalanced
     RestTemplate restTemplate() {
         return new RestTemplate();
     }    
+
 }

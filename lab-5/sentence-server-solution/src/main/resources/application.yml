@@ -1,0 +1,13 @@
+# Properties active for ALL profiles:
+---
+spring:
+  application:
+    name: sentence
+  config:
+    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
+
+server:
+  port: 8020      # Fix the sentence server to 8020.  This makes it easy to find.
+
+# Allow application to be useable from Eureka client.
+management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings

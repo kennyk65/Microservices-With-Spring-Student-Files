@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class SentenceController {
 
 	@Autowired DiscoveryClient client;
+	RestTemplate template = new RestTemplate();
 	
 	
 	/**
@@ -62,12 +63,17 @@ public class SentenceController {
 	public String getWord(String service) {
         List<ServiceInstance> list = client.getInstances(service);
         if (list != null && list.size() > 0 ) {
-      	URI uri = list.get(0).getUri();
-	      	if (uri !=null ) {
-	      		return (new RestTemplate()).getForObject(uri,String.class);
-	      	}
+			URI uri = list.get(0).getUri();
+			if (uri !=null ) {
+				try {
+					return template.getForObject(uri,String.class);
+				} catch (Exception e ) { 
+					System.out.println("Error retrieving " + service + " Error: " + e.getMessage());
+					return "(Error retrieving " + service + ")";
+				}
+			}
         }
-        return null;
+        return "(No " + service + " server found)";
 	}
 
 }
