@@ -1,9 +1,12 @@
 ---
 # This default profile is used when running a single instance completely standalone:
 spring:
-  profiles: default
+  application:
+    name: lab-4-eureka-server
+
 server:
   port: 8010  
+
 eureka:
   instance:
     hostname: eurekahost 
@@ -12,6 +15,7 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    
+
 
 # primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
 # side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
@@ -22,7 +26,7 @@ eureka:
 
 ---
 spring:
-  profiles: primary
+  config.activate.on-profile: primary
   application:
     name: eureka-server-clustered   
 server:
@@ -38,7 +42,7 @@ eureka:
 
 ---
 spring:
-  profiles: secondary
+  config.activate.on-profile: secondary
   application:
     name: eureka-server-clustered      
 server:
@@ -54,7 +58,7 @@ eureka:
 
 ---
 spring:
-  profiles: tertiary
+  config.activate.on-profile: tertiary
   application:
     name: eureka-server-clustered      
 server:

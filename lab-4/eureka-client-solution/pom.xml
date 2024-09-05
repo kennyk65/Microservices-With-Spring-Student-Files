@@ -5,36 +5,37 @@
 
 	<groupId>org.test</groupId>
 	<artifactId>lab-4-eureka-client-solution</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>01-boot-demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>lab-4-eureka-client-solution</name>
+	<description>Demo project illustrating a Eureka client</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
+		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>demo.MyApplication</start-class>
-		<java.version>1.8</java.version>
+		<start-class>demo.Application</start-class>
+		<java.version>21</java.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>		
 	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<dependencyManagement>
+		<dependencies>
+		  <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>${spring-cloud.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		  </dependency>
+		</dependencies>
+	</dependencyManagement>
     
    	<dependencies>
 	    <dependency>
@@ -57,6 +58,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Optional part of lab, remove from solution -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>		
 
 		<!-- Allow for automatic restarts when classpath contents change. -->
 	    <dependency>
