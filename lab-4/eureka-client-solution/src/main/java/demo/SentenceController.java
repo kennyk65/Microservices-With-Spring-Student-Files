@@ -1,10 +1,8 @@
 package demo;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class SentenceController {
 
 	@Autowired DiscoveryClient client;
+	private RestTemplate template = new RestTemplate();
 	
 	@GetMapping("/sentence")
 	public String getSentence() {
@@ -28,14 +27,14 @@ public class SentenceController {
 	}
 
 	public String getWord(String service) {
-        List<ServiceInstance> list = client.getInstances(service);
-        if (list != null && list.size() > 0 ) {
-      		URI uri = list.get(0).getUri();
-	      	if (uri !=null ) {
-	      		return (new RestTemplate()).getForObject(uri,String.class);
-	      	}
-        }
-        return null;
+		URI uri = 
+			client.getInstances(service)
+				.stream()
+				.findAny()
+				.orElseThrow(() -> new RuntimeException("No " + service + " instances available"))
+				.getUri()
+				;
+		return template.getForObject(uri,String.class);
 	}
 
 }
