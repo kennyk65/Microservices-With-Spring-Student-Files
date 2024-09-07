@@ -13,7 +13,7 @@
       - mvn spring-boot:run -Dspring.profiles.active=article
       - mvn spring-boot:run -Dspring.profiles.active=adjective
       - mvn spring-boot:run -Dspring.profiles.active=noun    
-    - Or if you wish to run from directly within STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK JMX port / live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+    - Or if you wish to run from directly within Eclipse/STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK JMX port / live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 		
 1.  Check the Eureka server running at [http://localhost:8010](http://localhost:8010).   Ignore any warnings about running a single instance; this is expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
 

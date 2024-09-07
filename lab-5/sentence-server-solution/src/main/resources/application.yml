@@ -11,3 +11,4 @@ server:
 
 # Allow application to be useable from Eureka client.
 management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings
+

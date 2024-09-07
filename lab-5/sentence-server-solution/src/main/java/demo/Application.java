@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -19,7 +20,7 @@ public class Application {
     //	is automatically hooked into Spring Cloud's load balancer:
     @Bean 
     @LoadBalanced
-    RestTemplate restTemplate() {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }    
 
