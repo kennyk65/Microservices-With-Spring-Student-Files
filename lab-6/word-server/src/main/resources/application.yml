@@ -13,7 +13,7 @@ eureka:
 
 words: fallback
 
-# Expose Actuator endpoints.  Allow application to be useable from Eureka client.
+# Expose Actuator endpoints.  Allow application to be more useful from Eureka.
 management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings
 management.info:
   env.enabled: true
