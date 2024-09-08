@@ -10,13 +10,20 @@ import demo.domain.Word;
 
 public abstract class WordDaoImpl implements WordDao {
 
-	@Autowired LoadBalancerClient loadBalancer;
-	
+	//	Inject the load-balancing RestTemplate:
+	@Autowired  RestTemplate template;
+
 	public abstract String getPartOfSpeech();
 	
 	public Word getWord() {
-		ServiceInstance instance = loadBalancer.choose(getPartOfSpeech());
-   		return (new RestTemplate()).getForObject(instance.getUri(),Word.class);
+		String service = getPartOfSpeech();
+		try {
+			return template.getForObject("http://" + service, Word.class);
+		} catch (Exception e ) {
+			System.out.println("Error retrieving " + service + " Error: " + e.getMessage());
+			return new Word("(unknown " + service + ")");
+		}
+
 	}
 	
 }
