@@ -2,9 +2,9 @@ package demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
-
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import demo.dao.AdjectiveClient;
 import demo.dao.ArticleClient;
@@ -21,12 +21,17 @@ public class WordServiceImpl implements WordService {
 	@Autowired ArticleClient articleClient;
 	@Autowired AdjectiveClient adjectiveClient;
 	@Autowired NounClient nounClient;
-	
+	@Autowired CircuitBreakerFactory circuitBreakers;
 	
 	@Override
-	@HystrixCommand(fallbackMethod="getFallbackSubject")
 	public Word getSubject() {
-		return subjectClient.getWord();
+		return
+			circuitBreakers
+				.create("subject")
+				.run(
+					() -> subjectClient.getWord(),
+					(throwable) -> getFallbackSubject()
+				);
 	}
 	
 	@Override
@@ -40,16 +45,26 @@ public class WordServiceImpl implements WordService {
 	}
 	
 	@Override
-	@HystrixCommand(fallbackMethod="getFallbackAdjective")
 	public Word getAdjective() {
-		return adjectiveClient.getWord();
+		return
+			circuitBreakers
+				.create("adjective")
+				.run(
+					() -> adjectiveClient.getWord(),
+					(throwable) -> getFallbackAdjective()
+				);
 	}
 	
 	@Override
-	@HystrixCommand(fallbackMethod="getFallbackNoun")
 	public Word getNoun() {
-		return nounClient.getWord();
-	}	
+		return
+			circuitBreakers
+				.create("noun")
+				.run(
+					() -> nounClient.getWord(),
+					(throwable) -> getFallbackNoun()
+				);
+	}
 
 	public Word getFallbackSubject() {
 		return new Word("Someone");
