@@ -94,24 +94,33 @@
 
     **BONUS - Additional Fallbacks**
 
-1.  Refactor the getSubject method so that the hard-coded value “Someone” is substituted whenever the subject service is unavailable.  Refactor the getNoun method so that the hard-coded value “something” is substituted whenever the noun is unavailable.  Experiment with starting and stopping the subject and noun services.
+1.  Refactor the getSubject and / or getNoun methods so that the hard-coded value “Someone” / "Something" is substituted whenever the subject / noun service is unavailable.  Experiment with starting and stopping the subject and noun services.
 
-    **BONUS - Add Hystrix Dashboard**
-
-1.  Add the Hystrix Dashboard to your sentence server.  Begin by adding the spring-cloud-starter-netflix-hystrix-dashboard dependency.  Next add @EnableHystrixDashboard annotation to your Application configuration class.  Finally add this property to application.* to allow Actuator to expose the Hystrix stream: 
+1.  Experiment with slow-running services.  Run the noun service with the additional profile of "delay" included.  This will introduce a random 0-2 second delay to the response time.  You can configure the sentence server to trip the noun circuit breaker when slow results are common, experiment with the following settings:
 
     ```
-        management: 
-          endpoints: 
-            web: 
-              exposure: 
-                include: 'hystrix.stream'
+    resilience4j:
+      circuitbreaker:
+        instances:
+          noun:
+            slowCallDurationThreshold: 3s 	# Calls over three seconds are “slow”
+            slowCallRateThreshold: 50		# If > 50% are slow, trip the breaker
+            slidingWindowSize: 5            # Look at last five calls
+            minimumNumberOfCalls: 3         # After three calls, start doing calculations
+            waitDurationInOpenState: 10s    # After trip, wait ten seconds before trying again
     ```
 
-1.  Restart the sentence server.  Open [http://localhost:8020/hystrix](http://localhost:8020/hystrix).  When prompted, enter http://localhost:8020/actuator/hystrix.stream as the host to monitor.  
+    * Continually refresh the browser.
+    * You should experience the sentence server struggling to retrieve nouns until the breaker trips, then the word "something" is applied almost immediately.
+    * You should observe the sentence server slowing down periodically as Resilience4J attempts to close the circuit breaker.  Sometimes it will be successful and you will encounter slow production of diverse nouns.  Other times it will fail and you will encounter fast production of sentences ending in "something".
 
-1.  Refresh [http://localhost:8020/sentence](http://localhost:8020/sentence) several times to generate activity.  If you like, stop and restart the subject, noun, and adjective services to observer circuit breakers in use.
+1.  Experiment with random erro producing services.  Run the subject service with the additional profile of "exception" included.  This will introduce random RuntimeExceptions occurring roughly 50% of the time.  Configure the sentence server to trip the subject circuit breaker when the failure rate exceeds 70%.  Experiment with the following settings:
 
-  **BONUS - Add Asynchronous Behavior**
+    ```
+      subject:
+        failureRateThreshold: 70        # If > 70% fail, trip the breaker
+        slidingWindowSize: 10           # Look at last five calls
+        minimumNumberOfCalls: 3         # After three calls, start doing calculations
+        waitDurationInOpenState: 10s    # After trip, wait ten seconds before trying again
+    ```
 
-17.  If you like, you can attempt to increase the performance of our sentence server by making the service calls “reactively”.
