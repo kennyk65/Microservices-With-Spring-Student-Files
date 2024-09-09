@@ -17,10 +17,18 @@ management.info:
 info.active-profiles: ${spring.profiles.active:none}
 info.name: ${spring.application.name}
 
-## Tell Spring Boot Actuator to expose the hystrix.stream endpoint.
-## This is listened to by the Hystrix dashboard for monitoring purposes:
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: 'hystrix.stream'
+resilience4j:
+  circuitbreaker:
+    instances:
+      noun:
+        slowCallDurationThreshold: 3s 	# Calls over three seconds are “slow”
+        slowCallRateThreshold: 50		# If > 50% are slow, trip the breaker
+        slidingWindowSize: 5            # Look at last five calls
+        minimumNumberOfCalls: 3         # After three calls, start doing calculations
+        waitDurationInOpenState: 10s    # After trip, wait ten seconds before trying again
+
+      subject:
+        failureRateThreshold: 70        # If > 70% fail, trip the breaker
+        slidingWindowSize: 10           # Look at last five calls
+        minimumNumberOfCalls: 3         # After three calls, start doing calculations
+        waitDurationInOpenState: 10s    # After trip, wait ten seconds before trying again
