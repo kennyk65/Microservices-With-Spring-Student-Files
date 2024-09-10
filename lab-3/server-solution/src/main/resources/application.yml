@@ -1,4 +1,5 @@
 spring:
+  application.name: Lab 3 Config Server
   cloud:
     config:
       server:
@@ -8,8 +9,11 @@ spring:
         # "native" is used when the native profile is active, for local tests with a classpath repo:
         native:
           searchLocations: classpath:offline-repository/
+          
 server:
   port: 8001
 
 # Eliminate logging noise when "main" branch is not found in git repository:
-logging.level.org.springframework.cloud.config.server.environment: WARN
+logging.level:
+  org.springframework.cloud.config.server:
+    environment.MultipleJGitEnvironmentRepository: WARN

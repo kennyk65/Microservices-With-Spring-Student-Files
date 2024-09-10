@@ -1,5 +1,6 @@
 ---
 spring:
+  application.name: Common Config Server
   cloud:
     config:
       server:
@@ -14,7 +15,6 @@ server:
   port: 8001
 
 # Eliminate logging noise when "main" branch is not found in git repository:
-#logging.level.org.springframework.cloud.config.server.environment: WARN
 logging.level:
   org.springframework.cloud.config.server:
     environment.MultipleJGitEnvironmentRepository: WARN
