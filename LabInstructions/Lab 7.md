@@ -6,7 +6,7 @@
 
 1.  Start the common-config-server and common-eureka-server.  
 
-1.  Lab 7 has copies of the word server and sentence server that have been converted to use Feign.  Start 5 separate copies of the lab-7/word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
+1.  Lab 7 has copies of the word server and sentence server that have been converted to use Feign.  Start 5 separate copies of the **lab-7/word-server**, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
 
     - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
       - mvn spring-boot:run -Dspring.profiles.active=subject
@@ -27,7 +27,7 @@
       * Press "+" to add new configuration. Select "Application".  
       * Choose Name=noun, Main class=demo.Application.  
       * Click "Modify Options" / "Add VM Options".  
-      * Enter `-Dspring.profile.active=noun` in new field.
+      * Enter `-Dspring.profiles.active=noun` in new field.
       * Apply.  Run.  
       * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 
@@ -47,8 +47,13 @@
 
 1.  First, take a look at the lab-7/sentence-server project.  It has been refactored a bit from previous examples.  There is now a `WordService` and `WordServiceImpl` that wraps calls to the Feign clients.  This was mainly done to make the lab instructions easier, so that your code modifications are within one class.
 
-1.  Open the POM.  Add another dependency for spring-cloud-starter-circuitbreaker-resilience4j.
-    > Note that it is possible to use [Spring Retry](https://github.com/spring-projects/spring-retry) or [Sentinel](https://github.com/alibaba/Sentinel) here, but we will stick to one option. 
+1.  Open the POM.  Add another dependency for the Resilience4J Circuit Breaker (`org.springframework.cloud` / `spring-cloud-starter-circuitbreaker-resilience4j`).
+    * Note that it is possible to use [Spring Retry](https://github.com/spring-projects/spring-retry) or [Sentinel](https://github.com/alibaba/Sentinel) here, but we will stick to one option. 
+
+    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
+
+    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
+
 
 1.  Refactor the `WordServiceImpl` with circuit breaker logic.  Begin by injecting a `CircuitBreakerFactory` object.
 
