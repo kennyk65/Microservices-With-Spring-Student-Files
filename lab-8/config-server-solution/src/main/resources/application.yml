@@ -18,7 +18,7 @@ logging.level:
 # This controls which Actuator web endpoints are exposed.
 # Ordinarily, only /actuator/info is exposed,
 # But we need to allow external parties to POST to /bus-refresh:
-management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings,bus-refresh
+management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings,refresh,bus-refresh
 management.info:
   env.enabled: true
   java.enabled: true
