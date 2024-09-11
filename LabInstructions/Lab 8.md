@@ -18,6 +18,11 @@
     * Spring Cloud Bus - AMQP (`org.springframework.cloud` /  `spring-cloud-starter-bus-amqp`).
     * Spring Boot Actuator (`org.springframework.boot` / `spring-boot-starter-actuator`).
 
+    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
+
+    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
+
+
 1.  Open application.yml.  Change the `spring.cloud.config.server.git.uri` to your own personal git repository.  If you are not sure what this is, take a look back at lab 3 where we first introduced spring cloud config.
 
 1.  Also within application.yml: notice the entry for `management.endpoints.web.exposure.include`.  It includes `bus-refresh`.  This permits external POST requests to trigger the refresh.
