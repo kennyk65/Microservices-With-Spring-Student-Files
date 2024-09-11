@@ -6,15 +6,38 @@
 
 1.  Open the common-config-server and the common-eureka-server.  These are versions of what you created and used in the last few chapters.  (If you completed the bonus for lab 4 you may have altered the common-config-server's application.yml to point to your own github repository.  If so, you should revert this location back to the course's github repository.)  Run the common-config-server, and run the common-eureka-server.
 
-1.  Start 5 separate copies of the lab-5-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
+1.  Start 5 separate copies of the lab-5/word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
+
     - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
       - mvn spring-boot:run -Dspring.profiles.active=subject
       - mvn spring-boot:run -Dspring.profiles.active=verb
       - mvn spring-boot:run -Dspring.profiles.active=article
       - mvn spring-boot:run -Dspring.profiles.active=adjective
-      - mvn spring-boot:run -Dspring.profiles.active=noun    
-    - Or if you wish to run from directly within Eclipse/STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK JMX port / live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
-		
+      - mvn spring-boot:run -Dspring.profiles.active=noun
+
+    - If you wish to build the code and run the JAR, run `mvn package` in the project's root.  Then open separate command prompts in the target directory and run these commands:
+      - java -jar -Dspring.profiles.active=subject   lab-5-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=verb      lab-5-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=article   lab-5-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=adjective lab-5-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=noun      lab-5-word-server-1.jar 
+
+    - **IntelliJ** Open lab-5/word-server.  
+      * Use menu "Run" / "Edit Configurations".  
+      * Press "+" to add new configuration. Select "Application".  
+      * Choose Name=noun, Main class=demo.Application.  
+      * Click "Modify Options" / "Add VM Options".  
+      * Enter `-Dspring.profiles.active=noun` in new field.
+      * Apply.  Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+
+    - **Eclipse/STS** Import lab-5/word-server into your workspace.
+      * R-click on the project, Run As... / Run Configurations... .
+      * From the Spring Boot tab specify a Profile of "subject", 
+      * UNCHECK JMX port / live bean support, and Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+
+
 1.  Check the Eureka server running at [http://localhost:8010](http://localhost:8010).   Ignore any warnings about running a single instance; this is expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
 
 1.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "/actuator/info" with "/" and refresh several times.  You can observe the randomly generated words.
@@ -24,7 +47,7 @@
 1.  Run the lab-5-sentence-server project.  Refresh Eureka to see it appear in the list.  Test to make sure it works by opening [http://localhost:8020/sentence](http://localhost:8020/sentence).  You should see several random sentences appear.  We will refactor this code to make use of Spring Cloud's client-side load balancer.
     * If sentences do not appear, check the console for specific error messages for which server(s) cannot be reached.
 
-1.  Stop the lab-5-sentence-server.  Add the org.springframework.cloud / spring-cloud-starter-loadbalancer dependency.
+1.  Stop the lab-5-sentence-server.  Add the Spring Cloud Loadbalancer dependency (`org.springframework.cloud` / `spring-cloud-starter-loadbalancer` dependency).
 
     ```
     <dependency>
@@ -32,6 +55,10 @@
       <artifactId>spring-cloud-starter-loadbalancer</artifactId>
     </dependency>
     ```
+    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
+
+    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
+
 
 1.  Go to `Application.java`.  Create a new `@Bean` method that instantiates and returns a new `RestTemplate`.  The `@Bean` method should also be annotated with `@LoadBalanced` - this will associate the RestTemplate with Spring Cloud's client-side load balancer.  Code should look something like this:
 
@@ -57,7 +84,7 @@
 
     **BONUS - Multiple Clients**  At this point we have refactored the code to use Spring Cloud's client side load balancer, but we haven’t really seen the load balancer's full capability.  To illustrate this we will run two copies of one of the “noun” word server with different words hard-coded.  You’ll see the sentence adapt to make use of values from both servers.
 
-1. Look at the `application.yml` file inside lab-5-word-server; there is an entry (shown here) that we have not seen or discussed.  For the next part, we will need to run multiple copies of the noun server on the same host, and this entry will allow us to do this.  There is nothing you need to change here, just understand that Eureka will be able to distinguish multiple servers of a given type running on the same host:
+1. Look at the `application.yml` file inside lab-5/word-server; there is an entry (shown here) that we have not seen or discussed.  For the next part, we will need to run multiple copies of the noun server on the same host, and this entry will allow us to do this.  There is nothing you need to change here, just understand that Eureka will be able to distinguish multiple servers of a given type running on the same host:
 
     ```
       # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
