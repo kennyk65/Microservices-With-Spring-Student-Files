@@ -26,7 +26,7 @@
       * Press "+" to add new configuration. Select "Application".  
       * Choose Name=noun, Main class=demo.Application.  
       * Click "Modify Options" / "Add VM Options".  
-      * Enter `-Dspring.profile.active=noun` in new field.
+      * Enter `-Dspring.profiles.active=noun` in new field.
       * Apply.  Run.  
       * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 
@@ -49,7 +49,11 @@
     * The `SentenceService` uses `@Autowire` to reference individual DAO components which have been created to obtain the words from the remote resources.  
     * Since all of the remote resources are structurally the same, there is a fair bit of inheritance in the dao package to make things easy.  But each uses the same Load Balancer technology and `RestTemplate` used previously.
 
-1.  Open the POM.  Add another dependency for spring-cloud-starter-openfeign.
+1.  Open the POM.  Add another dependency for Open Feign (`org.springframework.cloud` / `spring-cloud-starter-openfeign`).
+
+    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
+
+    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
 
 1.  Edit the main `Application` configuration class and `@EnableFeignClients`.
 
