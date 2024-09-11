@@ -1,53 +1,77 @@
-## Lab 9 - Simple API Gateway with Zuul
+## Lab 9 - Spring Cloud Gateway
+
+![API Gateway Architecture](./san-juan-mountains.jpg "San Juan Mountains")
+
+
 
   **Part 1 - Startup**
 
 1.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-9”.
 
-2.  Start the common-config-server and common-eureka-server.  
+1.  Start the common-config-server and common-eureka-server.  
 
-3.  Lab 9 has copies of the word server.  Start 5 separate copies of the lab-9-word-server, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
-  - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
-    - mvn spring-boot:run -Dspring.profiles.active=subject
-    - mvn spring-boot:run -Dspring.profiles.active=verb
-    - mvn spring-boot:run -Dspring.profiles.active=article
-    - mvn spring-boot:run -Dspring.profiles.active=adjective
-    - mvn spring-boot:run -Dspring.profiles.active=noun
-  - Or if you wish to run from directly within STS, right click on the project, Run As... / Run Configurations... .  From the Spring Boot tab specify a Profile of "subject", UNCHECK live bean support, and Run.  Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+1.  Lab 9 has copies of the word server.  Start 5 separate copies of the **lab-9/word-server**, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
 
-4.  Check Eureka at [http://localhost:8010](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
+    - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
+      - mvn spring-boot:run -Dspring.profiles.active=subject
+      - mvn spring-boot:run -Dspring.profiles.active=verb
+      - mvn spring-boot:run -Dspring.profiles.active=article
+      - mvn spring-boot:run -Dspring.profiles.active=adjective
+      - mvn spring-boot:run -Dspring.profiles.active=noun
 
-5.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "/info" with "/" and refresh several times.  You can observe the randomly generated words.  
+    - If you wish to build the code and run the JAR, run `mvn package` in the project's root.  Then open separate command prompts in the target directory and run these commands:
+      - java -jar -Dspring.profiles.active=subject   lab-9-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=verb      lab-9-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=article   lab-9-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=adjective lab-9-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=noun      lab-9-word-server-1.jar 
+
+    - **IntelliJ** Open lab-9/word-server.  
+      * Use menu "Run" / "Edit Configurations".  
+      * Press "+" to add new configuration. Select "Application".  
+      * Choose Name=noun, Main class=demo.Application.  
+      * Click "Modify Options" / "Add VM Options".  
+      * Enter `-Dspring.profiles.active=noun` in new field.
+      * Apply.  Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+
+    - **Eclipse/STS** Import lab-9/word-server into your workspace.
+      * R-click on the project, Run As... / Run Configurations... .
+      * From the Spring Boot tab specify a Profile of "subject", 
+      * UNCHECK JMX port / live bean support, and Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+
+1.  Check Eureka at [http://localhost:8010](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
+
+1.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "actuator/info" with "/" and refresh several times.  You can observe the randomly generated words.  
+
+
+    **Part 2 - Start and Examine Existing System**
+
+1.  Open **lab-9/gateway**.  This is a simple Spring Boot web application.  We will modify it to be a simple API gateway with Spring Cloud Gateway.
+
+1.  Examine the `templates/sentence.html` page.  Notice that it contains JavaScript for making AJAX calls to obtain the different parts of the sentence.  There are 5 separate calls to make, each to potentially a different server.  How can the JavaScript make these calls without encountering cross site scripting restrictions?
+
+1.  Run lab-9-gateway.  Access [http://localhost:8080](http://localhost:8080).  You should encounter errors as the various AJAX calls cannot be completed successfully.  We will fix this next.
 
 
 
-  **Part 2 - Start and Examine Existing System**
+    **Part 3 - Implement a Spring Cloud Gateway**
 
-6.  Open lab-9-gateway.  This is a simple Spring Boot web application.  We will modify it to be a simple API gateway with Zuul.
+1.  Stop the lab-9-gateway application.
 
-7.  Examine the templates/sentence.html page.  Notice that it contains JavaScript for making AJAX calls to obtain the different parts of the sentence.  There are 5 separate calls to make, each on a different server.  How can the JavaScript make these calls without encountering cross site scripting restrictions?
+1.  Add the dependencies for:
+    * Config client ( org.springframework.cloud / spring-cloud-config-client).
+    * Eureka-based service discovery (org.springframework.cloud / spring-cloud-starter-netflix-eureka-client).
+    * Spring Cloud Gateway (org.springframework.cloud / spring-cloud-starter-gateway-mvc).
 
-8.  Run lab-9-gateway.  Access [http://localhost:8080](http://localhost:8080).  You should encounter errors as the various AJAX calls cannot be completed successfully.  We will fix this next.
+    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
 
+    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
 
+1.  Setup the application to obtain configuration from the config server on startup.  Do you remember how to do this?  Open application.yml and add the location of the configuration server.  For a reminder how to do this, consult the configuration of the word server.
 
-  **Part 3 - Implement a Zuul Reverse Proxy**
-
-9.  Stop the lab-9-gateway application.
-
-10.  Add the dependency for the config client.  org.springframework.cloud / spring-cloud-config-client.  
-
-11.  Add the dependency for Eureka-based service discovery.  org.springframework.cloud / spring-cloud-starter-netflix-eureka-client.
-
-12.  Add the dependency for Zuul.  org.springframework.cloud / spring-cloud-starter-netflix-zuul.
-
-13.  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
-
-14.  Setup the application to obtain configuration from the config server on startup.  Do you remember how to do this?  Open bootstrap.yml and add the location of the configuration server.  For a reminder how to do this, consult the configuration of the word server.
-
-15.  Open the main application class and add the annotation to enable Zuul proxy.
-
-16.  Save your work.  Run the application.  Access [http://localhost:8080](http://localhost:8080).  The sentence should build correctly with no errors.  
+1.  Save your work.  Run the application.  Access [http://localhost:8080](http://localhost:8080).  The sentence should build correctly with no errors.  
 
 
 
