@@ -1,3 +1,6 @@
 ---
-# Allow thymeleaf template changes to reload:
-spring.thymeleaf.cache: false
+spring:
+  application:
+    name: lab-9-gateway
+    
+

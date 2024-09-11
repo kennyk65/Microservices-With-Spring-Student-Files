@@ -1,8 +1,64 @@
 ---
+spring:
+  application:
+    name: lab-9-gateway-solution
 
-# Allow thymeleaf template changes to reload:
-spring.thymeleaf.cache: false
+  config:
+    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
 
-# Zuul-proxied services can be found by calling /services/subject, /services/verb, etc.
-zuul:
-  prefix: /services
+  # create spring cloud gateway routes for the verb, subject, article, adjective, and noun services
+  cloud:
+    gateway:
+      routes:
+
+      # Any request to /services/subject should route
+      # through the load balancer to
+      # the subject service's "/" resource:
+      - id: subject-service
+        uri: lb://subject
+        predicates:
+          - Path=/services/subject/**
+        filters:
+          - StripPrefix=2
+
+          # Any request to /services/verb should route
+      # through the load balancer to
+      # the verb service's "/" resource:
+      - id: verb-service
+        uri: lb://verb
+        predicates:
+        - Path=/services/verb/**
+        filters:
+        - StripPrefix=2
+
+      - id: article-service
+        uri: lb://article
+        predicates:
+        - Path=/services/article/**
+        filters:
+        - StripPrefix=2
+        - RewritePath=/article/(?<segment>.*), /$\{segment}
+
+      - id: adjective-service
+        uri: lb://adjective
+        predicates:
+        - Path=/services/adjective/**
+        filters:
+          - StripPrefix=2
+      - id: noun-service
+        uri: lb://noun
+        predicates:
+        - Path=/services/noun/**
+        filters:
+          - StripPrefix=2
+
+        # Fallback route:
+        # Any request to / should route
+        # through the load balancer to
+        # the lab-9-sentence-server service's "/" resource:
+      - id: web-interface
+        uri: lb://lab-9-sentence-server
+        predicates:
+          - Path=/**
+
+

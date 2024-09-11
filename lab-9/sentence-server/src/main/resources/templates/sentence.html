@@ -1,20 +1,20 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-		th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" 
+		th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
 
 	<div class="container">
     	<div class="starter-template">
         	<h1>Dynamically Generated Sentence</h1>
-        	<p class="lead">A sentence goes here:
-        	<span id="subject"/> 
-        	<span id="verb"/> 
-        	<span id="article"/> 
-        	<span id="adjective"/> 
-        	<span id="noun"/> 
+        	<p class="lead">
+        	<span id="subject"></span> 
+        	<span id="verb"></span>  
+        	<span id="article"></span>  
+        	<span id="adjective"></span>  
+        	<span id="noun"></span>  
         	</p>
       	</div>
     	<div id="error" class="text-danger">
@@ -24,13 +24,13 @@
 
 	<!-- JavaScript for Dynamic Behavior: -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-		th:src="@{/js/jquery-1.11.0.min.js}" ></script>
+		th:src="@{js/jquery-1.11.0.min.js}" ></script>
 
 <script type="text/javascript">
 	
 	//	TODO: Alter this prefix when instructed.
-	var prefix = "";
-
+	var prefix = "/services";
+	
 	// Perform AJAX requests...
 	$.getJSON(prefix + "/subject",   null, displaySubject)  .fail(displayErrorSubject);
 	$.getJSON(prefix + "/verb",      null, displayVerb)     .fail(displayErrorVerb);

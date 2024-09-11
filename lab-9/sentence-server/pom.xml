@@ -11,12 +11,12 @@
 	</parent>
 
 	<groupId>org.test</groupId>
-	<artifactId>lab-9-word-server-solution</artifactId>
+	<artifactId>lab-9-sentence-server</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>lab-9-word-server-solution</name>
-	<description>Example microservice which serves up individual, random words for a give part of speech.</description>
+	<name>lab-9-sentence-server</name>
+	<description>Serves the UI for displaying a sentence</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,37 +40,38 @@
     </dependencyManagement>
     
 	<dependencies>
-	
+
 		<dependency>
-        	<groupId>org.springframework.cloud</groupId>
-        	<artifactId>spring-cloud-starter-config</artifactId>
-    	</dependency>
-   
-   	    <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+
+		<dependency>
 	        <groupId>org.springframework.cloud</groupId>
 	        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-	    </dependency>
-	
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-loadbalancer</artifactId>
 	    </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 
 		<!-- Allow for automatic restarts when classpath contents change. -->
 	    <dependency>
