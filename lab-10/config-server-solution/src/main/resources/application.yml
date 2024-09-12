@@ -5,6 +5,30 @@ spring:
       server:
         git:
           uri: https://github.com/kennyk65/Microservices-With-Spring-Student-Files
-          searchPaths: ConfigData
+          searchPaths: ConfigDataNew
+
+# This is "password" encrypted using the "key" for encrypt.key.
+# Your value may be different.  User is the default "user".
+spring.security.user:
+  name: user
+  password: '{cipher}9bdb088380f1e7447535d7e386bf6ca910762fad3cbd575ea852984d4692133f'
+
 server:
   port: 8001
+
+encrypt.key: mykey
+
+# Eliminate logging noise when "main" branch is not found in git repository:
+logging.level:
+  org.springframework.cloud.config.server:
+    environment.MultipleJGitEnvironmentRepository: WARN
+
+# Expose Actuator endpoints.  Allow application to be more useful from Eureka.
+management.endpoints.web.exposure.include: health,info,beans,env,configprops,mappings
+management.info:
+  env.enabled: true
+  java.enabled: true
+  os.enabled: true
+  process.enabled: true
+info.active-profiles: ${spring.profiles.active:none}
+info.name: ${spring.application.name:none}
