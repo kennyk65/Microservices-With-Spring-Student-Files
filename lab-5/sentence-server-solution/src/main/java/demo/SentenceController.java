@@ -11,8 +11,9 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class SentenceController {
 
-	//	This is referencing the RestTemplate we defined earlier:
+	//	This is referencing the load-balancing RestTemplate we defined earlier:
 	@Autowired  RestTemplate template;
+	
 	
 	/**
 	 * Display a small list of Sentences to the caller:
@@ -53,8 +54,15 @@ public class SentenceController {
 	 * of speech is indicated by the given service / client ID:
 	 */
 	public String getWord(String service) {
-		return template.getForObject("http://" + service, String.class);
-	
+		String response = null;
+		try {
+			response = template.getForObject("http://" + service, String.class);
+		} catch (Exception e ) {
+			System.out.println("Error retrieving " + service + " Error: " + e.getMessage());
+			response = "(Error retrieving " + service + ")";
+		}
+		return response;
 	}
+	
 
 }

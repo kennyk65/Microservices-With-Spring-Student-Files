@@ -4,9 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
  * 
  * @author ken krueger
  */
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 @WebAppConfiguration
 @ActiveProfiles("local-test")	//	"Keep the 'NorthAmerica" profile from loading, keep the external config server from being called.
@@ -34,7 +33,7 @@ public class OutOfContainerTest {
 	@Autowired WebApplicationContext spring;
 	MockMvc mockMvc;
 	
-	@Before
+	@BeforeEach
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(spring).build();
 	}
@@ -45,14 +44,14 @@ public class OutOfContainerTest {
 		//	Test if the client application is working with the exception of the call to the server.:
 		mockMvc.perform(get("/lucky-word"))
 			.andExpect(status().isOk())
-			.andExpect(content().string("The lucky word is: testing"))
+			.andExpect(content().string("The lucky word is: localtest"))
 			;
 	}
 
 	//	Load test properties to satisfy the lucky-word placeholder:
 	@Configuration
 	@Import(Application.class)
-	@PropertySource("classpath:/demo/test.properties")
+	@PropertySource("classpath:/localtest/test.properties")
 	public static class Config {
 	}
 

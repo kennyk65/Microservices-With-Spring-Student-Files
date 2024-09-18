@@ -1,4 +1,0 @@
----
-spring:
-  application:
-    name: lab-4-eureka-server

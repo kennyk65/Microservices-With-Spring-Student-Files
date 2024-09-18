@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import demo.service.SentenceService;
 
-
-
 @Controller
 public class SentenceController {
 
 	@Autowired SentenceService sentenceService;
-	
-	
+
 	/**
 	 * Display a small list of Sentences to the caller:
 	 */

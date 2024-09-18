@@ -6,6 +6,7 @@ eureka:
       defaultZone: http://localhost:8010/eureka/
 #      defaultZone: http://localhost:8011/eureka/,http://localhost:8012/eureka/,http://localhost:8013/eureka/
 
+
 ---
 spring.config.activate.on-profile: subject
 words: I,You,He,She,It

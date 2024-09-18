@@ -1,0 +1,10 @@
+---
+spring:
+  application:
+    name: lucky-word-client
+
+  config:
+    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
+
+server:
+  port: 8002
