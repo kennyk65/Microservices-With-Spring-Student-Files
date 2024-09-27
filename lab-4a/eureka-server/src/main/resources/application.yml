@@ -1,0 +1,82 @@
+---
+# This default profile is used when running a single instance completely standalone:
+spring:
+  application:
+    name: lab-4a-eureka-server
+
+server:
+  port: 8010  
+
+eureka:
+  instance:
+    hostname: eurekahost 
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    
+
+# TODO-02: Expose the actuator endpoint for Prometheus.
+# Add "prometheus" in the management.endpoints.web.exposure.include list.
+# Also set the management.metrics.tags.application: to ${spring.application.name}
+management:
+  endpoints.web.exposure.include: health,info,beans,env,metrics,configprops,mappings,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
+# primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
+# side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
+# Run by opening 3 separate command prompts:
+# java -jar -Dspring.profiles.active=primary lab-4-eureka-server-solution-1.jar
+# java -jar -Dspring.profiles.active=secondary lab-4-eureka-server-solution-1.jar
+# java -jar -Dspring.profiles.active=tertiary lab-4-eureka-server-solution-1.jar
+
+---
+spring:
+  config.activate.on-profile: primary
+  application:
+    name: eureka-server-clustered   
+server:
+  port: 8011  
+eureka:
+  instance:
+    hostname: eureka-primary       
+  client:
+    registerWithEureka: true
+    fetchRegistry: true        
+    serviceUrl:
+      defaultZone: http://eureka-secondary:8012/eureka/,http://eureka-tertiary:8013/eureka/
+
+---
+spring:
+  config.activate.on-profile: secondary
+  application:
+    name: eureka-server-clustered      
+server:
+  port: 8012
+eureka:
+  instance:
+    hostname: eureka-secondary       
+  client:
+    registerWithEureka: true
+    fetchRegistry: true        
+    serviceUrl:
+      defaultZone: http://eureka-tertiary:8013/eureka/,http://eureka-primary:8011/eureka/
+
+---
+spring:
+  config.activate.on-profile: tertiary
+  application:
+    name: eureka-server-clustered      
+server:
+  port: 8013
+eureka:
+  instance:
+    hostname: eureka-tertiary       
+  client:
+    registerWithEureka: true
+    fetchRegistry: true    
+    serviceUrl:
+      defaultZone: http://eureka-primary:8011/eureka/,http://eureka-secondary:8012/eureka/      
