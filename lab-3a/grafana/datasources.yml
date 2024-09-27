@@ -1,0 +1,14 @@
+apiVersion: 1
+
+# TODO-05: Add a datasource section.
+# Create a datasouce with the name "Prometheus" having type "prometheus".
+# Set the access type to "proxy"
+# Set the URL to point to the prometheus server launched earlier.
+# The URL should use the http protocol and reference "host.docker.internal:9090" rather than localhost.
+# Set "isDefault" to true to make this the default datasource.
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://host.docker.internal:9090
+    isDefault: true

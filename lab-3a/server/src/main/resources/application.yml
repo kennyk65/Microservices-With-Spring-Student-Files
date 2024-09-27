@@ -1,0 +1,25 @@
+spring:
+  application.name: lab-3a-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kennyk65/Microservices-With-Spring-Student-Files
+          searchPaths: ConfigDataNew
+        # "native" is used when the native profile is active, for local tests with a classpath repo:
+        native:
+          searchLocations: classpath:offline-repository/
+          
+server:
+  port: 8001
+
+# Eliminate logging noise when "main" branch is not found in git repository:
+logging.level:
+  org.springframework.cloud.config.server:
+    environment.MultipleJGitEnvironmentRepository: WARN
+
+# TODO-02: Expose the actuator endpoint for Prometheus.
+# Set the management.endpoints.web.exposure.include: to include prometheus.
+# You can include other comma-separated endpoints such as 'health,info,env,' etc. if you like.
+# Also set the management.metrics.tags.application: to ${spring.application.name}
+# This includes the application's name, set above, in the emitted metrics.

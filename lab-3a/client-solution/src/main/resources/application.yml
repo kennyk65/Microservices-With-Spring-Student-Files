@@ -1,0 +1,24 @@
+# This 'name' of our application is important 
+# It tells the config server which application to server properties for.
+# It also appears in the Grafana dashboard to identify this application.
+spring:
+  application:
+    name: lab-3-client					
+
+  config:
+    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
+
+server:
+  port: 8002							# What port should we expose for our web interface
+
+
+# TODO-04: Expose the actuator endpoint for Prometheus.
+# Set the management.endpoints.web.exposure.include: to include prometheus.
+# You can include other comma-separated endpoints such as 'health,info,env,' etc. if you like.
+# Also set the management.metrics.tags.application: to ${spring.application.name}
+# This includes the application's name, set above, in the emitted metrics.
+management:
+  endpoints.web.exposure.include: health,info,beans,env,metrics,configprops,mappings,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
