@@ -8,6 +8,8 @@ Prometheus came to prominence in the Kubernetes world, but it is a good general 
 
 In this lab you will run Prometheus and Grafana servers (using Docker), then configure the config server and client from the last lab to emit metrics.
 
+![Lab3a Architecture](./assets/lab3a-prometheus-grafana.png "Lab 3a Architecture")
+
 This lab requires Docker.
 
 
