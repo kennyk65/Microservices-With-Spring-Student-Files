@@ -2,7 +2,7 @@
 
 In this lab, we will use the Spring Cloud Gateway as the entry point for all external traffic into our application.  The root resource ("/") will route to the sentence server, which will return a simple user interface, and the word servers will serve up their individual words.  JavaScript within a web page will retrieve word values by making calls to the individual services via the Gateway.   
 
-![API Gateway Architecture](./lab-9-architecture.png "Lab 9 Architecture")
+![API Gateway Architecture](./assets/lab-9-architecture.png "Lab 9 Architecture")
 
 
 
