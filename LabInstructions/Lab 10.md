@@ -159,4 +159,8 @@ In this lab, we will add HTTP Basic security and HTTPS to the solution produced 
 
 1. Storing users and passwords in code is cumbersome.  Placing these in a database would be a marginal improvement.  Ultimately, the API Gateway should not be burdened with the task of user management at all; it would be best to take the next step and move to an authentication scheme based on OAuth 2, SAML, LDAP, or some other scheme.
 
+1. At this point, the sentence and word servers are completely insecure, relying on all calling traffic to pass through the gateway.  We can add another layer of security by having all service-to-service communications use HTTP Basic or a similar solution.
+
+1. You may wonder if it is accurate to call the implemented solution "HTTP Basic" since the Gateway collected user and password through a login page.  However, remember the browser is making calls to the API Gateway to retrieve individual words, and these calls all use HTTP Basic.
+
 1. We could override the look and feel of the login page if we like, but we will probably override this entire approach with OAuth 2 or SAML.
