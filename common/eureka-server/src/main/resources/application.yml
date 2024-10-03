@@ -15,6 +15,24 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    
 
+# Expose the actuator endpoints for Prometheus and a few other things.
+# Place useful data in the "info" endpoint.
+# Also set the management.metrics.tags.application: to ${spring.application.name} so
+# that this application's name appears in Prometheus / Grafana.
+management:
+  endpoints.web.exposure.include: health,info,beans,env,metrics,configprops,mappings,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  info:
+    env.enabled: true
+    java.enabled: true
+    os.enabled: true
+    process.enabled: true
+info.active-profiles: ${spring.profiles.active:none}
+info.name: ${spring.application.name:none}
+
+
 # primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
 # side-by-side on localhost -- which is unrealistic in production -- but does illustrate how multiple instances collaborate.
 # Run by opening 3 separate command prompts:
