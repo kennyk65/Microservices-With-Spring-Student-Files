@@ -18,6 +18,13 @@ scrape_configs:
   - target_label: __metrics_path__
     replacement: /actuator/prometheus  # relabel_configs:
 
+  # Replace 'localhost' with 'host.docker.internal'.
+  # This will become critical when we add API Gateway, which must use localhost while Docker must not.
+  - source_labels: [__address__]
+    regex: '(localhost)(:.*)'   # Capture 'localhost' and the port part
+    replacement: 'host.docker.internal$2'  # Replace 'localhost' with 'host.docker.internal'
+    target_label: __address__
+
 # Additionally, have Prometheus scrape the Eureka server for its own metrics.
 - job_name: 'eureka'
   metrics_path: '/actuator/prometheus'
