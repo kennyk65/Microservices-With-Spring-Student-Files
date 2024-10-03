@@ -13,7 +13,7 @@
 eureka:
   client:
     serviceUrl:
-     defaultZone: http://localhost:8010/eureka/
+      defaultZone: http://localhost:8010/eureka/
 
 
 # TODO-04: Expose the actuator endpoint for Prometheus.

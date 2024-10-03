@@ -20,8 +20,10 @@ eureka:
 # Add "prometheus" in the management.endpoints.web.exposure.include list.
 # Also set the management.metrics.tags.application: to ${spring.application.name}
 management:
-  endpoints.web.exposure.include: health,info,beans,env,metrics,configprops,mappings
-
+  endpoints.web.exposure.include: health,info,beans,env,metrics,configprops,mappings,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 
 # primary, secondary, and tertiary illustrate running 3 intercommunicating instances.  This example has them running
