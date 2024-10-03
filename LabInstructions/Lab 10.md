@@ -8,42 +8,19 @@ In this lab, we will add HTTP Basic security and HTTPS to the solution produced 
 
 1.  Start the common-config-server and common-eureka-server.  
 
-1.  Lab 10 has copies of the word server.  Start 5 separate copies of the **lab-10/word-server**, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
-
-    - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
-      - mvn spring-boot:run -Dspring.profiles.active=subject
-      - mvn spring-boot:run -Dspring.profiles.active=verb
-      - mvn spring-boot:run -Dspring.profiles.active=article
-      - mvn spring-boot:run -Dspring.profiles.active=adjective
-      - mvn spring-boot:run -Dspring.profiles.active=noun
-
-    - If you wish to build the code and run the JAR, run `mvn package` in the project's root.  Then open separate command prompts in the target directory and run these commands:
-      - java -jar -Dspring.profiles.active=subject   lab-10-word-server-1.jar 
-      - java -jar -Dspring.profiles.active=verb      lab-10-word-server-1.jar 
-      - java -jar -Dspring.profiles.active=article   lab-10-word-server-1.jar 
-      - java -jar -Dspring.profiles.active=adjective lab-10-word-server-1.jar 
-      - java -jar -Dspring.profiles.active=noun      lab-10-word-server-1.jar 
-
-    - **IntelliJ** Open lab-10/word-server.  
-      * Use menu "Run" / "Edit Configurations".  
-      * Press "+" to add new configuration. Select "Application".  
-      * Choose Name=noun, Main class=demo.Application.  
-      * Click "Modify Options" / "Add VM Options".  
-      * Enter `-Dspring.profiles.active=noun` in new field.
-      * Apply.  Run.  
-      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
-
-    - **Eclipse/STS** Import lab-10/word-server into your workspace.
-      * R-click on the project, Run As... / Run Configurations... .
-      * From the Spring Boot tab specify a Profile of "subject", 
-      * UNCHECK JMX port / live bean support, and Run.  
-      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
+1.  Run the sentence server and the five word servers.  For convenience the *.jar files are already present in the lab-10 folder.  Open separate command prompts relative to the "lab-10" folder and run the following:
+      - java -jar -Dspring.profiles.active=subject   word-server.jar 
+      - java -jar -Dspring.profiles.active=verb      word-server.jar 
+      - java -jar -Dspring.profiles.active=article   word-server.jar 
+      - java -jar -Dspring.profiles.active=adjective word-server.jar 
+      - java -jar -Dspring.profiles.active=noun      word-server.jar 
+      - java -jar sentence-server.jar 
 
 1.  Check [Eureka](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
 
 1.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "actuator/info" with "/" and refresh several times.  You can observe the randomly generated words.  
 
-1.  In a separate IDE, open **lab-10/sentence-server**.  Run this application.  Access it at [http://localhost:8088](http://localhost:8088).  
+1.  Open the sentence server web page at [http://localhost:8088](http://localhost:8088).  
     * Expect to encounter errors in the page at this point.  The JavaScript / AJAX calls in the page have no knowledge of service discovery or the actual whereabouts of the word servers.
 
 1.  In a separate IDE, open **lab-10/gateway**.  Run this application.  Access it at [http://localhost:8080](http://localhost:8080).  
