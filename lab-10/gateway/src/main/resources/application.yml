@@ -1,0 +1,73 @@
+---
+spring:
+  application:
+    name: lab-10-gateway-solution
+
+  config:
+    import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
+
+  # TODO-02: Add spring.security.user name and password.
+  # Be sure to indent the "security.user" key underneath the existing "spring" key above.
+
+
+
+
+  # create spring cloud gateway routes for the verb, subject, article, adjective, and noun services
+  cloud:
+    gateway:
+      routes:
+
+      # Any request to /services/subject should route
+      # through the load balancer to
+      # the subject service's "/" resource:
+      - id: subject-service
+        uri: lb://subject
+        predicates:
+          - Path=/services/subject/**
+        filters:
+          - StripPrefix=2
+
+          # Any request to /services/verb should route
+      # through the load balancer to
+      # the verb service's "/" resource:
+      - id: verb-service
+        uri: lb://verb
+        predicates:
+        - Path=/services/verb/**
+        filters:
+        - StripPrefix=2
+
+      - id: article-service
+        uri: lb://article
+        predicates:
+        - Path=/services/article/**
+        filters:
+        - StripPrefix=2
+        - RewritePath=/article/(?<segment>.*), /$\{segment}
+
+      - id: adjective-service
+        uri: lb://adjective
+        predicates:
+        - Path=/services/adjective/**
+        filters:
+          - StripPrefix=2
+      - id: noun-service
+        uri: lb://noun
+        predicates:
+        - Path=/services/noun/**
+        filters:
+          - StripPrefix=2
+
+        # Fallback route:
+        # Any request to / should route
+        # through the load balancer to
+        # the lab-10-sentence-server service's "/" resource:
+      - id: web-interface
+        uri: lb://lab-10-sentence-server
+        predicates:
+          - Path=/**
+
+
+# TODO-06: Override the Server's port to 8443.
+# Add SSL tag to identify the key-store located on the classpath with name mykeystore.p12.
+# Add SSL tag to specify the key-store-password as "secret".

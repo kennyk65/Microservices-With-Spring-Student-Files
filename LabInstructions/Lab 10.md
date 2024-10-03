@@ -1,100 +1,166 @@
-## Lab 10 - Applying Security to Cloud Applications
+## Lab 10 - Securing the Spring Cloud Gateway with HTTP Basic
 
-Prerequisite - If using a JDK earlier than 9, to use the encryption and decryption features you need the full-strength JCE installed in your JVM (it’s not there by default). You can download the "Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files" from Oracle, and follow instructions for installation (essentially replace the 2 policy files in the JRE lib/security directory with the ones that you downloaded).
+In this lab, we will add HTTP Basic security and HTTPS to the solution produced in the previous lab.  Spring Cloud Gateway will enforce HTTP Basic authentication for any user to use the application.
 
   **Part 1 - Startup**
 
 1.  Stop ALL of the services that you may have running from previous exercises.  If using an IDE you may also wish to close all of the projects that are not related to "lab-10”.
 
-1.  Open **lab-10/config-server** and run it.  
+1.  Start the common-config-server and common-eureka-server.  
 
-1.  Open **lab-10/client** and run it.  
+1.  Lab 10 has copies of the word server.  Start 5 separate copies of the **lab-10/word-server**, using the profiles "subject", "verb", "article", "adjective", and "noun".  There are several ways to do this, depending on your preference:
 
-1.  Access the client at [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word) to see the lucky word.  This is essentially the result of what we achieved in Lab 3.
+    - If you wish to use Maven, open separate command prompts in the target directory and run these commands:
+      - mvn spring-boot:run -Dspring.profiles.active=subject
+      - mvn spring-boot:run -Dspring.profiles.active=verb
+      - mvn spring-boot:run -Dspring.profiles.active=article
+      - mvn spring-boot:run -Dspring.profiles.active=adjective
+      - mvn spring-boot:run -Dspring.profiles.active=noun
 
+    - If you wish to build the code and run the JAR, run `mvn package` in the project's root.  Then open separate command prompts in the target directory and run these commands:
+      - java -jar -Dspring.profiles.active=subject   lab-10-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=verb      lab-10-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=article   lab-10-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=adjective lab-10-word-server-1.jar 
+      - java -jar -Dspring.profiles.active=noun      lab-10-word-server-1.jar 
 
+    - **IntelliJ** Open lab-10/word-server.  
+      * Use menu "Run" / "Edit Configurations".  
+      * Press "+" to add new configuration. Select "Application".  
+      * Choose Name=noun, Main class=demo.Application.  
+      * Click "Modify Options" / "Add VM Options".  
+      * Enter `-Dspring.profiles.active=noun` in new field.
+      * Apply.  Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 
+    - **Eclipse/STS** Import lab-10/word-server into your workspace.
+      * R-click on the project, Run As... / Run Configurations... .
+      * From the Spring Boot tab specify a Profile of "subject", 
+      * UNCHECK JMX port / live bean support, and Run.  
+      * Repeat this process (or copy the run configuration) for the profiles "verb", "article", "adjective", "noun".
 
-    **Part 2 - Securing the Config Server**
+1.  Check [Eureka](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your 5 applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
 
-1.  Stop both services.
+1.  Optional - If you wish, you can click on the link to the right of any of these servers.  Replace the "actuator/info" with "/" and refresh several times.  You can observe the randomly generated words.  
 
-1.  Return to **lab-10/config-server**.  Open the POM, add another dependency for Spring Security (`org.springframework.boot`, `spring-boot-starter-securityspring-cloud-security`).
+1.  In a separate IDE, open **lab-10/sentence-server**.  Run this application.  Access it at [http://localhost:8088](http://localhost:8088).  
+    * Expect to encounter errors in the page at this point.  The JavaScript / AJAX calls in the page have no knowledge of service discovery or the actual whereabouts of the word servers.
 
-    >  If using IntelliJ, the Maven extension may require you to update your project at this point.  From the menu, View / Maven / Refresh all...
+1.  In a separate IDE, open **lab-10/gateway**.  Run this application.  Access it at [http://localhost:8080](http://localhost:8080).  
+    * Expect to see a web page with fully formed sentences containing random words.  This is the state of the application as of the conclusion of lab 9.  Next we will add HTTP Basic security.
 
-    >  If using Eclipse, the M2E plugin may require you to update your project at this point.  Right click on the project / Maven / Update Project
+    **Part 2 - Add HTTP Basic Security to the Gateway** 
 
-1.  Create a new Java class in the src/main/java/demo package named `SecurityConfig`.  Add the following method to define a filter chain:
+    One advantage of the Gateway pattern is its ability to provide a central authentication point.  We can easily enforce HTTP Basic Authentication here.
+
+1. Return to **lab-10/gateway**. Open the pom.xml.  
+
+1. **TODO-01:** Add the dependency for Spring Boot Security:
 
     ```
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                .authorizeHttpRequests(
-                    authorizeRequests -> authorizeRequests
-                        .anyRequest().authenticated()
-                )
-                .csrf(csrf -> csrf.disable())           // Needed to allow POST to /encrypt to work
-                .httpBasic(Customizer.withDefaults() ); // Use basic authentication
-            return http.build();
-        }
-
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
     ```
 
-    > Note: This should not be required as Spring Security will automatically configure HTTP Basic authentication and require that all requests are authenticated.  However, testing of this lab demonstrated that POSTs to /encrypt used later in this lab would not work unless CSRF were disabled.  Future software releases may address this.
+1. Open application.yml.  
 
-1.  Open the application.yml in the classpath root (src/main/resources).  Add a key for `encrypt.key`.  Use any value you like (such as an innocuous value like `mykey`).
-
-1.  Save your work and run the lab-10-config-server.  Observe the console output and obtain the generated password.  Copy it.
-
-1.  Access the config server at [http://localhost:8001/anyapp-anyprofile.yml](http://localhost:8001/anyapp-anyprofile.yml).  You should be prompted for a user and password.  Enter “user” then the generated value for password. You should receive some YAML output. If so, you have successfully enabled HTTP Basic security and encryption in the config server.
-
-    **Part 3 - Encrypt**
-
-1.  Encrypt a password to be used by the config server:  Using a REST client, or the “curl” command on linux/unix, POST the string “password” (or some other some password value) to http://localhost:8001/encrypt.  You’ll have to provide the same “user” and generated value as in the last step.  Copy the encrypted returned value.
-
-    ```
-    curl -u user:GENERATED-PASSWORD-HERE -X POST http://localhost:8001/encrypt -d "password" -i
-    ```
-
-1.  Open application.yml.  Add a key for `spring.security.user.password`.  For the value, paste the encrypted password value from the last step, but prefix it with “{cipher}” (no quotes).  Then place the entire value within single quotes.  Example:
+1. **TODO-02:** Add a name and password under the `spring.security.user` key:
 
     ```
     spring:
+    
+      # Other existing configuration...        
+
       security.user:
-        password: '{cipher}57db6NEWLY5aa5c8ENCRYPTEDc48daVALUE9e8109'
+        name: admin
+        password: password
+    ```
+    * Note that there are already several properties defined under the "spring" hierarchy. Make sure that the "security.user" tags are indented underneath "spring" properly.
+
+1. Save your work.  Allow the application to restart (or restart it yourself). 
+
+1. Open the gateway at [http://localhost:8080](http://localhost:8080).  You should be prompted for a userid and password.  Enter the values you defined above and observe the generated sentence.
+    * Note: If you do not see a login page, you may need to open the gateway link in an incognito window.
+
+    **Part 3 - Defining multiple users**
+
+1. Return to application.yml.  Remove (or comment out) the user and password you defined earlier.
+
+1. Open `src/main/java/demo.SecurityConfig`.  
+
+1. **TODO-03:** Remove the comments from the `@Bean` method.  This method will override Spring Boot's default security configuration with a custom bean.  Remove the comments from the associated `import` statements at the top of the class.
+
+1. **TODO-04:** Within the `userDetails()` method, add two new users, using the existing `UserDetails` definition as a guide. Use whatever values you like for username, password, and role.
+
+1. **TODO-05:** Add your newly defined users to the `UserDetailsService` being returned from this method.
+
+1. Save your work.  Allow the application to restart (or restart it yourself). 
+
+1. Open the gateway at [http://localhost:8080](http://localhost:8080).  You should be prompted for a userid and password.  Enter one of the values you defined above and observe the generated sentence.
+    * You may need to use an incognito browser window.
+
+    **Part 4 - Add HTTPS**
+
+    The use of HTTP Basic presumes a secure network.  We can make some small changes to our Gateway to have it implement HTTPS (with a self-signed certificate.)
+
+1. Open a command prompt relative to **lab-10/gateway**'s `src/main/resources/` folder.  Run the following command (assuming Java is on the path):     
+
+    ```
+    keytool -genkeypair -alias testkey -keyalg RSA -keysize 2048 
+    -dname "CN=SentenceGateway,OU=MicroservicesWithSpringCloud,O=Organization,L=Orlando,S=FL,C=US" 
+    -keystore mykeystore.p12 -storepass secret -storetype PKCS12 -validity 3650
     ```
 
-1.  Save your work.
+    * **keytool** Java utility for managing keystores and certificates. It allows you to generate key pairs, export certificates, import them, and handle certificate chains.
+    * **-genkeypair** tells keytool to generate a public-private key pair. A key pair is made up of two keys: the public key (which can be shared with others) and the private key (which should be kept secure).
+    * **-alias testkey** provides the name for the key pair being generated. In this case, the alias is testkey. You can use this alias to refer to the key pair later when you want to access or manage it in the keystore.
+    * **-keyalg RSA** defines the key algorithm. Here, you are using the RSA algorithm, which is a widely used asymmetric encryption algorithm for public and private keys.
+    * **-keysize 2048** sets the size (in bits) of the key being generated. In this case, it's a 2048-bit RSA key. This is a common and secure size for RSA keys.
+    * **-dname** sets the Distinguished Name for the entity associated with this key pair. This is used to identify the entity and consists of multiple fields:
+        * **CN (Common Name)** refers to a service, application, or server name.
+        * **OU (Organizational Unit)** is typically the department or unit within the organization.
+        * **O (Organization)** the organization name.
+        * **L (Locality)** city where the entity is located.
+        * **S (State)** state or province abbreviation.
+        * **C (Country):** The country code.
+    * **-keystore mykeystore.p12** specifies the file where the generated key pair will be stored. The .p12 extension indicates that this is a PKCS12 (Public-Key Cryptography Standards #12) keystore. PKCS12 is a binary format for storing a keystore (containing private keys and certificates) and is widely used for compatibility across different platforms.
+    * **-storepass secret** password required to access the keystore.
+    * **-storetype PKCS12** specifies the type of keystore being created or managed. PKCS12 is a standard format for storing cryptographic objects such as private keys and certificates. It is widely supported across different platforms and languages.  Can be used across various systems making it easier to share keys and certificates.
+    * **-validity 3650** specifies the validity period of the generated key pair, measured in days. 3650 is approximately 10 years.
 
-1.  Restart the config server.  Notice that the console no longer contains a generated password.  Access [http://localhost:8001/anyapp-anyprofile.yml](http://localhost:8001/anyapp-anyprofile.yml).  You should be prompted for a user and password.  Enter “user” and “password” (or the value you encrypted for password).  You should once again see the YAML output.  If so, you have successfully configured the server with an encrypted password.
+1.  Open `application.yml`.  
 
-    **Part 4 - Adjust Client**
+1. **TODO-06:** Add the following settings:
 
-1.  The client won’t work until we adjust it to use the userid and password required by the config server.  Open **lab-10/client**.  
+    ```
+    server:
+      port: 8443
+      ssl:
+        key-store: "classpath:mykeystore.p12"
+        key-store-password: "secret"
+    ```
 
-1.  Open application.yml.  Alter the spring.cloud.config.uri to include the userid and password.  The syntax is http://(USER):(PASSWORD)@localhost:8001 (without parenthesis).
+1. Save your work.  Allow the application to restart (or restart it yourself). 
 
-1.  Start the client.  Access the client at [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word) to see the lucky word.  The client is now using HTTP basic authentication when accessing the config server.
+1. Open the gateway at [https://localhost:8443](https://localhost:8443).  
+    * The browser should warn you about the website's certificate. Proceed to the site.
+    * You should be prompted for a userid and password.  Enter one of the values you defined above and observe the generated sentence.
+    * You may need to use an incognito browser window.
+    
+    **Reflection**
 
+1. Adding HTTPS makes it possible to use HTTP Basic.  HTTP Basic provides a minimum level of authentication restriction on the application's use.
 
-    **BONUS - More Encryption**
+1. If we wanted to, we could experiment with authorization, for example making it so certain roles could not see articles or adjectives in sentences.
 
-1.  Encrypt a lucky word:  Using a REST client or curl command, POST a lucky word such as “Irish” to http://localhost:8001/encrypt.  Copy the encrypted returned value.
+1. Because Spring Cloud Gateway is based on the Reactive stack, our security configuration required the use of reactive types, i.e. `MapReactiveUserDetailsService` vs `InMemoryUserDetailsManager`.
 
-1.  Stop the config server.  Open application.yml.  Change the `spring.cloud.config.server.git.uri` to your own personal git repository.  If you are not sure what this is, take a look back at lab 3 or 8 where we used spring cloud config earlier.
+1. Storing users and passwords in code is cumbersome.  Placing these in a database would be a marginal improvement.  Ultimately, the API Gateway should not be burdened with the task of user management at all; it would be best to take the next step and move to an authentication scheme based on OAuth 2, SAML, LDAP, or some other scheme.
 
-1.  Open you repository’s copy of lucky-word-client.yml.  Change the “luckyWord” to the encrypted value from the step above.  Be sure to prefix it with “{cipher}” and enclose the entire value in single quotes.
+1. At this point, the sentence and word servers are completely insecure, relying on all calling traffic to pass through the gateway.  We can add another layer of security by having all service-to-service communications use HTTP Basic or a similar solution.
 
-1.  Start the config server.  Restart the client.  Access the client at [http://localhost:8002/lucky-word](http://localhost:8002/lucky-word) to see the lucky word.  At this point, the word is stored in encrypted form, and is unencrypted by the config server before being sent to the client.
+1. You may wonder if it is accurate to call the implemented solution "HTTP Basic" since the Gateway collected user and password through a login page.  However, remember the browser is making calls to the API Gateway to retrieve individual words, and these calls all use HTTP Basic.
 
-**Reflection**
-
-1.  At present, all HTTP traffic is transmitted in the clear because we are not using HTTPS.  We could easily switch all of our apps to HTTPS, but doing so would require a certificate signed by a certificate authority.
-
-1.  Requiring authenticated access to the config server improves security, but only to an extent.  It prevents casual network access to the config server.  However, if someone has access to the config server's configuration files, the backing encryption key can be obtained and the password can be decrypted and exploited.
-
-1.  The encryption provided by the config server is a great way to avoid storing credentials in the repository in decrypted form.  But it is not foolproof; if one has access to the config server configuration properties, the encrypt.key can be obtained and used to decrypt the stored values.
-
-1.  HTTP Basic authentication on the config server is nice, but it requires all clients to have a userid password, and this is stored in the clear.  It also requires effort to rotate the credentials.
+1. We could override the look and feel of the login page if we like, but we will probably override this entire approach with OAuth 2 or SAML.
