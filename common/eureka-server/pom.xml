@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>org.test</groupId>
-	<artifactId>commmon-eureka-server</artifactId>
+	<artifactId>common-eureka-server</artifactId>
 	<version>1</version>
 	<packaging>jar</packaging>
 
