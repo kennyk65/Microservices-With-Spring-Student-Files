@@ -8,7 +8,7 @@ This lab requires the use of a GitHub account on which you can configure setting
 
 1.  Stop the services that you may have running from previous exercises, except for common-config-server and common-eureka-server.  If using an IDE you may also wish to close all of the projects that are not related to "lab-11”.
 
-1.  Start the common-config-server and common-eureka-server if they are not running.  From the student files folder, open a command prompt and run these commands (they should open separate command prompts for you):
+1.  Start the common-config-server and common-eureka-server if they are not running.  Open a command prompt relative to the student files folder, then run these commands (they should open separate command prompts for you):
 
     * Windows:
     ```
@@ -21,23 +21,23 @@ This lab requires the use of a GitHub account on which you can configure setting
     open -a Terminal "java -jar ./common/eureka-server/target/common-eureka-server-1.jar"
     ```
 
-1.  Run the five word servers.  For convenience the *.jar file is already present in the lab-11 folder.  Open a command prompt relative to the "lab-11" folder and run the following commands (they should open separate command prompts for you):
+1.  Run the five word servers.  For convenience the *.jar file is already present in the lab-11 folder.  Using a command prompt relative to the student files folder, run these commands (they should open separate command prompts for you):
 
     * Windows:
     ```
-    start java -jar -Dspring.profiles.active=subject   word-server.jar 
-    start java -jar -Dspring.profiles.active=verb      word-server.jar 
-    start java -jar -Dspring.profiles.active=article   word-server.jar 
-    start java -jar -Dspring.profiles.active=adjective word-server.jar 
-    start java -jar -Dspring.profiles.active=noun      word-server.jar 
+    start java -jar -Dspring.profiles.active=subject   .\lab-11\word-server.jar 
+    start java -jar -Dspring.profiles.active=verb      .\lab-11\word-server.jar 
+    start java -jar -Dspring.profiles.active=article   .\lab-11\word-server.jar 
+    start java -jar -Dspring.profiles.active=adjective .\lab-11\word-server.jar 
+    start java -jar -Dspring.profiles.active=noun      .\lab-11\word-server.jar 
     ```
     * Mac:
     ```
-    open -a Terminal "java -Dspring.profiles.active=subject -jar word-server.jar"
-    open -a Terminal "java -Dspring.profiles.active=verb -jar word-server.jar"
-    open -a Terminal "java -Dspring.profiles.active=article -jar word-server.jar"
-    open -a Terminal "java -Dspring.profiles.active=adjective -jar word-server.jar"
-    open -a Terminal "java -Dspring.profiles.active=noun -jar word-server.jar"
+    open -a Terminal "java -Dspring.profiles.active=subject -jar ./lab-11/word-server.jar"
+    open -a Terminal "java -Dspring.profiles.active=verb -jar ./lab-11/word-server.jar"
+    open -a Terminal "java -Dspring.profiles.active=article -jar ./lab-11/word-server.jar"
+    open -a Terminal "java -Dspring.profiles.active=adjective -jar ./lab-11/word-server.jar"
+    open -a Terminal "java -Dspring.profiles.active=noun -jar ./lab-11/word-server.jar"
     ```
 
 1.  In a separate IDE, open **lab-11/sentence-server**.  Run this application.  
@@ -48,6 +48,20 @@ This lab requires the use of a GitHub account on which you can configure setting
 
 1.  Check [Eureka](http://localhost:8010).   Any warnings about running a single instance are expected.  Ensure that each of your applications are eventually listed in the "Application" section, bearing in mind it may take a few moments for the registration process to be 100% complete.	
 
+1. (Optional) If you would like to monitor the applications with Prometheus and Grafana, run these commands (assuming Docker is installed and running):
+
+    * Windows:
+    ```
+    docker run -dp 9090:9090 -v %cd%/lab-11/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml --name lab11-prometheus prom/prometheus
+    docker run -dp 3000:3000 -v %cd%/lab-11/grafana:/etc/grafana/provisioning/datasources --name lab11-grafana grafana/grafana:9.5.2 
+    ```
+    * Mac:
+    ```
+    docker run -dp 9090:9090 -v $(pwd)/lab-11/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml --name lab11-prometheus prom/prometheus
+    docker run -dp 3000:3000 -v $(pwd)/lab-11/grafana:/etc/grafana/provisioning/datasources --name lab11-grafana grafana/grafana:9.5.2 
+    ```
+    * Prometheus will be available at http://localhost:9090/targets. 
+    * Grafana will be available at http://localhost:3000.  Initial user is **admin**, password **admin**.
 
     **Part 2 - Establish an OAuth2Client in GitHub** 
 
@@ -158,6 +172,18 @@ This lab requires the use of a GitHub account on which you can configure setting
     * Choose Google.  Work through the Google authentication experience.
     
 1. You should see a page displaying a well-formed sentence of random words.
+
+
+    **Part 5 - Shutdown** 
+
+1. You can stop the five word servers by closing the command shells they are running within.
+
+1. If you started Prometheus and Grafana, you can stop them by running these commands:
+
+    ```
+    docker stop lab11-prometheus
+    docker stop lab11-grafana
+    ```
 
 
     **Reflection**

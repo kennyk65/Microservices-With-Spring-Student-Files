@@ -1,0 +1,45 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 4s
+  evaluation_interval: 1m
+
+scrape_configs:
+
+# Discover Eureka services to scrape.
+- job_name: 'services'
+
+  # Go to Eureka to get a list of discovered services.
+  # Use "host.docker.internal" to access the host machine from a Docker container:
+  eureka_sd_configs:
+  - server: http://host.docker.internal:8010/eureka
+
+  relabel_configs:
+  # Tell Prometheus to scrape the /actuator/prometheus endpoints
+  - target_label: __metrics_path__
+    replacement: /actuator/prometheus  # relabel_configs:
+
+  # Replace 'localhost' with 'host.docker.internal'.
+  # This will become critical when we add API Gateway, which must use localhost while Docker must not.
+  - source_labels: [__address__]
+    regex: '(localhost)(:.*)'   # Capture 'localhost' and the port part
+    replacement: 'host.docker.internal$2'  # Replace 'localhost' with 'host.docker.internal'
+    target_label: __address__
+
+# Additionally, have Prometheus scrape the Eureka server for its own metrics.
+- job_name: 'eureka'
+  metrics_path: '/actuator/prometheus'
+  scrape_interval: 5s # This can be adjusted based on our needs
+  static_configs:
+  - targets: ['host.docker.internal:8010']
+
+# Additionally, have Prometheus scrape itself and Grafana for metrics.
+- job_name: 'prometheus-and-grafana'
+  metrics_path: '/metrics' 
+  static_configs:
+  - targets: ['host.docker.internal:9090']
+    labels:
+      application: 'Prometheus'   
+  - targets: ['host.docker.internal:3000']
+    labels:
+      application: 'Grafana'   
+
