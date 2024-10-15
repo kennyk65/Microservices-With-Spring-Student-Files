@@ -21,7 +21,7 @@ This lab requires the use of a GitHub account on which you can configure setting
     open -a Terminal "java -jar ./common/eureka-server/target/common-eureka-server-1.jar"
     ```
 
-1.  Run the five word servers.  For convenience the *.jar file is already present in the lab-11 folder.  Using a command prompt relative to the student files folder, run these commands (they should open separate command prompts for you):
+1.  Run the five word servers and the sentence server.  For convenience the *.jar files are already present in the lab-11 folder.  Using a command prompt relative to the student files folder, run these commands (they should open separate command prompts for you):
 
     * Windows:
     ```
@@ -30,6 +30,7 @@ This lab requires the use of a GitHub account on which you can configure setting
     start java -jar -Dspring.profiles.active=article   .\lab-11\word-server.jar 
     start java -jar -Dspring.profiles.active=adjective .\lab-11\word-server.jar 
     start java -jar -Dspring.profiles.active=noun      .\lab-11\word-server.jar 
+    start java -jar .\lab-11\sentence-server.jar 
     ```
     * Mac:
     ```
@@ -38,10 +39,8 @@ This lab requires the use of a GitHub account on which you can configure setting
     open -a Terminal "java -Dspring.profiles.active=article -jar ./lab-11/word-server.jar"
     open -a Terminal "java -Dspring.profiles.active=adjective -jar ./lab-11/word-server.jar"
     open -a Terminal "java -Dspring.profiles.active=noun -jar ./lab-11/word-server.jar"
+    open -a Terminal "java -jar ./lab-11/sentence-server.jar"
     ```
-
-1.  In a separate IDE, open **lab-11/sentence-server**.  Run this application.  
-    * You can access it at [http://localhost:8088](http://localhost:8088), but the sentences will produce errors.  
 
 1.  In an IDE, open **lab-11/gateway**.  Run this application.  Access it at [http://localhost:8080](http://localhost:8080).  
     * Expect to see a web page with fully formed sentences containing random words.  This is the state of the application as of the conclusion of lab 9.  Our goal will be to add OAuth2 based security.
@@ -74,7 +73,7 @@ This lab requires the use of a GitHub account on which you can configure setting
 1. Set the following values:
     * Application Name: Anything you like
     * Homepage URL: http://localhost:8080 
-    * Application description: A test client used for the Microservices with Spring Cloud course.
+    * Application description: _A test client used for the Microservices with Spring Cloud course._
     * Authorization callback URL: **http://localhost:8080/login/oauth2/code/github**
         * This setting is critical; be sure it is correct.
     * Click the _Register application_ button.
@@ -167,14 +166,87 @@ This lab requires the use of a GitHub account on which you can configure setting
 
 1. Close and re-open your IDEs so they pick up the new environment variable values.
 
+1. **TODO-03:** Optionally, you can add these values to the application.yml file.  However, the values from the environment variables will override these values:
+
+    ```
+    spring:
+      security:
+        oauth2:
+          client:
+            registration:
+              # ...  
+              google:
+                clientId: DO_NOT_PLACE_CLIENT_ID_HERE
+                clientSecret: DO_NOT_PLACE_CLIENT_SECRET_HERE
+    ```
+    * Remember, in Spring Boot, environment variables override values in application.yml. 
+
 1. Close any browser that you currently have open to the gateway URL.  Open the gateway at [http://localhost:8080](http://localhost:8080).  For best results, use an incognito / private browsing option.  
     * Your browser should prompt you to sign in with either GitHub or Google.  This is Spring Security's default login experience which can be replaced.
     * Choose Google.  Work through the Google authentication experience.
     
 1. You should see a page displaying a well-formed sentence of random words.
 
+    **Part 5 (Optional) - Use Spring Authorization Server** 
 
-    **Part 5 - Shutdown** 
+    Spring provides a  [Spring Authorization Server](https://docs.spring.io/spring-authorization-server/reference/getting-started.html)project which you can use to build your own authorization server.  The lab environment provides a completed example of such an authorization server.  We will run it and establish client configuration to use it.
+
+1. In an IDE, open **lab-11/auth-server**.  Run this application.  Access it at [http://localhost:9000](http://localhost:9000). 
+    * Sign in with userid of **user** and password of **password**.  (These values are defined in `com.example.demo.SecurityConfig` )
+    * You should see a page that says the authorization server is running.
+
+1.  Examine the Authorization Server:
+    * Open `com.example.demo.SecurityConfig`.  Find the defaultSecurityFilterChain() method / bean.  This requires ordinary form-based user/password authentication to access any resource.  This is what forced you to sign in a moment ago.
+    * Find the userDetailsService() method / bean.  This is where user / password is defined.  This can be substituted with other values, other userDetailsServices at you like.
+    * Find the authorizationServerSecurityFilterChain() bean / method.  This is what converts this vanilla Spring Boot web app into an OAuth 2 Authorization Server.
+    * Open `application.yml`.  Find the `spring.security.oauth2.authorizationserver.client:` section.  Observe that our API Gateway is represented as an OAuth2 client.  Notice that settings such as client-id, client-secret, and redirect-uris are similar to the attributes you had to define for GitHub or Google.
+    * A full explanation of the auth server is out of the scope of this course.  See [Spring Authorization Server documentation](https://docs.spring.io/spring-authorization-server/reference/getting-started.html) for details.
+
+1.  Return to the **lab-11/gateway**.  Open application.yml.  
+
+1. **TODO-04:** Add the following values under `spring.security.oauth2.client.registration...` to align with the Authorization Server:
+
+    ```
+    #spring.security.oauth2.client.registration:
+
+          spring-auth-server:
+            client-id: api-gateway
+            client-secret: doNotTell
+            client-name: API Gateway
+            provider: spring-authorization-server
+            scope: openid
+            redirect-uri: "http://localhost:8080/login/oauth2/code/oidc-client"
+            authorization-grant-type: "authorization_code"
+    ```
+    * Notice that the client-id, client-secret, and redirect-uri align with the values on the authorization server.
+    * The "scopes" defined on the authorization server define what is available.  The scopes defined on the client define what is requested.
+    * The authorization code grant means the client will expect to receive an authorization code via browser redirect, which it will then exchange for an actual token.
+    * The provider "spring-authorization-server" needs to be defined below.
+
+1. **TODO-05:** Add the following values under `spring.security.oauth2.client...` to define the "spring-authorization-server" aligning with the Authorization Server:
+
+    ```
+        provider:
+          spring-authorization-server:
+            authorization-uri: "http://localhost:9000/oauth2/authorize"
+            token-uri: "http://localhost:9000/oauth2/token"
+            jwk-set-uri: "http://localhost:9000/oauth2/jwks" 
+            user-name-attribute: "sub"  
+    ```
+
+    * This section defines the general settings on how to work with the Spring Auth Server.
+    * Notice the ports are all 9000.  The URIs all begin with `/oauth2` in the path.
+    * The Auth Server will provide the token in JWT form. **jwk-set-uri** stands for JSON Web Key Set URI. JWKS is a JSON structure used to verify the signatures of JSON Web Tokens (JWTs). Client apps can use this URI to fetch the public keys needed to validate the JWTs.
+    * Spring security calls the user's name "userName" and it is sent in the "sub" (subject) claim.
+
+1. Save your work.  Restart the API Gateway if it does not automatically restart.
+
+1. Close any browser that you currently have open to the gateway URL. Open the gateway at http://localhost:8080. For best results, use an incognito / private browsing option.
+    * Your browser should prompt you to sign in with either GitHub, Google, or the Spring Authorization Server. This is Spring Security's default login experience which can be replaced.
+Choose Google. Work through the Google authentication experience.
+You should see a page displaying a well-formed sentence of random words.
+
+    **Part 6 - Shutdown** 
 
 1. You can stop the five word servers by closing the command shells they are running within.
 
@@ -184,7 +256,7 @@ This lab requires the use of a GitHub account on which you can configure setting
     docker stop lab11-prometheus
     docker stop lab11-grafana
     ```
-
+1. If you ran the optional authorizatio server, you can stop it.
 
     **Reflection**
 

@@ -6,18 +6,47 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8001"    # Where should we call the config server at?
 
-  # TODO-02: Add properties for spring.security.oauth2.client.registration.github.clientId and clientSecret.
+  # TODO-02: Add properties for:
+  # spring.security.oauth2.client.registration.github.clientId.
+  # spring.security.oauth2.client.registration.github.clientSecret.
   # The values for these will be determined by the next step.
   security:
     oauth2:
       client:
         registration:
           github:
-            clientId: e0737f257e60beee40e6lll
-            clientSecret: 2dbe809c39965b6921426b964099bed04fcc4d6flll
+            clientId: DO_NOT_PLACE_CLIENT_ID_HERE
+            clientSecret: DO_NOT_PLACE_CLIENT_SECRET_HERE
+
+  # TODO-03: (OPTIONAL) Add properties for:
+  # spring.security.oauth2.client.registration.google.clientId.
+  # spring.security.oauth2.client.registration.google.clientSecret.
+
           google:
-            client-id: 1034653135442-j27ijg9om55p2ascg1gurbj3sp46iuek.apps.googleusercontent.com
-            client-secret: kmcGAl5meGxwwUdvHnnmv_Se
+            client-id: DO_NOT_PLACE_CLIENT_ID_HERE
+            client-secret: DO_NOT_PLACE_CLIENT_SECRET_HERE
+
+  # TODO-04: (OPTIONAL) Add properties for the Spring auth server:
+
+          spring-auth-server:
+            client-id: api-gateway
+            client-secret: doNotTell
+            client-name: Spring Authorization Server
+            provider: spring-authorization-server
+            scope: openid
+            redirect-uri: "http://localhost:8080/login/oauth2/code/oidc-client"
+            authorization-grant-type: "authorization_code"
+
+  # TODO-05: (OPTIONAL) Add properties to define the Spring auth server as a provider:
+
+        provider:
+          spring-authorization-server:
+            authorization-uri: "http://localhost:9000/oauth2/authorize"
+            token-uri: "http://localhost:9000/oauth2/token"
+            jwk-set-uri: "http://localhost:9000/oauth2/jwks" 
+            user-name-attribute: "sub"  # Spring security calls the user's name "userName" and it is sent in the "sub" (subject) claim.
+
+
 
   # create spring cloud gateway routes for the verb, subject, article, adjective, and noun services
   cloud:

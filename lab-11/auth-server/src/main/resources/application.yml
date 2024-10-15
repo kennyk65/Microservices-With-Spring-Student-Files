@@ -1,0 +1,37 @@
+server:
+  port: 9000
+  servlet:
+    session:
+      cookie:
+        name: AUTH_JSESSIONID
+
+spring:
+  application.name: AuthorizationServer
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+
+          # Register client applications in this section.  Dynamic registration is additional scope.
+          # The setting shown here align with the demo client application at https://github.com/kennyk65/spring-teaching-demos/tree/master/oauth2AuthClient
+          api-gateway:
+            registration:
+              client-id: "api-gateway"
+              client-secret: "{noop}doNotTell"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://localhost:8080/login/oauth2/code/oidc-client"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+            require-authorization-consent: true
+
+logging:
+  level:
+    org.springframework.security: trace
+
