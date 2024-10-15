@@ -189,7 +189,7 @@ This lab requires the use of a GitHub account on which you can configure setting
 
     **Part 5 (Optional) - Use Spring Authorization Server** 
 
-    Spring provides a  [Spring Authorization Server](https://docs.spring.io/spring-authorization-server/reference/getting-started.html)project which you can use to build your own authorization server.  The lab environment provides a completed example of such an authorization server.  We will run it and establish client configuration to use it.
+    Spring provides a  [Spring Authorization Server](https://docs.spring.io/spring-authorization-server/reference/getting-started.html) project which you can use to build your own authorization server.  The lab environment provides a completed example of such an authorization server.  We will run it and establish client configuration to use it.
 
 1. In an IDE, open **lab-11/auth-server**.  Run this application.  Access it at [http://localhost:9000](http://localhost:9000). 
     * Sign in with userid of **user** and password of **password**.  (These values are defined in `com.example.demo.SecurityConfig` )
@@ -197,9 +197,9 @@ This lab requires the use of a GitHub account on which you can configure setting
 
 1.  Examine the Authorization Server:
     * Open `com.example.demo.SecurityConfig`.  Find the defaultSecurityFilterChain() method / bean.  This requires ordinary form-based user/password authentication to access any resource.  This is what forced you to sign in a moment ago.
-    * Find the userDetailsService() method / bean.  This is where user / password is defined.  This can be substituted with other values, other userDetailsServices at you like.
+    * Find the userDetailsService() method / bean.  This is where user / password is defined.  This can be substituted with other values, or other userDetailsServices at you like.
     * Find the authorizationServerSecurityFilterChain() bean / method.  This is what converts this vanilla Spring Boot web app into an OAuth 2 Authorization Server.
-    * Open `application.yml`.  Find the `spring.security.oauth2.authorizationserver.client:` section.  Observe that our API Gateway is represented as an OAuth2 client.  Notice that settings such as client-id, client-secret, and redirect-uris are similar to the attributes you had to define for GitHub or Google.
+    * Open `application.yml`.  Find the `spring.security.oauth2.authorizationserver.client:` section.  Observe that our API Gateway is represented as an OAuth2 client.  Notice that settings such as client-id, client-secret, and redirect-uris are similar to the attributes you defined for GitHub or Google.
     * A full explanation of the auth server is out of the scope of this course.  See [Spring Authorization Server documentation](https://docs.spring.io/spring-authorization-server/reference/getting-started.html) for details.
 
 1.  Return to the **lab-11/gateway**.  Open application.yml.  
@@ -221,7 +221,7 @@ This lab requires the use of a GitHub account on which you can configure setting
     * Notice that the client-id, client-secret, and redirect-uri align with the values on the authorization server.
     * The "scopes" defined on the authorization server define what is available.  The scopes defined on the client define what is requested.
     * The authorization code grant means the client will expect to receive an authorization code via browser redirect, which it will then exchange for an actual token.
-    * The provider "spring-authorization-server" needs to be defined below.
+    * The user-defined provider "spring-authorization-server" needs to be defined next.
 
 1. **TODO-05:** Add the following values under `spring.security.oauth2.client...` to define the "spring-authorization-server" aligning with the Authorization Server:
 
@@ -238,6 +238,7 @@ This lab requires the use of a GitHub account on which you can configure setting
     * Notice the ports are all 9000.  The URIs all begin with `/oauth2` in the path.
     * The Auth Server will provide the token in JWT form. **jwk-set-uri** stands for JSON Web Key Set URI. JWKS is a JSON structure used to verify the signatures of JSON Web Tokens (JWTs). Client apps can use this URI to fetch the public keys needed to validate the JWTs.
     * Spring security calls the user's name "userName" and it is sent in the "sub" (subject) claim.
+    * A provider is unnecessary for GitHub, Google, and other well known providers as their established settings are already pre-defined within the Spring Security OAuth2 Client dependency.
 
 1. Save your work.  Restart the API Gateway if it does not automatically restart.
 
@@ -256,7 +257,7 @@ You should see a page displaying a well-formed sentence of random words.
     docker stop lab11-prometheus
     docker stop lab11-grafana
     ```
-1. If you ran the optional authorizatio server, you can stop it.
+1. If you ran the optional authorization server, you can stop it.
 
     **Reflection**
 
