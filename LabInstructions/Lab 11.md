@@ -4,6 +4,10 @@ In this lab, we will replace the Spring Cloud Gateway's HTTP Basic security setu
 
 This lab requires the use of a GitHub account on which you can configure settings to support an OAuth2 client.  Optional steps require the use of a Google account as an alternative.  Both of these external systems work well for learning how to work with OAuth2 since they support the ability to redirect to clients running on localhost.
 
+![OAuth 2 with API Gateway](./assets/lab-11-architecture.png "Lab 11 Architecture")
+
+A third optional approach uses Spring's Authorization Server instead of a third-party, externally hosted option.  In all cases, you'll get to see the similarities and differences when using different solutions.
+
   **Part 1 - Startup**
 
 1.  Stop the services that you may have running from previous exercises, except for common-config-server and common-eureka-server.  If using an IDE you may also wish to close all of the projects that are not related to "lab-11”.
